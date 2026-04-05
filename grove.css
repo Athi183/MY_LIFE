@@ -12,13 +12,36 @@
 }
 
 .roadmap-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 25px;
     padding: 2rem;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.skill-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: white;
+}
+
+.tree-visual {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 1rem;
 }
 
 .roadmap-card:hover {
@@ -125,9 +148,38 @@
 /* --- Roadmap Dots --- */
 .day-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 0.8rem;
     margin-top: 1.5rem;
+}
+
+/* --- Date Dots for 14-Day Mission --- */
+.date-dot {
+    width: 65px;
+    height: 65px;
+    flex-direction: column;
+    padding: 8px 5px;
+    font-weight: 700;
+    line-height: 1.2;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.dot-date {
+    font-size: 0.6rem;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dot-day {
+    font-size: 1rem;
+    color: white;
+}
+
+.day-dot.completed.gate-dot {
+    background: var(--primary);
+    box-shadow: 0 0 15px rgba(46, 189, 89, 0.4);
 }
 
 .day-dot {
@@ -206,6 +258,181 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-muted);
+}
+
+/* --- Discipline Game Header --- */
+.grove-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.identity-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary), #1a4d2e);
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(46, 189, 89, 0.3);
+}
+
+.phase-text {
+    color: var(--accent-orange);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* --- HUD & Energy --- */
+.HUD-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+}
+
+.streak-card {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    min-width: 140px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.streak-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+}
+
+.streak-label {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-top: 0.3rem;
+}
+
+.energy-selector {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.8rem 1.2rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.selector-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.mode-pills {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.mode-pill {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.mode-pill[data-mode="normal"].active { background: #2ebd59; box-shadow: 0 0 15px rgba(46, 189, 89, 0.4); }
+.mode-pill[data-mode="low"].active { background: #fbc02d; color: #000; box-shadow: 0 0 15px rgba(251, 192, 45, 0.4); }
+.mode-pill[data-mode="survival"].active { background: #f44336; box-shadow: 0 0 15px rgba(244, 67, 54, 0.4); }
+
+/* --- Daily Progress --- */
+.daily-progress-hub {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    text-align: left;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progress-info {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+}
+
+.mission-guide {
+    background: rgba(46, 189, 89, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    border-left: 4px solid var(--primary);
+}
+
+#quickMission {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+}
+
+/* Status Colors */
+.status-perfect { color: #2ebd59; font-weight: bold; text-shadow: 0 0 10px rgba(46, 189, 89, 0.3); }
+.status-good { color: #fbc02d; font-weight: bold; }
+.status-fail { color: #f44336; font-weight: bold; }
+
+/* --- Daily Checkbox in Cards --- */
+.daily-check-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    margin-left: auto;
+}
+
+.daily-check-label input { display: none; }
+
+.check-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.daily-check-label input:checked + .check-box {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.daily-check-label input:checked + .check-box::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
 }
 
 .quest-card {

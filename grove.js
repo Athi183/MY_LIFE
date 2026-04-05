@@ -15,30 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     };
 
+    const START_DATE = new Date("2026-04-08");
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+
+    const getCurrentDayIndex = () => {
+        const now = new Date();
+        const diff = now.getTime() - START_DATE.getTime();
+        const index = Math.floor(diff / ONE_DAY);
+        return Math.max(0, Math.min(13, index)); 
+    };
+
     window.toggleTimer = (track) => {
         const timer = activeTimers[track];
-
         if (timer) {
             if (timer.isRunning) {
-                // PAUSE
                 clearInterval(timer.interval);
                 timer.isRunning = false;
                 showToast(`⏸️ ${track.toUpperCase()} Paused`);
             } else {
-                // RESUME
                 startInterval(track);
                 showToast(`▶️ ${track.toUpperCase()} Resumed`);
             }
             updateUI();
             return;
         }
-
-        // START NEW (Focus: 50m)
-        activeTimers[track] = {
-            timeLeft: 50 * 60,
-            sessionType: 'FOCUS',
-            isRunning: true
-        };
+        activeTimers[track] = { timeLeft: 50 * 60, sessionType: 'FOCUS', isRunning: true };
         startInterval(track);
         updateUI();
     };
@@ -48,27 +49,22 @@ document.addEventListener('DOMContentLoaded', () => {
         timer.isRunning = true;
         timer.interval = setInterval(() => {
             timer.timeLeft--;
-            
             if (timer.sessionType === 'FOCUS') {
                 state.focusTimeToday++;
                 if (timer.timeLeft % 60 === 0) save();
             }
-
             updateTimerUI(track, timer.timeLeft, timer.sessionType);
             updatePiP(track, timer.timeLeft, timer.sessionType);
-
             if (timer.timeLeft <= 0) {
                 clearInterval(timer.interval);
                 if (timer.sessionType === 'FOCUS') {
-                    // SWITCH TO BREAK (15m)
                     timer.sessionType = 'BREAK';
                     timer.timeLeft = 15 * 60;
-                    addXP(20); // Reward for full focus
+                    addXP(20);
                     showToast(`🎉 Focus Done! +20 XP. Starting 15m Break... ☕`);
                     playChime();
                     startInterval(track);
                 } else {
-                    // BREAK COMPLETE
                     delete activeTimers[track];
                     showToast(`✅ Break finished! Ready for next quest?`);
                     playChime();
@@ -104,12 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let activeMission = null;
     window.openMission = (track, day) => {
-        const isLocked = day > 0 && !state.roadmaps[track][day - 1];
-        if (isLocked) {
-            showToast("🔒 Complete the previous day first!");
-            return;
-        }
-
         activeMission = { track, day };
         const content = ROADMAP_CONTENT[track];
         const dayTask = content.tasks[day];
@@ -118,47 +108,26 @@ document.addEventListener('DOMContentLoaded', () => {
         sharedElements.modalContent.innerHTML = `
             <div class="mission-modal-inner ${colorClass}">
                 <div class="mission-header">
-                    <div class="mission-badge">DAY ${day + 1} OF 30</div>
-                    <h2 class="mission-title">${content.title}</h2>
+                    <div class="mission-badge">MAPPED TO: ${track.toUpperCase()}</div>
+                    <h2 class="mission-title" style="font-size: 1.4rem;">${dayTask.split(':')[0]} Mission</h2>
                     <div class="mission-goal">🎯 GOAL: ${content.goal}</div>
                 </div>
-
                 <div class="mission-body">
                     <div class="quest-card">
                         <div class="quest-section">
                             <span class="quest-icon">🧩</span>
-                            <div class="quest-info">
-                                <strong>DAILY STRUCTURE</strong>
-                                <p>${content.structure}</p>
-                            </div>
+                            <div class="quest-info"><strong>STRUCTURE</strong><p>${content.structure}</p></div>
                         </div>
                         <div class="quest-divider"></div>
                         <div class="quest-section active-task">
-                            <span class="quest-icon">📅</span>
-                            <div class="quest-info">
-                                <strong>TODAY'S MISSION</strong>
-                                <p class="mission-text">${dayTask}</p>
-                            </div>
+                            <span class="quest-icon">🚀</span>
+                            <div class="quest-info"><strong>TODAY'S MISSION</strong><p class="mission-text">${dayTask.split(':').slice(1).join(':').trim()}</p></div>
                         </div>
                     </div>
-
-                    ${day === 29 ? `
-                    <div class="reward-unlock-box">
-                        <span class="sparkle">✨</span>
-                        <div class="reward-info">
-                            <strong>ULTIMATE REWARD</strong>
-                            <p>🎁 ${content.reward}</p>
-                        </div>
-                    </div>` : ''}
                 </div>
-
                 <div class="mission-footer">
-                    <label class="check-container designer-check">
-                        <input type="checkbox" id="missionCheck">
-                        <span class="checkmark"></span>
-                        <span class="check-label">I have conquered today's mission.</span>
-                    </label>
-                    <button class="btn-main pulse-glow" onclick="completeMission()">Complete Quest +20 XP</button>
+                    <label class="check-container designer-check"><input type="checkbox" id="missionCheck"><span class="checkmark"></span><span class="check-label">Mission Completed. I am disciplined.</span></label>
+                    <button class="btn-main pulse-glow" onclick="completeMission()">Complete +20 XP</button>
                     <button class="btn-text-only" onclick="closeModal()">Maybe Later</button>
                 </div>
             </div>
@@ -174,42 +143,71 @@ document.addEventListener('DOMContentLoaded', () => {
         state.lastAction[track] = new Date().getTime();
         state.trees[track] = Math.min(2, state.trees[track] + 1);
         addXP(20);
-        showToast(`Day ${day + 1} Complete! 🌳`);
+        showToast(`Mission Accomplished! 🌳`);
         sharedElements.modal.classList.remove('active');
         save(); updateUI();
     };
 
     window.closeModal = () => sharedElements.modal.classList.remove('active');
 
+    window.setEnergy = (mode) => {
+        state.energyMode = mode;
+        save(); updateUI();
+        showToast(`⚡ Energy Mode: ${mode.toUpperCase()}`);
+    };
+
+    window.toggleDailyTask = (track) => {
+        const checkbox = document.getElementById(`check-${track}`);
+        if (!checkbox) return;
+        state.dailyStatus[track] = checkbox.checked;
+        updateDailyProgress();
+        save(); updateUI();
+    };
+
+    const updateDailyProgress = () => {
+        const count = Object.values(state.dailyStatus).filter(v => v).length;
+        const threshold = state.energyMode === 'normal' ? 3 : (state.energyMode === 'low' ? 2 : 1);
+        const countEl = document.getElementById('dailyCount');
+        const msgEl = document.getElementById('dailyStatusMsg');
+        if (countEl) countEl.textContent = count;
+        if (msgEl) {
+            if (count >= 4) msgEl.innerHTML = "<span class='status-perfect'>🌟 Perfect Day</span>";
+            else if (count >= 3) msgEl.innerHTML = "<span class='status-good'>👍 Good Day</span>";
+            else if (count < threshold) msgEl.innerHTML = "<span class='status-fail'>❌ Failed Day</span>";
+            else msgEl.innerHTML = "Keep going!";
+        }
+    };
+
     const renderRoadmaps = () => {
-        ['english', 'aptitude', 'gate', 'coding'].forEach(track => {
+        const tracks = ['english', 'aptitude', 'gate', 'coding'];
+        const dayIndex = getCurrentDayIndex();
+
+        const currentGateTask = ROADMAP_CONTENT.gate.tasks[dayIndex];
+        const quickEl = document.getElementById('quickMission');
+        if (quickEl && currentGateTask) quickEl.textContent = currentGateTask.split(':').slice(1).join(':').trim();
+
+        tracks.forEach(track => {
             const card = document.getElementById(`card-${track}`);
             const grid = document.getElementById(`roadmap-${track}`);
+            const check = document.getElementById(`check-${track}`);
             if (!card || !grid) return;
 
-            // Add Timer UI to the CARD, not the grid
+            if (check) check.checked = state.dailyStatus[track];
+
             if (!card.querySelector('.timer-controls')) {
                 const timerUI = document.createElement('div');
                 timerUI.className = 'timer-controls';
-                timerUI.innerHTML = `
-                    <div class="timer-display" id="timer-${track}">50:00</div>
-                    <div class="timer-btns">
-                        <button class="btn-timer-start" id="btn-toggle-${track}" onclick="toggleTimer('${track}')">Start Focus</button>
-                        <button class="btn-timer-pop" onclick="popOutTimer()">Pop Out</button>
-                    </div>
-                `;
+                timerUI.innerHTML = `<div class="timer-display" id="timer-${track}">50:00</div><div class="timer-btns"><button class="btn-timer-start" id="btn-toggle-${track}" onclick="toggleTimer('${track}')">Focus</button><button class="btn-timer-pop" onclick="popOutTimer()">Pop Out</button></div>`;
                 card.insertBefore(timerUI, grid);
             }
 
-            // Update Toggle Button Text based on Timer State
             const toggleBtn = document.getElementById(`btn-toggle-${track}`);
             const timer = activeTimers[track];
             if (toggleBtn) {
                 if (!timer) {
-                    toggleBtn.textContent = 'Start Focus';
+                    toggleBtn.textContent = 'Focus';
                     toggleBtn.style.background = 'var(--primary)';
                     document.getElementById(`timer-${track}`).textContent = '50:00';
-                    document.getElementById(`timer-${track}`).style.color = 'var(--primary)';
                 } else if (timer.isRunning) {
                     toggleBtn.textContent = 'Pause';
                     toggleBtn.style.background = 'var(--accent-orange)';
@@ -219,27 +217,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Render Day Dots in the GRID
             grid.innerHTML = '';
-            state.roadmaps[track].forEach((done, day) => {
-                const isUnlocked = day === 0 || state.roadmaps[track][day - 1];
+            for(let i=0; i<14; i++) {
+                const done = state.roadmaps[track][i];
+                const isUnlocked = i === 0 || state.roadmaps[track][i - 1];
                 const dot = document.createElement('div');
-                dot.className = `day-dot ${done ? 'completed' : (isUnlocked ? 'active' : 'locked')} ${track}-dot`;
-                if (day === 29) {
-                    dot.classList.add('goal-dot');
-                    dot.title = "🏆 REWARD: " + ROADMAP_CONTENT[track].reward;
-                }
-                dot.textContent = day + 1;
-                dot.onclick = (e) => {
-                    e.stopPropagation();
-                    openMission(track, day);
-                };
+                dot.className = `day-dot ${done ? 'completed' : (isUnlocked ? 'active' : 'locked')} ${track}-dot date-dot`;
+                
+                const dayNum = i + 1;
+                const dateLabel = `Apr ${7+dayNum}`;
+                dot.innerHTML = `<span class="dot-date">${dateLabel}</span><span class="dot-day">D${dayNum}</span>`;
+                dot.title = `Mission: ${ROADMAP_CONTENT[track].tasks[i].split(':')[0]}`;
+                
+                dot.onclick = (e) => { e.stopPropagation(); openMission(track, i); };
                 grid.appendChild(dot);
-            });
+            }
 
             const treeEl = document.getElementById(`tree-${track}`);
             if (treeEl) treeEl.textContent = treeStages[state.trees[track]];
         });
+
+        const currentEl = document.getElementById('currentStreak');
+        const bestEl = document.getElementById('bestStreak');
+        if (currentEl) currentEl.textContent = `🔥 ${state.streaks.current}`;
+        if (bestEl) bestEl.textContent = `🏆 ${state.streaks.best}`;
+        document.querySelectorAll('.mode-pill').forEach(pill => {
+            pill.classList.toggle('active', pill.dataset.mode === state.energyMode);
+        });
+        updateDailyProgress();
     };
 
     window.updateUI = () => {
@@ -249,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderRoadmaps();
     };
 
-    // Initialize
     checkSustainability();
     updateUI();
 });

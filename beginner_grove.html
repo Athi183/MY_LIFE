@@ -39,41 +39,94 @@
 
         <main id="app">
             <section id="view-beginner" class="view active">
-                <div class="grove-header">
-                    <h1>🌱 BEGINNER GROVE</h1>
-                    <p>Foundation Focus: 30-Day Specialized Roadmaps.</p>
+                <header class="grove-header">
+        <div class="header-main">
+            <div class="identity-badge">🧠 I am becoming a disciplined computer scientist. I show up daily.</div>
+            <h1>Level 1: Beginner Grove</h1>
+            <p class="phase-text">📅 Active Phase: April 8 – April 21</p>
+        </div>
+        
+        <div class="HUD-container">
+            <div class="streak-card">
+                <div class="streak-val" id="currentStreak">🔥 0</div>
+                <div class="streak-label">CURRENT STREAK</div>
+            </div>
+            <div class="energy-selector">
+                <span class="selector-label">ENERGY MODE:</span>
+                <div class="mode-pills">
+                    <button class="mode-pill active" onclick="setEnergy('normal')" data-mode="normal">🟢 NORMAL (3+ Tasks)</button>
+                    <button class="mode-pill" onclick="setEnergy('low')" data-mode="low">🟡 LOW (2 Tasks)</button>
+                    <button class="mode-pill" onclick="setEnergy('survival')" data-mode="survival">🔴 SURVIVAL (1 Task)</button>
                 </div>
+            </div>
+            <div class="streak-card best">
+                <div class="streak-val" id="bestStreak">🏆 0</div>
+                <div class="streak-label">BEST STREAK</div>
+            </div>
+        </div>
+
+        <div class="daily-progress-hub">
+            <div class="progress-info">
+                <h3>Today's Progress: <span id="dailyCount">0</span> / 4 </h3>
+                <p id="dailyStatusMsg">Let's get started!</p>
+            </div>
+            <div class="mission-guide">
+                <strong>📌 TODAY'S MISSION:</strong>
+                <span id="quickMission">Select a task below to begin.</span>
+            </div>
+        </div>
+    </header>
 
                 <div class="roadmap-grid-2x2">
                     <div class="roadmap-card english-card" id="card-english">
                         <div class="card-header">
-                            <div class="skill-title">🟣 ENGLISH mastery</div>
-                            <div id="tree-english" class="tree-visual">🌱 Seed</div>
+                            <div class="skill-title">🟣 ENGLISH MASTERY</div>
+                            <label class="daily-check-label">
+                                <input type="checkbox" onchange="toggleDailyTask('english')" id="check-english">
+                                <span class="check-box"></span>
+                                Done
+                            </label>
                         </div>
+                        <div id="tree-english" class="tree-visual">🌱 Seed</div>
                         <div id="roadmap-english" class="day-grid"></div>
                     </div>
 
                     <div class="roadmap-card aptitude-card" id="card-aptitude">
                         <div class="card-header">
-                            <div class="skill-title">🟢 aptitude mastery</div>
-                            <div id="tree-aptitude" class="tree-visual">🌱 Seed</div>
+                            <div class="skill-title">🟢 APTITUDE MASTERY</div>
+                            <label class="daily-check-label">
+                                <input type="checkbox" onchange="toggleDailyTask('aptitude')" id="check-aptitude">
+                                <span class="check-box"></span>
+                                Done
+                            </label>
                         </div>
+                        <div id="tree-aptitude" class="tree-visual">🌱 Seed</div>
                         <div id="roadmap-aptitude" class="day-grid"></div>
                     </div>
 
                     <div class="roadmap-card gate-card" id="card-gate">
                         <div class="card-header">
-                            <div class="skill-title">🔵 GATE foundations</div>
-                            <div id="tree-gate" class="tree-visual">🌱 Seed</div>
+                            <div class="skill-title">🔵 COMPUTER NETWORKS</div>
+                            <label class="daily-check-label">
+                                <input type="checkbox" onchange="toggleDailyTask('gate')" id="check-gate">
+                                <span class="check-box"></span>
+                                Done
+                            </label>
                         </div>
+                        <div id="tree-gate" class="tree-visual">🌱 Seed</div>
                         <div id="roadmap-gate" class="day-grid"></div>
                     </div>
 
                     <div class="roadmap-card coding-card" id="card-coding">
                         <div class="card-header">
-                            <div class="skill-title">🟠 coding deep work</div>
-                            <div id="tree-coding" class="tree-visual">🌱 Seed</div>
+                            <div class="skill-title">🟠 CODING DEEP WORK</div>
+                            <label class="daily-check-label">
+                                <input type="checkbox" onchange="toggleDailyTask('coding')" id="check-coding">
+                                <span class="check-box"></span>
+                                Done
+                            </label>
                         </div>
+                        <div id="tree-coding" class="tree-visual">🌱 Seed</div>
                         <div id="roadmap-coding" class="day-grid"></div>
                     </div>
                 </div>
