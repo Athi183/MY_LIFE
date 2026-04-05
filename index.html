@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillUp 2027 | The Forest Ascension Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-normal">
+    <div id="toast" class="toast"></div>
+
+    <div class="game-container">
+        <!-- HUD & STREAK (UI/UX DESIGNER) -->
+        <header class="game-hud">
+            <div class="player-stats">
+                <div class="player-avatar">👸</div>
+                <div class="player-info">
+                    <div id="playerRank" class="rank-title">Explorer 🌱</div>
+                    <div class="xp-container">
+                        <div class="xp-label">LV. <span id="playerLevel">1</span></div>
+                        <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <div id="energySelector" class="energy-modes">
+                    <button class="energy-btn" data-mode="min">Min</button>
+                    <button class="energy-btn active" data-mode="normal">Norm</button>
+                    <button class="energy-btn" data-mode="high">High</button>
+                </div>
+            </div>
+        </header>
+
+        <main id="app">
+            <!-- VIEW: HOME (WORLD MAP) -->
+            <section id="view-home" class="view active">
+                <div class="map-header">
+                    <h2>🗺️ THE ASCENSION PATH</h2>
+                    <p>Conquer Level 1 to reveal the hidden forest.</p>
+                </div>
+                
+                <div id="levelPath" class="level-path-container"></div>
+            </section>
+        </main>
+
+        <!-- FLOATING STATUS CARD (UI/UX DESIGNER) -->
+        <div class="daily-status-card">
+            <div class="status-header">
+                <span>📅 TODAY'S PROGRESS</span>
+                <span class="status-date">April 30, 2026</span>
+            </div>
+            <div class="status-grid">
+                <div class="stat-item">
+                    <div class="stat-value">2/4</div>
+                    <div class="stat-label">Tracks Active</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statusFocusHours">0.0h</div>
+                    <div class="stat-label">Deep Work</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">🌱</div>
+                    <div class="stat-label">Tree Phase</div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="game-footer">
+            <!-- Footer controls if needed -->
+        </footer>
+    </div>
+
+    <!-- LOAD SHARED ENGINE FIRST, THEN PAGE LOGIC -->
+    <script src="shared.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>

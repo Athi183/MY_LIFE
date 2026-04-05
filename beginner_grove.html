@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Grove | SkillUp 2027</title>
+    <!-- BASE STYLES FIRST, THEN PAGE STYLES -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="grove.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-grove">
+    <div id="toast" class="toast"></div>
+
+    <!-- MISSION MODAL OVERLAY -->
+    <div id="missionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div id="modalDetails"></div>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- MINIMIZED HUD -->
+        <header class="game-hud hud-minimized">
+            <div class="player-stats">
+                <div class="player-avatar mini">👸</div>
+                <div class="player-info mini">
+                    <div id="playerRank" class="rank-title mini">Explorer 🌱</div>
+                    <div class="xp-container mini">
+                        <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Home</button>
+            </div>
+        </header>
+
+        <main id="app">
+            <section id="view-beginner" class="view active">
+                <div class="grove-header">
+                    <h1>🌱 BEGINNER GROVE</h1>
+                    <p>Foundation Focus: 30-Day Specialized Roadmaps.</p>
+                </div>
+
+                <div class="roadmap-grid-2x2">
+                    <div class="roadmap-card english-card" id="card-english">
+                        <div class="card-header">
+                            <div class="skill-title">🟣 ENGLISH mastery</div>
+                            <div id="tree-english" class="tree-visual">🌱 Seed</div>
+                        </div>
+                        <div id="roadmap-english" class="day-grid"></div>
+                    </div>
+
+                    <div class="roadmap-card aptitude-card" id="card-aptitude">
+                        <div class="card-header">
+                            <div class="skill-title">🟢 aptitude mastery</div>
+                            <div id="tree-aptitude" class="tree-visual">🌱 Seed</div>
+                        </div>
+                        <div id="roadmap-aptitude" class="day-grid"></div>
+                    </div>
+
+                    <div class="roadmap-card gate-card" id="card-gate">
+                        <div class="card-header">
+                            <div class="skill-title">🔵 GATE foundations</div>
+                            <div id="tree-gate" class="tree-visual">🌱 Seed</div>
+                        </div>
+                        <div id="roadmap-gate" class="day-grid"></div>
+                    </div>
+
+                    <div class="roadmap-card coding-card" id="card-coding">
+                        <div class="card-header">
+                            <div class="skill-title">🟠 coding deep work</div>
+                            <div id="tree-coding" class="tree-visual">🌱 Seed</div>
+                        </div>
+                        <div id="roadmap-coding" class="day-grid"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- LOAD SHARED ENGINE FIRST, THEN PAGE LOGIC -->
+    <script src="shared.js"></script>
+    <script src="grove.js"></script>
+</body>
+</html>
