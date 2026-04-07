@@ -1,0 +1,137 @@
+/* da_style.css: Specialized styling for Data Analyst Dashboard 📊 */
+
+.theme-da {
+    --primary: var(--blue);
+    --primary-glow: rgba(33, 150, 243, 0.4);
+}
+
+.da-hero {
+    text-align: center;
+    padding: 3rem 1rem;
+}
+
+.da-hero h1 {
+    font-size: 2.8rem;
+    color: var(--blue);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.da-stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.da-stat-pill {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--text-main);
+}
+
+.da-stat-pill.gold { color: var(--accent-gold); border-color: rgba(255, 215, 0, 0.3); }
+
+/* --- Duolingo Vertical Path (Specialized) --- */
+.da-path-container {
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.da-node {
+    width: 140px;
+    height: 120px;
+    background: #1976d2; /* Deep Blue base */
+    border-radius: 45% 55% 50% 50% / 40% 40% 60% 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 10px 0 #0d47a1;
+}
+
+/* Duolingo Snake Pattern */
+.da-node:nth-child(even) { transform: translateX(60px); }
+.da-node:nth-child(odd) { transform: translateX(-60px); }
+
+.da-node.active {
+    background: var(--blue);
+    box-shadow: 0 10px 0 #0d47a1, 0 0 30px var(--primary-glow);
+    animation: floatNode 3s infinite ease-in-out;
+}
+
+.da-node.completed {
+    background: var(--accent-gold);
+    box-shadow: 0 10px 0 #f57f17;
+}
+
+.da-node.locked {
+    background: #424242;
+    box-shadow: 0 10px 0 #212121;
+    filter: grayscale(1) opacity(0.5);
+    cursor: not-allowed;
+}
+
+@keyframes floatNode {
+    0%, 100% { transform: translateY(0) scale(1.05); }
+    50% { transform: translateY(-8px) scale(1.08); }
+}
+
+/* Snake pattern centering for floats */
+.da-node.active:nth-child(even) { animation: floatNodeRight 3s infinite ease-in-out; }
+.da-node.active:nth-child(odd) { animation: floatNodeLeft 3s infinite ease-in-out; }
+
+@keyframes floatNodeRight {
+    0%, 100% { transform: translateX(60px) translateY(0) scale(1.05); }
+    50% { transform: translateX(60px) translateY(-8px) scale(1.08); }
+}
+@keyframes floatNodeLeft {
+    0%, 100% { transform: translateX(-60px) translateY(0) scale(1.05); }
+    50% { transform: translateX(-60px) translateY(-8px) scale(1.08); }
+}
+
+.node-icon { font-size: 3rem; margin-bottom: 0.1rem; }
+.node-label {
+    font-size: 0.8rem; font-weight: 800; color: white;
+    background: rgba(0,0,0,0.4); padding: 0.2rem 0.6rem; border-radius: 8px;
+}
+
+.da-connector {
+    width: 10px;
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 5rem;
+    z-index: 1;
+}
+
+.da-node.completed .da-connector { background: var(--accent-gold); }
+.da-node.active .da-connector { background: linear-gradient(to bottom, var(--blue), rgba(255,255,255,0.1)); }
+
+/* Mission Modal Inside DA */
+.da-mission-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.da-mission-card h3 { color: var(--blue); margin-bottom: 1rem; }
+.da-mission-card p { color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600; }

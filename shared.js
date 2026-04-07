@@ -96,7 +96,27 @@ const defaultState = {
     },
     trees: { english: 0, aptitude: 0, gate: 0, coding: 0 },
     lastAction: { english: null, aptitude: null, gate: null, coding: null },
-    focusTimeToday: 0
+    focusTimeToday: 0,
+    dataAnalyst: {
+        lv: 1,
+        xp: 0,
+        levels: [
+            { id: 1, name: "Foundations", icon: "🌱", status: "active", task: "Google Data Analytics Course Modules" },
+            { id: 2, name: "Tools", icon: "⚒️", status: "locked", task: "SQL, Excel & Power BI Intro" },
+            { id: 3, name: "Data Thinking", icon: "🧠", status: "locked", task: "Learn how to analyze datasets" },
+            { id: 4, name: "Dashboard Creation", icon: "📊", status: "locked", task: "Build Power BI visuals" },
+            { id: 5, name: "Mini Project", icon: "🛠️", status: "locked", task: "Build Study Tracker Dashboard" },
+            { id: 6, name: "Advanced", icon: "🔒", status: "locked", task: "Python & Machine Learning" }
+        ],
+        streak: 0
+    },
+    dailySchedule: {
+        aptitude: { time: "4:30 – 5:30", completed: false },
+        coding: { time: "5:45 – 6:45", completed: false },
+        gate: { time: "10:30 – 11:30", completed: false },
+        da: { time: "Afternoon (1 hr)", completed: false },
+        english: { time: "Flexible (20m)", completed: false }
+    }
 };
 
 const save = () => localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
@@ -113,6 +133,13 @@ const patchState = () => {
     });
     if (!state.dailyStatus) state.dailyStatus = { aptitude: false, coding: false, gate: false, english: false };
     if (!state.streaks) state.streaks = { current: 0, best: 0 };
+    if (!state.dataAnalyst) state.dataAnalyst = defaultState.dataAnalyst;
+    if (!state.dailySchedule) state.dailySchedule = defaultState.dailySchedule;
+    
+    // Ensure all 6 levels exist in state
+    if (state.dataAnalyst.levels.length < 6) {
+        state.dataAnalyst.levels = defaultState.dataAnalyst.levels;
+    }
     save();
 };
 patchState();
