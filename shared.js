@@ -14,20 +14,20 @@ const ROADMAP_CONTENT = {
     aptitude: {
         title: "🟢 Aptitude Mastery", goal: "Logical Speed (Fun Approach)", structure: "Learn Concept + 8-10 Questions", reward: "Logic Master Badge",
         tasks: [
-            "📅 April 8 - Day 1 Mission: Percentages Basics (Fractions conversion) + Solve 8 simple questions.",
-            "📅 April 9 - Day 2 Mission: Percentage Increase/Decrease (Interest building) + Solve 8 questions.",
-            "📅 April 10 - Day 3 Mission: Percentages: Successive Changes & Population + Solve 10 questions.",
-            "📅 April 11 - Day 4 Mission: Profit & Loss: Basic CP, SP & Profit concept + Solve 8 questions.",
-            "📅 April 12 - Day 5 Mission: Profit & Loss: Profit/Loss Percentage calculation + Solve 10 questions.",
-            "📅 April 13 - Day 6 Mission: Profit & Loss: Dishonest Dealer & Successive Sell + Solve 8 questions.",
-            "📅 April 14 - Day 7 Mission: Ratios: Introduction & Basic Simplification + Solve 10 questions.",
-            "📅 April 15 - Day 8 Mission: Ratios & Proportion: Direct & Inverse proportion + Solve 8 questions.",
-            "📅 April 16 - Day 9 Mission: Ratios: Practical Word Problems (Ages/Money) + Solve 8 questions.",
-            "📅 April 17 - Day 10 Mission: Time & Work: Basic Unitary Method & Efficiency + Solve 10 questions.",
-            "📅 April 18 - Day 11 Mission: Time & Work: LCM Approach for Multiple Workers + Solve 8 questions.",
-            "📅 April 19 - Day 12 Mission: Time & Work: Alternate Days & Joining/Leaving + Solve 10 questions.",
-            "📅 April 20 - Day 13 Mission: Time & Work: Pipes & Cisterns Logic + Solve 8 questions.",
-            "📅 April 21 - Final Day Mission: Comprehensive Speed Challenge (20 Mixed questions)."
+            "📅 April 8 - Day 1 Mission: Percentages (Part 1): Basics, conversions (fraction ↔ %) + Solve 8 simple questions.",
+            "📅 April 9 - Day 2 Mission: Percentages (Part 2): Increase/decrease, simple applications + Solve 8 questions.",
+            "📅 April 10 - Day 3 Mission: Ratio & Proportion (Basics): Understanding ratios, simplification + Solve 10 questions.",
+            "📅 April 11 - Day 4 Mission: Average: Mean concept, basic problems + Solve 8 questions.",
+            "📅 April 12 - Day 5 Mission: Profit & Loss (Basics): CP, SP, profit/loss + Solve 10 questions.",
+            "📅 April 13 - Day 6 Mission: Simple Interest: Formula and basic usage + Solve 8 questions.",
+            "📅 April 14 - Day 7 Mission: Time & Work (Basics): Work = efficiency logic + Solve 10 questions.",
+            "📅 April 15 - Day 8 Mission: Time, Speed & Distance (Basics): Speed formula, simple problems + Solve 8 questions.",
+            "📅 April 16 - Day 9 Mission: Mixtures & Alligation (Basics): Concept of mixing quantities + Solve 8 questions.",
+            "📅 April 17 - Day 10 Mission: Number System (Basics): Divisibility, remainders intro + Solve 10 questions.",
+            "📅 April 18 - Day 11 Mission: Simplification / Approximation: BODMAS, calculation speed + Solve 8 questions.",
+            "📅 April 19 - Day 12 Mission: Data Interpretation (Basics): Reading tables, graphs + Solve 10 questions.",
+            "📅 April 20 - Day 13 Mission: Algebra Basics: Simple equations + Solve 8 questions.",
+            "📅 April 21 - Final Day Mission: Revision + Mixed Practice: Solve from all topics without videos."
         ]
     },
     gate: {
