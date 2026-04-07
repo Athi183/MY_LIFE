@@ -52,20 +52,20 @@ const ROADMAP_CONTENT = {
     coding: {
         title: "💻 Coding Deep Work", goal: "Interest-Building (Easy to Medium)", structure: "2 Solvable Problems Per Day", reward: "Pattern Master Badge",
         tasks: [
-            "📅 April 8 - Day 1 Mission: Arrays: Find Max & Min element in an array.",
-            "📅 April 9 - Day 2 Mission: Arrays: Reverse an array without extra space.",
-            "📅 April 10 - Day 3 Mission: Arrays: Two Sum Problem (Find target sum).",
-            "📅 April 11 - Day 4 Mission: Arrays: Find Duplicate in Array.",
-            "📅 April 12 - Day 5 Mission: Strings: Valid Palindrome check.",
-            "📅 April 13 - Day 6 Mission: Strings: Valid Anagram check.",
-            "📅 April 14 - Day 7 Mission: Strings: First Unique Character in String.",
-            "📅 April 15 - Day 8 Mission: Strings: Reverse Words in a String.",
-            "📅 April 16 - Day 9 Mission: Strings: String Compression basic logic.",
-            "📅 April 17 - Day 10 Mission: Recursion: Factorial of N (Visualizing call stack).",
-            "📅 April 18 - Day 11 Mission: Recursion: Fibonacci Sequence (Basic).",
-            "📅 April 19 - Day 12 Mission: Recursion: Sum of digits of a number.",
-            "📅 April 20 - Day 13 Mission: Recursion: Power of N recursive solution.",
-            "📅 April 21 - Final Day Mission: Final Marathon: 1 Array problem + 1 String problem."
+            "📅 April 8 - Day 1 Mission: DSA Fundamentals + Arrays (Part 1): Space & Time Complexity intro.",
+            "📅 April 9 - Day 2 Mission: DSA Fundamentals + Arrays (Part 2): Basic Array operations.",
+            "📅 April 10 - Day 3 Mission: Strings (Basic from fundamentals) - Part 1: String building.",
+            "📅 April 11 - Day 4 Mission: Strings (Basic from fundamentals) - Part 2: Palindrome/Anagram basics.",
+            "📅 April 12 - Day 5 Mission: Searching & Binary Search: Linear Search vs Binary Search intuition.",
+            "📅 April 13 - Day 6 Mission: Binary Search: Solve simple problems on sorted arrays.",
+            "📅 April 14 - Day 7 Mission: Recursion (Basic) - Part 1: Understanding base case & call stack.",
+            "📅 April 15 - Day 8 Mission: Recursion (Basic) - Part 2: Simple Fibonacci/Factorial problems.",
+            "📅 April 16 - Day 9 Mission: Linked List: Introduction to Node structure and pointers.",
+            "📅 April 17 - Day 10 Mission: Linked List: Basic Traversal and counting nodes.",
+            "📅 April 18 - Day 11 Mission: Binary Tree (Intro): Terminology (Root, Leaf, Parent).",
+            "📅 April 19 - Day 12 Mission: Binary Tree (Intro): Visualizing Pre-order & Post-order traversal.",
+            "📅 April 20 - Day 13 Mission: 2 Pointers (Basic idea): Using two pointers for sorted arrays.",
+            "📅 April 21 - Final Day Mission: Mixed Practice Marathon: Combined Array and String challenges."
         ]
     }
 };
