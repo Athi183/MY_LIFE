@@ -230,6 +230,46 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
     filter: brightness(1.1);
 }
 
+/* --- Life Calendar Portal (Right-Top) --- */
+.calendar-portal-card {
+    position: fixed;
+    bottom: 14rem;
+    right: 2rem;
+    background: rgba(10, 25, 18, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-right: 4px solid var(--purple);
+    padding: 1.5rem;
+    border-radius: 20px;
+    width: 320px;
+    z-index: 50;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: slideInRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.border-glow-purple { border: 1px solid rgba(187, 134, 252, 0.3) !important; }
+
+.calendar-btn {
+    background: var(--purple);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.calendar-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(187, 134, 252, 0.4);
+    filter: brightness(1.1);
+}
+
 @keyframes slideInRight {
     from { transform: translateX(100px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Calendar | SkillUp 2027</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FullCalendar CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    
+    <style>
+        :root {
+            --fc-border-color: rgba(46, 189, 89, 0.1);
+            --fc-daygrid-dot-event-hover-bg: rgba(46, 189, 89, 0.2);
+            --fc-page-bg-color: transparent;
+            --fc-list-event-hover-bg: rgba(46, 189, 89, 0.1);
+        }
+
+        .calendar-view-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #calendar {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 15px;
+            color: var(--text-main);
+        }
+
+        /* FullCalendar Overrides to match theme */
+        .fc .fc-toolbar-title { font-family: 'Outfit'; font-weight: 800; color: var(--primary); }
+        .fc .fc-button-primary { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: var(--text-main); font-weight: 700; border-radius: 10px; transition: var(--transition); }
+        .fc .fc-button-primary:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .fc .fc-button-primary:disabled { background: rgba(255,255,255,0.02); color: #555; }
+        .fc .fc-col-header-cell-cushion { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 10px 0; }
+        .fc .fc-daygrid-day-number { color: var(--text-main); font-weight: 600; padding: 10px; }
+        .fc .fc-daygrid-day.fc-day-today { background: rgba(46, 189, 89, 0.05) !important; }
+        .fc .fc-event { background: var(--primary); border: none; border-radius: 4px; padding: 2px 5px; font-size: 0.75rem; cursor: pointer; }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-titles h4 { font-size: 2rem; color: var(--primary); margin-bottom: 0.2rem; }
+        .calendar-titles p { color: var(--text-muted); font-weight: 600; }
+
+        /* Event Modal Styles */
+        #eventModal .modal-content {
+            border-color: var(--purple);
+            max-width: 450px;
+        }
+
+        .input-group { margin-bottom: 1.5rem; }
+        .input-label { display: block; color: var(--text-muted); font-size: 0.8rem; font-weight: 800; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .game-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+        .game-input:focus { border-color: var(--primary); background: rgba(255,255,255,0.08); }
+    </style>
+</head>
+<body class="theme-normal">
+    <div id="toast" class="toast"></div>
+
+    <div class="game-container">
+        <header class="game-hud hud-minimized">
+            <div class="player-stats">
+                <div class="player-avatar mini">📅</div>
+                <div class="player-info mini">
+                    <div class="rank-title mini">Life Management</div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Home</button>
+            </div>
+        </header>
+
+        <main class="calendar-view-container">
+            <div class="calendar-header">
+                <div class="calendar-titles">
+                    <h4>Life Calendar</h4>
+                    <p>Track your milestones and non-negotiables</p>
+                </div>
+            </div>
+
+            <div id="calendar"></div>
+        </main>
+    </div>
+
+    <!-- ADD EVENT MODAL -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEventModal()">&times;</span>
+            <h3 style="color: var(--purple); margin-bottom: 1.5rem;">New Life Event</h3>
+            
+            <div class="input-group">
+                <label class="input-label">Event Title</label>
+                <input type="text" id="eventTitle" class="game-input" placeholder="What's happening?">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Date</label>
+                <input type="date" id="eventDate" class="game-input">
+            </div>
+
+            <button class="da-btn" style="background: var(--purple);" onclick="saveLifeEvent()">Add to Calendar</button>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="calendar.js"></script>
+</body>
+</html>
