@@ -126,12 +126,142 @@
 
 /* Mission Modal Inside DA */
 .da-mission-card {
-    background: rgba(255,255,255,0.03);
+    background: rgba(10, 25, 18, 0.95);
     border: 1px solid var(--card-border);
-    padding: 2rem;
-    border-radius: 20px;
+    padding: 2.5rem;
+    border-radius: 25px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.da-mission-card h3 { color: var(--blue); margin-bottom: 1rem; }
-.da-mission-card p { color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600; }
+.da-mission-badge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--blue);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.da-mission-card h3 { color: var(--blue); margin-bottom: 0.5rem; font-size: 1.8rem; }
+.da-mission-card p { color: var(--text-muted); font-weight: 600; line-height: 1.6; }
+
+/* Sub-tasks / Modules List */
+.da-modules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 1rem 0;
+    text-align: left;
+    position: relative;
+}
+
+/* Timeline Line */
+.da-modules-list::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: rgba(33, 150, 243, 0.2);
+    z-index: 0;
+}
+
+.da-mod-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.da-mod-item.done {
+    background: rgba(46, 189, 89, 0.05);
+    border-color: rgba(46, 189, 89, 0.2);
+}
+
+.designer-check.mini {
+    margin: 0;
+    gap: 1.2rem;
+    justify-content: flex-start;
+}
+
+.designer-check.mini .checkmark {
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0.3);
+}
+
+.mod-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.mod-title { font-size: 0.9rem; font-weight: 700; color: var(--text-main); }
+.mod-xp { font-size: 0.75rem; font-weight: 800; color: var(--blue); }
+
+.da-mod-item.done .mod-title { text-decoration: line-through; opacity: 0.6; }
+
+/* Mission Checkbox Styles */
+.designer-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+    margin: 1rem 0;
+}
+
+.designer-check input { display: none; }
+
+.designer-check .checkmark {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--blue);
+    border-radius: 6px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.designer-check input:checked + .checkmark { background: var(--blue); }
+
+.designer-check input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 900;
+}
+
+.check-label { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+
+/* Mission Footer Buttons */
+.mission-footer { display: flex; flex-direction: column; gap: 1rem; }
+
+.btn-text-only {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-text-only:hover { color: white; text-decoration: underline; }

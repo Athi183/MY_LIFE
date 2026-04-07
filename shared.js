@@ -101,7 +101,14 @@ const defaultState = {
         lv: 1,
         xp: 0,
         levels: [
-            { id: 1, name: "Foundations", icon: "🌱", status: "active", task: "Google Data Analytics Course Modules" },
+            { id: 1, name: "Foundations", icon: "🌱", status: "active", task: "Google Data Analytics Course Modules", 
+              modules: [
+                { id: 1, title: "Module 1: Analytical Thinking (Day 1)", xp: 10, completed: false },
+                { id: 2, title: "Module 2: The World of Data (Day 2)", xp: 10, completed: false },
+                { id: 3, title: "Module 3: Data Analytics Toolbox (Day 3)", xp: 10, completed: false },
+                { id: 4, title: "Module 4: Data Professional Impact (Day 4)", xp: 10, completed: false }
+              ]
+            },
             { id: 2, name: "Tools", icon: "⚒️", status: "locked", task: "SQL, Excel & Power BI Intro" },
             { id: 3, name: "Data Thinking", icon: "🧠", status: "locked", task: "Learn how to analyze datasets" },
             { id: 4, name: "Dashboard Creation", icon: "📊", status: "locked", task: "Build Power BI visuals" },
@@ -139,6 +146,10 @@ const patchState = () => {
     // Ensure all 6 levels exist in state
     if (state.dataAnalyst.levels.length < 6) {
         state.dataAnalyst.levels = defaultState.dataAnalyst.levels;
+    }
+    // Ensure Level 1 has modules
+    if (state.dataAnalyst.levels[0] && !state.dataAnalyst.levels[0].modules) {
+        state.dataAnalyst.levels[0].modules = defaultState.dataAnalyst.levels[0].modules;
     }
     save();
 };
