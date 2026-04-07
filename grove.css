@@ -137,6 +137,26 @@
 .btn-timer-start:hover { transform: scale(1.05); filter: brightness(1.1); }
 .btn-timer-pop:hover { background: var(--primary); color: white; }
 
+.timer-input {
+    width: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 0.4rem;
+    color: var(--primary);
+    font-family: 'Outfit';
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+    transition: var(--transition);
+}
+
+.timer-input:focus {
+    border-color: var(--primary);
+    background: rgba(46, 189, 89, 0.1);
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
 .reward-preview {
     margin-top: 1.5rem;
     padding: 1rem;

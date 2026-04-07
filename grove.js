@@ -39,7 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
             updateUI();
             return;
         }
-        activeTimers[track] = { timeLeft: 50 * 60, sessionType: 'FOCUS', isRunning: true };
+
+        const inputEl = document.getElementById(`input-${track}`);
+        const totalMinutes = parseInt(inputEl.value) || 60;
+        let totalBudget = totalMinutes * 60;
+        
+        let initialFocus = Math.min(25 * 60, totalBudget);
+        totalBudget -= initialFocus;
+
+        activeTimers[track] = { 
+            timeLeft: initialFocus, 
+            totalBudget: totalBudget,
+            sessionType: 'FOCUS', 
+            isRunning: true 
+        };
         startInterval(track);
         updateUI();
     };
@@ -58,17 +71,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (timer.timeLeft <= 0) {
                 clearInterval(timer.interval);
                 if (timer.sessionType === 'FOCUS') {
-                    timer.sessionType = 'BREAK';
-                    timer.timeLeft = 15 * 60;
                     addXP(20);
-                    showToast(`🎉 Focus Done! +20 XP. Starting 15m Break... ☕`);
-                    playChime();
-                    startInterval(track);
+                    if (timer.totalBudget > 0) {
+                        const breakTime = Math.min(10 * 60, timer.totalBudget);
+                        timer.totalBudget -= breakTime;
+                        timer.sessionType = 'BREAK';
+                        timer.timeLeft = breakTime;
+                        showToast(`🎉 Focus Done! +20 XP. Starting ${Math.ceil(breakTime/60)}m Break... ☕`);
+                        playChime();
+                        startInterval(track);
+                    } else {
+                        delete activeTimers[track];
+                        showToast(`🏆 Mission Complete! Total session finished.`);
+                        playChime();
+                        updateUI();
+                    }
                 } else {
-                    delete activeTimers[track];
-                    showToast(`✅ Break finished! Ready for next quest?`);
-                    playChime();
-                    updateUI();
+                    if (timer.totalBudget > 0) {
+                        const nextFocus = Math.min(25 * 60, timer.totalBudget);
+                        timer.totalBudget -= nextFocus;
+                        timer.sessionType = 'FOCUS';
+                        timer.timeLeft = nextFocus;
+                        showToast(`☕ Break over. Time to Focus for ${Math.ceil(nextFocus/60)}m! 🚀`);
+                        playChime();
+                        startInterval(track);
+                    } else {
+                        delete activeTimers[track];
+                        showToast(`✅ Break finished! Ready for next quest?`);
+                        playChime();
+                        updateUI();
+                    }
                 }
             }
         }, 1000);
@@ -197,7 +229,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!card.querySelector('.timer-controls')) {
                 const timerUI = document.createElement('div');
                 timerUI.className = 'timer-controls';
-                timerUI.innerHTML = `<div class="timer-display" id="timer-${track}">50:00</div><div class="timer-btns"><button class="btn-timer-start" id="btn-toggle-${track}" onclick="toggleTimer('${track}')">Focus</button><button class="btn-timer-pop" onclick="popOutTimer()">Pop Out</button></div>`;
+                timerUI.innerHTML = `
+                    <div class="timer-display" id="timer-${track}">POMODORO</div>
+                    <div class="timer-btns">
+                        <input type="number" id="input-${track}" class="timer-input" value="60" min="1" step="5">
+                        <button class="btn-timer-start" id="btn-toggle-${track}" onclick="toggleTimer('${track}')">Focus</button>
+                        <button class="btn-timer-pop" onclick="popOutTimer()">Pop Out</button>
+                    </div>`;
                 card.insertBefore(timerUI, grid);
             }
 
@@ -207,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!timer) {
                     toggleBtn.textContent = 'Focus';
                     toggleBtn.style.background = 'var(--primary)';
-                    document.getElementById(`timer-${track}`).textContent = '50:00';
+                    document.getElementById(`timer-${track}`).textContent = 'WORK';
                 } else if (timer.isRunning) {
                     toggleBtn.textContent = 'Pause';
                     toggleBtn.style.background = 'var(--accent-orange)';
