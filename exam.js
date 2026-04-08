@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const id = `${levelKey}-${day.date}-${task}`;
                     const isChecked = examState.completed[id];
                     return `
-                        <div class="subject-item" onclick="toggleTask('${id}')">
+                        <div class="subject-item">
                             <label class="check-container">
-                                <input type="checkbox" id="${id}" ${isChecked ? 'checked' : ''}>
+                                <input type="checkbox" id="${id}" ${isChecked ? 'checked' : ''} onchange="toggleTask('${id}')">
                                 <span class="checkmark"></span>
                             </label>
                             <div class="subject-info">
@@ -113,10 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.toggleTask = (taskId) => {
         const checkbox = document.getElementById(taskId);
         if (checkbox) {
-            checkbox.checked = !checkbox.checked;
+            // Browser has already toggled the checkbox due to onchange/click
             examState.completed[taskId] = checkbox.checked;
             
-            // Basic Streak Logic (simplistic: increments on check, doesn't verify daily continuity for now)
             if (checkbox.checked) {
                 const now = new Date().toDateString();
                 if (examState.lastDate !== now) {

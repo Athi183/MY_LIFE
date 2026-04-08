@@ -528,8 +528,57 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
 }
 
 /* --- Checkbox --- */
-.check-container { display: flex; align-items: center; gap: 1rem; cursor: pointer; margin-bottom: 1.5rem; }
-.checkmark { width: 25px; height: 25px; border: 2px solid var(--primary); border-radius: 6px; position: relative; }
+.check-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.check-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    height: 24px;
+    width: 24px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    transition: var(--transition);
+    position: relative;
+    display: inline-block;
+}
+
+.check-container:hover input ~ .checkmark {
+    background-color: rgba(46, 189, 89, 0.1);
+}
+
+.check-container input:checked ~ .checkmark {
+    background-color: var(--primary);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.check-container input:checked ~ .checkmark:after {
+    display: block;
+}
 
 /* --- Duolingo Island Path Layout --- */
 .level-path-container {
