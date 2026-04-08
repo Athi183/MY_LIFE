@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Mastery Hub | Level Up Your Brain 🚀</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-normal">
+    <div id="toast" class="toast"></div>
+
+    <div class="game-container">
+        <!-- HEADER / NAVIGATION -->
+        <header class="game-hud hud-minimized">
+            <div class="player-stats">
+                <div class="player-avatar mini">🎮</div>
+                <div class="player-info mini">
+                    <div class="rank-title mini">Exam Mastery Mode</div>
+                    <div class="xp-container" style="width: 200px;">
+                        <div class="xp-bar-bg"><div id="globalProgressBar" class="xp-bar-fill" style="background: var(--accent-cyan);"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <div class="exam-streak-badge">🔥 <span id="examStreak">0</span> Day Streak</div>
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Map</button>
+            </div>
+        </header>
+
+        <main class="hub-view-container" style="max-width: 1200px;">
+            <div class="calendar-header" style="margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
+                <div class="calendar-titles">
+                    <h2 style="color: var(--accent-cyan); font-weight: 800;">🧠 Exam Mastery Hub</h2>
+                    <p style="color: var(--text-muted); font-weight: 500;">Level Up Your Brain 🚀 | Phase 1: Foundations</p>
+                </div>
+                <div class="today-focus">
+                    <span class="focus-label">🎯 TODAY'S FOCUS</span>
+                    <h3 id="dailyTaskHighlight" style="font-size: 1.1rem; color: var(--text-main);">Stay balanced. Stay disciplined.</h3>
+                </div>
+            </div>
+
+            <!-- LEVEL 1 -->
+            <section class="level-group border-glow-cyan">
+                <div class="level-header">
+                    <h3 class="level-title">Level 1: Foundation Phase</h3>
+                    <div class="level-meta">
+                        <span class="phase-tag phase-foundation">Foundation</span>
+                        <span class="progress-percent" id="percent-level1">0%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
+                    <div id="bar-level1" class="progress-bar-fill" style="width: 0%; height: 100%; background: var(--primary); border-radius: 10px; transition: 0.5s;"></div>
+                </div>
+                <div id="grid-level1" class="task-grid-exam"></div>
+            </section>
+
+            <!-- LEVEL 2 -->
+            <section class="level-group">
+                <div class="level-header">
+                    <h3 class="level-title">Level 2: Strengthening Phase</h3>
+                    <div class="level-meta">
+                        <span class="phase-tag phase-strengthen">Strengthening</span>
+                        <span class="progress-percent" id="percent-level2">0%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
+                    <div id="bar-level2" class="progress-bar-fill" style="width: 0%; height: 100%; background: var(--accent-gold); border-radius: 10px; transition: 0.5s;"></div>
+                </div>
+                <div id="grid-level2" class="task-grid-exam"></div>
+            </section>
+
+            <!-- LEVEL 3 -->
+            <section class="level-group">
+                <div class="level-header">
+                    <h3 class="level-title">Level 3: Exam Mode</h3>
+                    <div class="level-meta">
+                        <span class="phase-tag phase-exam">Final Test</span>
+                        <span class="progress-percent" id="percent-level3">0%</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
+                    <div id="bar-level3" class="progress-bar-fill" style="width: 0%; height: 100%; background: #ff5757; border-radius: 10px; transition: 0.5s;"></div>
+                </div>
+                <div id="grid-level3" class="task-grid-exam"></div>
+            </section>
+
+            <!-- STUDY TIPS -->
+            <div class="study-tips-section" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;">
+                <div class="tip-card" style="background: rgba(46, 189, 89, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(46, 189, 89, 0.2);">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🟢 HIGH SCORING</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">DBMS Normalization & SQL queries are direct scoring areas. OS Paging and Deadlocks also give easy MCQs.</p>
+                </div>
+                <div class="tip-card" style="background: rgba(255, 215, 0, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.2);">
+                    <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">🟡 CONCEPT FOCUS</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">In COA, master the instruction cycle and pipelining hazards. Skip deep circuit logic for now.</p>
+                </div>
+                <div class="tip-card" style="background: rgba(255, 87, 87, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(255, 87, 87, 0.2);">
+                    <h4 style="color: #ff5757; margin-bottom: 0.5rem;">🔴 QUICK FLAT</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Stick to DFA/NFA conversions and CFG basics. Proofs are rarely relevant for speed-based MCQs.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="exam.js"></script>
+</body>
+</html>

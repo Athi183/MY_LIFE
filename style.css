@@ -291,6 +291,128 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
 .hackathon-portal-card .da-titles h4 { font-size: 0.85rem; }
 .hackathon-portal-card .da-titles p { font-size: 0.65rem; }
 
+/* --- Exam Mastery Portal (Cyan Accent) --- */
+.exam-portal-card {
+    position: fixed;
+    top: 18rem; /* Positioned below Hackathon portal */
+    right: 2rem;
+    background: rgba(10, 25, 18, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+    border-right: 4px solid var(--accent-cyan);
+    padding: 1.2rem;
+    border-radius: 20px;
+    width: 320px;
+    z-index: 50;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: slideInRight 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.border-glow-cyan { border: 1px solid rgba(0, 255, 255, 0.3) !important; }
+
+.exam-btn {
+    background: var(--accent-cyan);
+    color: black;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+    transition: var(--transition);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.exam-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+/* --- Level Layout --- */
+.level-group {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.level-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.phase-tag {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.phase-foundation { background: rgba(46, 189, 89, 0.2); color: var(--primary); }
+.phase-strengthen { background: rgba(255, 215, 0, 0.2); color: var(--accent-gold); }
+.phase-exam { background: rgba(255, 87, 87, 0.2); color: #ff5757; }
+
+.task-grid-exam {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+}
+
+.day-card-mastery {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 15px;
+    padding: 1.2rem;
+    transition: var(--transition);
+}
+
+.day-card-mastery:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+}
+
+.day-date-mastery {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.subject-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+}
+
+.subject-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.subject-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
 .hackathon-btn {
     background: var(--accent-gold);
     color: black;
