@@ -273,28 +273,32 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
 /* --- Hackathon Portal (Left-Top) --- */
 .hackathon-portal-card {
     position: fixed;
-    top: 8rem;
-    left: 2rem;
+    top: 7rem;
+    left: 1.5rem;
     background: rgba(10, 25, 18, 0.9);
     backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
     border-left: 4px solid var(--accent-gold);
-    padding: 1.2rem;
-    border-radius: 20px;
-    width: 320px;
+    padding: 0.8rem 1rem;
+    border-radius: 18px;
+    width: 270px;
     z-index: 50;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     animation: slideInLeft 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.hackathon-portal-card .da-emoji { font-size: 1.5rem; }
+.hackathon-portal-card .da-titles h4 { font-size: 0.85rem; }
+.hackathon-portal-card .da-titles p { font-size: 0.65rem; }
+
 .border-glow-gold { border: 1px solid rgba(255, 215, 0, 0.3) !important; }
 
 .hackathon-img-container {
-    margin-top: 1rem;
-    border-radius: 12px;
+    margin-top: 0.8rem;
+    border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--card-border);
-    max-height: 200px;
+    max-height: 120px;
     overflow-y: auto;
     background: rgba(0,0,0,0.2);
 }
