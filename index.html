@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillUp 2027 | The Forest Ascension Game</title>
+    <title>SkillUp 2027 | Mission Control Hub</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -11,125 +11,145 @@
     <div id="toast" class="toast"></div>
 
     <div class="game-container">
-        <!-- HUD & STREAK (UI/UX DESIGNER) -->
-        <header class="game-hud">
+        <!-- 1. HEADER / STATUS BAR (TOP) -->
+        <header class="game-hud status-bar">
             <div class="player-stats">
                 <div class="player-avatar">👸</div>
-                <div class="player-info">
-                    <div id="playerRank" class="rank-title">Explorer 🌱</div>
-                    <div class="xp-container">
-                        <div class="xp-label">LV. <span id="playerLevel">1</span></div>
-                        <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
-                    </div>
+                <div id="playerRank" class="rank-title">Phoenix Reborn 🔥</div>
+                <div class="xp-container">
+                    <span class="xp-label">LV. <span id="playerLevel">1</span></span>
+                    <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
                 </div>
             </div>
             <div class="header-controls">
-                <button class="phoenix-reset-btn" onclick="window.phoenixReset()" title="Phoenix Reset: Restart from April 10th">🔥 Rebirth</button>
+                <button class="phoenix-reset-btn" onclick="window.phoenixReset()">🔥 Rebirth</button>
                 <div id="energySelector" class="energy-modes">
-                    <button class="energy-btn" data-mode="min">Min</button>
                     <button class="energy-btn active" data-mode="normal">Norm</button>
-                    <button class="energy-btn" data-mode="high">High</button>
                 </div>
             </div>
         </header>
 
-        <main id="app">
-            <!-- VIEW: HOME (WORLD MAP) -->
-            <section id="view-home" class="view active">
-                <div class="map-header">
-                    <h2>🗺️ THE ASCENSION PATH</h2>
-                    <p>Conquer Level 1 to reveal the hidden forest.</p>
+        <!-- 2. TODAY'S PROGRESS STRIP (FOCUS AREA) -->
+        <div class="progress-strip">
+            <div class="strip-header">
+                <span>📅 TODAY'S STRATEGY</span>
+                <span class="status-date" id="currentDate">April 30, 2026</span>
+            </div>
+            <div class="strip-grid">
+                <div class="strip-item">
+                    <span class="strip-value" id="statusFocusHours">0.0h</span>
+                    <span class="strip-label">Deep Work</span>
                 </div>
-                
-                <div id="levelPath" class="level-path-container"></div>
+                <div class="strip-item">
+                    <span class="strip-value">2/4</span>
+                    <span class="strip-label">Tracks Active</span>
+                </div>
+                <div class="strip-item">
+                    <span class="strip-value" id="treePhaseEmoji">🌱</span>
+                    <span class="strip-label">Tree Phase</span>
+                </div>
+            </div>
+        </div>
 
+        <!-- 3. MAIN CONTENT GRID (2x3 NETFLIX HUB) -->
+        <main class="hub-grid">
+            
+            <!-- CARD 1: WORLD MAP (ASCENSION PATH) -->
+            <div class="hub-card world-map-card border-glow-cyan">
+                <div class="card-header">
+                    <span class="card-icon">🌍</span>
+                    <div class="card-titles">
+                        <h4>Ascension Path</h4>
+                        <p>Levels 1–20 World Map</p>
+                    </div>
+                </div>
+                <div id="levelPath" class="path-preview-container"></div>
                 <!-- THE TREE OF RESILIENCE -->
                 <div class="tree-of-resilience" id="streakTree">
                     <div class="tree-trunk"></div>
                     <div id="treeLeaves" class="tree-leaves"></div>
                 </div>
-            </section>
+            </div>
+
+            <!-- CARD 2: EXAM MASTERY HUB -->
+            <div class="hub-card exam-card border-glow-cyan">
+                <div class="card-header">
+                    <span class="card-icon">🎮</span>
+                    <div class="card-titles">
+                        <h4>Exam Mastery</h4>
+                        <p>NPTEL & University Conquest</p>
+                    </div>
+                </div>
+                <div class="card-body-preview">
+                    <p class="preview-text">Focus: ML Awakening Sprint (Apr 10-17)</p>
+                </div>
+                <button class="card-btn cyan" onclick="window.location.href='exam.html'">Enter Hub</button>
+            </div>
+
+            <!-- CARD 3: UPCOMING MISSIONS -->
+            <div class="hub-card missions-card border-glow-gold">
+                <div class="card-header">
+                    <span class="card-icon">🚀</span>
+                    <div class="card-titles">
+                        <h4>Career Missions</h4>
+                        <p>Hackathons & Internships</p>
+                    </div>
+                </div>
+                <div class="card-img-preview">
+                    <img src="hackathons.png" alt="Missions" class="hub-preview-img">
+                </div>
+                <button class="card-btn gold" onclick="window.location.href='hackathons.html'">Open Missions</button>
+            </div>
+
+            <!-- CARD 4: LIVE CALENDAR -->
+            <div class="hub-card calendar-card border-glow-purple">
+                <div class="card-header">
+                    <span class="card-icon">📅</span>
+                    <div class="card-titles">
+                        <h4>Life Calendar</h4>
+                        <p>Events & Reminders</p>
+                    </div>
+                </div>
+                <div class="card-body-preview">
+                    <p class="preview-text">Stay synced with your long-term goals.</p>
+                </div>
+                <button class="card-btn purple" onclick="window.location.href='calendar.html'">View Calendar</button>
+            </div>
+
+            <!-- CARD 5: DATA ANALYST DASHBOARD -->
+            <div class="hub-card da-card border-glow">
+                <div class="card-header">
+                    <span class="card-icon">📊</span>
+                    <div class="card-titles">
+                        <h4>Data Analyst Hub</h4>
+                        <p>SQL, Python & Viz</p>
+                    </div>
+                </div>
+                <div class="card-body-preview">
+                    <p class="preview-text">Track your specialized analytics modules.</p>
+                </div>
+                <button class="card-btn grey" onclick="window.location.href='data_analyst.html'">Open Dashboard</button>
+            </div>
+
+            <!-- CARD 6: DAILY ROUTINE -->
+            <div class="hub-card routine-card border-glow-green">
+                <div class="card-header">
+                    <span class="card-icon">🧘</span>
+                    <div class="card-titles">
+                        <h4>Daily Routine</h4>
+                        <p>5 AM Purpose & Meditation</p>
+                    </div>
+                </div>
+                <div class="card-body-preview">
+                    <p class="preview-text">Wake 4:45 AM | Strike 5:00 AM</p>
+                </div>
+                <button class="card-btn green" onclick="showToast('🍃 Mindset is power.')">Check Routine</button>
+            </div>
+
         </main>
-
-        <!-- FLOATING STATUS CARD (LEFT) -->
-        <div class="daily-status-card">
-            <div class="status-header">
-                <span>📅 TODAY'S PROGRESS</span>
-                <span class="status-date">April 30, 2026</span>
-            </div>
-            <div class="status-grid">
-                <div class="stat-item">
-                    <div class="stat-value">2/4</div>
-                    <div class="stat-label">Tracks Active</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="statusFocusHours">0.0h</div>
-                    <div class="stat-label">Deep Work</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">🌱</div>
-                    <div class="stat-label">Tree Phase</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- HACKATHON PORTAL (RIGHT-TOPMOST) -->
-        <div class="hackathon-portal-card border-glow-gold">
-            <div class="da-header">
-                <span class="da-emoji">🚀</span>
-                <div class="da-titles">
-                    <h4>Upcoming Missions</h4>
-                    <p>Hackathons & Internships</p>
-                </div>
-            </div>
-            <div class="hackathon-img-container">
-                <img src="hackathons.png" alt="Upcoming Hackathons" class="hackathon-img">
-            </div>
-            <button class="hackathon-btn" onclick="window.location.href='hackathons.html'">Open Missions</button>
-        </div>
-
-        <!-- EXAM MASTERY PORTAL (NEW) -->
-        <div class="exam-portal-card border-glow-cyan">
-            <div class="da-header">
-                <span class="da-emoji">🎮</span>
-                <div class="da-titles">
-                    <h4>Exam Mastery Mode</h4>
-                    <p>Level-based preparation system</p>
-                </div>
-            </div>
-            <button class="exam-btn" onclick="window.location.href='exam.html'">Enter Hub</button>
-        </div>
-
-        <!-- LIFE CALENDAR PORTAL (RIGHT-MID) -->
-        <div class="calendar-portal-card border-glow-purple">
-            <div class="da-header">
-                <span class="da-emoji">📅</span>
-                <div class="da-titles">
-                    <h4>Life Calendar</h4>
-                    <p>Plan events and reminders</p>
-                </div>
-            </div>
-            <button class="calendar-btn" onclick="window.location.href='calendar.html'">Open Calendar</button>
-        </div>
-
-        <!-- DATA ANALYST PORTAL (RIGHTBOTTOM) -->
-        <div class="da-portal-card border-glow">
-            <div class="da-header">
-                <span class="da-emoji">📊</span>
-                <div class="da-titles">
-                    <h4>Data Analyst Dashboard</h4>
-                    <p>Today's Tasks & Progress</p>
-                </div>
-            </div>
-            <button class="da-btn" onclick="window.location.href='data_analyst.html'">Open Dashboard</button>
-        </div>
-
-        <footer class="game-footer">
-            <!-- Footer controls if needed -->
-        </footer>
     </div>
 
-    <!-- LOAD SHARED ENGINE FIRST, THEN PAGE LOGIC -->
+    <!-- LOAD SHARED ENGINE -->
     <script src="shared.js"></script>
     <script src="map.js"></script>
 </body>

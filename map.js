@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTree();
 
         // Update Tree Phase Indicator
-        const phaseLabel = document.querySelector('.daily-status-card .stat-item:last-child .stat-value');
+        const phaseLabel = document.getElementById('treePhaseEmoji');
         if (phaseLabel) {
             const streak = state.streaks.current || 0;
             if (streak >= 7) phaseLabel.textContent = '🌳';
