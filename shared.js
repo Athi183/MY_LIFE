@@ -255,3 +255,186 @@ window.phoenixReset = () => {
         setTimeout(() => window.location.href = 'index.html', 2000);
     }
 };
+
+// --- GLOBAL POMODORO SYSTEM ⏱️ ---
+const POMODORO_DEFAULTS = {
+    focus: 25,
+    break: 5,
+    mode: 'focus',
+    timeLeft: 1500,
+    running: false,
+    minimized: false,
+    sessionsCompleted: 0
+};
+
+let pomo = JSON.parse(localStorage.getItem('forest_pomo')) || POMODORO_DEFAULTS;
+
+const savePomo = () => localStorage.setItem('forest_pomo', JSON.stringify(pomo));
+
+const injectPomodoroUI = () => {
+    // Inject CSS
+    if (!document.getElementById('pomoStyles')) {
+        const link = document.createElement('link');
+        link.id = 'pomoStyles';
+        link.rel = 'stylesheet';
+        link.href = 'pomo.css';
+        document.head.appendChild(link);
+    }
+
+    // Only inject if it doesn't exist
+    if (document.getElementById('pomoContainer')) return;
+
+    const html = `
+        <div id="pomoFAB" class="pomo-fab" onclick="togglePomoPanel()">
+            <span class="pomo-icon">⏱️</span>
+            <div id="pomoMiniTimer" class="pomo-mini-timer">25:00</div>
+        </div>
+
+        <div id="pomoPanel" class="pomo-panel">
+            <div class="pomo-header">
+                <h3>FOCUS ENGINE</h3>
+                <button class="pomo-close" onclick="togglePomoPanel()">&times;</button>
+            </div>
+            
+            <div id="pomoDisplay" class="pomo-display mode-${pomo.mode}">
+                <div class="pomo-mode-label" id="pomoModeLabel">${pomo.mode.toUpperCase()}</div>
+                <div class="pomo-time" id="pomoTime">25:00</div>
+            </div>
+
+            <div class="pomo-controls">
+                <button id="pomoStartBtn" class="pomo-btn main" onclick="pomoControl.start()">START</button>
+                <button id="pomoPauseBtn" class="pomo-btn" style="display:none" onclick="pomoControl.pause()">PAUSE</button>
+                <button class="pomo-btn reset" onclick="pomoControl.reset()">RESET</button>
+            </div>
+
+            <div class="pomo-settings">
+                <div class="pomo-setting-group">
+                    <label>Focus (min)</label>
+                    <input type="number" id="pomoFocusInput" value="${pomo.focus}" onchange="pomoControl.updateSettings()">
+                </div>
+                <div class="pomo-setting-group">
+                    <label>Break (min)</label>
+                    <input type="number" id="pomoBreakInput" value="${pomo.break}" onchange="pomoControl.updateSettings()">
+                </div>
+            </div>
+        </div>
+    `;
+    const container = document.createElement('div');
+    container.id = "pomoContainer";
+    container.innerHTML = html;
+    document.body.appendChild(container);
+    pomoControl.updateUI();
+};
+
+const pomoControl = {
+    timerInterval: null,
+    
+    start() {
+        if (pomo.running) return;
+        pomo.running = true;
+        savePomo();
+        this.runTimer();
+    },
+
+    pause() {
+        pomo.running = false;
+        clearInterval(this.timerInterval);
+        savePomo();
+        this.updateUI();
+    },
+
+    reset() {
+        this.pause();
+        pomo.mode = 'focus';
+        pomo.timeLeft = pomo.focus * 60;
+        savePomo();
+        this.updateUI();
+    },
+
+    updateSettings() {
+        pomo.focus = parseInt(document.getElementById('pomoFocusInput').value) || 25;
+        pomo.break = parseInt(document.getElementById('pomoBreakInput').value) || 5;
+        if (!pomo.running) {
+            pomo.timeLeft = (pomo.mode === 'focus' ? pomo.focus : pomo.break) * 60;
+        }
+        savePomo();
+        this.updateUI();
+    },
+
+    runTimer() {
+        clearInterval(this.timerInterval);
+        this.timerInterval = setInterval(() => {
+            if (pomo.timeLeft > 0) {
+                pomo.timeLeft--;
+                this.updateUI();
+                savePomo();
+            } else {
+                this.onFinish();
+            }
+        }, 1000);
+    },
+
+    onFinish() {
+        this.pause();
+        playChime();
+        if (pomo.mode === 'focus') {
+            pomo.mode = 'break';
+            pomo.timeLeft = pomo.break * 60;
+            pomo.sessionsCompleted++;
+            showToast("🍅 Focus session complete! Take a break.");
+            addXP(20);
+            if (pomo.sessionsCompleted % 3 === 0) {
+                showToast("🔥 3 Sessions in a row! Streak Bonus XP.");
+                addXP(50);
+            }
+        } else {
+            pomo.mode = 'focus';
+            pomo.timeLeft = pomo.focus * 60;
+            showToast("💪 Break over! Get back to the conquest.");
+        }
+        savePomo();
+        this.updateUI();
+    },
+
+    updateUI() {
+        const mins = Math.floor(pomo.timeLeft / 60);
+        const secs = pomo.timeLeft % 60;
+        const timeStr = `${mins}:${secs.toString().padStart(2, '0')}`;
+        
+        const display = document.getElementById('pomoTime');
+        const mini = document.getElementById('pomoMiniTimer');
+        const label = document.getElementById('pomoModeLabel');
+        const startBtn = document.getElementById('pomoStartBtn');
+        const pauseBtn = document.getElementById('pomoPauseBtn');
+
+        if (display) display.textContent = timeStr;
+        if (mini) mini.textContent = timeStr;
+        if (label) label.textContent = pomo.mode.toUpperCase();
+        
+        const displayContainer = document.getElementById('pomoDisplay');
+        if (displayContainer) {
+            displayContainer.className = `pomo-display mode-${pomo.mode}`;
+        }
+
+        if (startBtn && pauseBtn) {
+            startBtn.style.display = pomo.running ? 'none' : 'block';
+            pauseBtn.style.display = pomo.running ? 'block' : 'none';
+        }
+
+        const fab = document.getElementById('pomoFAB');
+        if (fab) {
+            fab.className = `pomo-fab ${pomo.running ? 'pomo-active' : ''} mode-${pomo.mode}`;
+        }
+    }
+};
+
+window.togglePomoPanel = () => {
+    const panel = document.getElementById('pomoPanel');
+    if (panel) panel.classList.toggle('active');
+};
+
+// Auto-init on all pages
+document.addEventListener('DOMContentLoaded', () => {
+    injectPomodoroUI();
+    if (pomo.running) pomoControl.runTimer();
+});
