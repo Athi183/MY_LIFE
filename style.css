@@ -438,108 +438,197 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
     display: block;
 }
 
-/* --- Duolingo Island Path Layout --- */
-.level-path-container {
-    padding: 6rem 2rem;
+/* --- Exam Battle Hub Layout --- */
+.battle-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2.5rem;
+    padding-bottom: 5rem;
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* --- Overview Panel --- */
+.overview-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.overview-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.overview-card.urgent { border-left: 5px solid var(--accent-red); }
+.overview-card.urgent h3 { color: var(--accent-red); }
+
+.card-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    background: rgba(255,255,255,0.1);
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.card-icon-big { font-size: 2.5rem; margin-bottom: 1rem; }
+.card-info h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.exam-date { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
+.exam-status { font-size: 0.75rem; font-weight: 800; color: var(--accent-gold); display: block; margin-top: 10px; }
+
+/* --- Timetable Card --- */
+.timetable-card { padding: 1rem; overflow: hidden; }
+.timetable-img { width: 100%; border-radius: 12px; filter: contrast(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.3); cursor: pointer; }
+.delete-card-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(255,0,0,0.2); color: white; border: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    cursor: pointer; font-weight: 800; transition: 0.3s;
+}
+.delete-card-btn:hover { background: var(--accent-red); transform: scale(1.1); }
+
+/* --- Daily System Panel --- */
+.daily-system-panel {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid var(--accent-gold);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.system-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+.system-header h4 { font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; }
+
+.yt-badge {
+    background: var(--accent-red);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.system-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.system-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* --- Battle Roadmap --- */
+.battle-roadmap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6rem;
-    max-width: 800px;
-    margin: 0 auto;
+    gap: 3rem;
+    padding: 2rem 0;
     position: relative;
 }
 
-.island-node {
-    width: 160px;
-    height: 140px;
-    background: #2e7d32;
-    /* Forest Green */
-    border-radius: 45% 55% 50% 50% / 40% 40% 60% 60%;
-    /* Irregular Island Shape */
+.battle-roadmap::before {
+    content: '';
+    position: absolute;
+    top: 5rem; bottom: 5rem;
+    left: 50%;
+    width: 4px;
+    background: rgba(255,255,255,0.05);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.level-node {
+    width: 100px;
+    height: 100px;
+    background: var(--card-bg);
+    border: 4px solid var(--text-muted);
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     cursor: pointer;
     transition: var(--transition);
     position: relative;
     z-index: 2;
-    box-shadow: 0 10px 0 #1b5e20;
-    /* 3D Depth */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-/* Zig-zag offsets for Duolingo feel */
-.island-node:nth-child(4n+1) { transform: translateX(0); }
-.island-node:nth-child(4n+2) { transform: translateX(80px); }
-.island-node:nth-child(4n+3) { transform: translateX(0); }
-.island-node:nth-child(4n+4) { transform: translateX(-80px); }
+.level-node.completed { border-color: var(--primary); background: rgba(46,189,89,0.1); }
+.level-node.active { 
+    border-color: var(--accent-cyan); 
+    background: rgba(0, 255, 255, 0.1); 
+    transform: scale(1.15); 
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+.level-node.locked { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; }
 
-.island-node.completed {
-    background: #fbc02d;
-    box-shadow: 0 10px 0 #f57f17;
+.node-number { font-size: 2rem; font-weight: 800; color: white; line-height: 1; }
+.node-date { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+/* Zig-zag for Duolingo feel */
+.level-node:nth-child(2n) { transform: translateX(60px); }
+.level-node:nth-child(2n+1) { transform: translateX(-60px); }
+.level-node.active:nth-child(n) { transform: scale(1.2); }
+
+/* --- Syllabus Hub --- */
+.syllabus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
-.island-node.active {
-    background: var(--primary);
-    box-shadow: 0 10px 0 #1b5e20, 0 0 30px var(--primary-glow);
-    animation: floatIsland 3s infinite ease-in-out;
+.subject-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: var(--transition);
 }
 
-@keyframes floatIsland {
-    0%, 100% { transform: translateY(0) scale(1.1); }
-    50% { transform: translateY(-10px) scale(1.12); }
-}
+.subject-card:hover { transform: translateY(-5px); border-color: var(--blue); }
 
-.island-node.locked {
-    background: #424242;
-    box-shadow: 0 10px 0 #212121;
-    filter: grayscale(1) opacity(0.6);
-    cursor: not-allowed;
-    pointer-events: none;
-}
+.subject-card h4 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--blue); }
 
-.island-icon {
-    font-size: 3.5rem;
-    margin-bottom: 0.2rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-.island-label {
-    font-size: 1rem;
-    font-weight: 800;
-    color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 0.2rem 0.6rem;
+.module-tracker { display: flex; flex-direction: column; gap: 8px; }
+.module-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.03);
+    padding: 8px 12px;
     border-radius: 10px;
-    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
 }
+.module-item.completed { color: var(--primary); background: rgba(46,189,89,0.1); }
 
-/* Duolingo Connectors (The Path) */
-.island-connector {
-    width: 12px;
-    background: #333;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 6rem;
-    z-index: 1;
-    border-radius: 6px;
-}
+.progress-info { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; display: block; }
 
-.island-node.completed .island-connector {
-    background: #fbc02d;
-}
-
-.island-node.active .island-connector {
-    background: linear-gradient(to bottom, var(--primary), #333);
-}
-
-.island-node:last-child .island-connector {
-    display: none;
-}
+/* --- Border Glows --- */
+.border-glow-red { border: 1px solid rgba(255, 75, 43, 0.3) !important; }
+.border-glow-blue { border: 1px solid rgba(33, 150, 243, 0.3) !important; }
 
 /* --- Phoenix Reset Button --- */
 .phoenix-reset-btn {

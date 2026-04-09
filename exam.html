@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Mastery Hub | Level Up Your Brain 🚀</title>
+    <title>Exam Mastery Hub | The Battle Plan ⚔️</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -11,96 +11,96 @@
     <div id="toast" class="toast"></div>
 
     <div class="game-container">
-        <!-- HEADER / NAVIGATION -->
-        <header class="game-hud hud-minimized">
+        <!-- 🛡️ TOP STATUS BAR -->
+        <header class="game-hud status-bar hub-header">
             <div class="player-stats">
-                <div class="player-avatar mini">🎮</div>
-                <div class="player-info mini">
-                    <div class="rank-title mini">Exam Mastery Mode</div>
-                    <div class="xp-container" style="width: 200px;">
-                        <div class="xp-bar-bg"><div id="globalProgressBar" class="xp-bar-fill" style="background: var(--accent-cyan);"></div></div>
-                    </div>
-                </div>
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Hub</button>
+                <div id="playerRank" class="rank-title" style="margin-left: 1rem;">Exam Mastery: Level 1</div>
             </div>
             <div class="header-controls">
-                <div class="exam-streak-badge">🔥 <span id="examStreak">0</span> Day Streak</div>
-                <button class="btn-back-main" onclick="window.location.href='index.html'">← Map</button>
+                <div class="xp-container">
+                    <span class="xp-label" id="examStreakLabel">🔥 0 DAY STREAK</span>
+                    <div class="xp-bar-bg"><div id="examProgressBar" class="xp-bar-fill" style="width: 10%; background: var(--blue);"></div></div>
+                </div>
             </div>
         </header>
 
-        <main class="hub-view-container" style="max-width: 1200px;">
-            <div class="calendar-header" style="margin-bottom: 2rem; border-bottom: 1px solid var(--card-border); padding-bottom: 1rem;">
-                <div class="calendar-titles">
-                    <h2 style="color: var(--accent-cyan); font-weight: 800;">🧠 Exam Mastery Hub</h2>
-                    <p style="color: var(--text-muted); font-weight: 500;">Level Up Your Brain 🚀 | Phase 1: Foundations</p>
-                </div>
-                <div class="today-focus">
-                    <span class="focus-label">🎯 TODAY'S FOCUS</span>
-                    <h3 id="dailyTaskHighlight" style="font-size: 1.1rem; color: var(--text-main);">Stay balanced. Stay disciplined.</h3>
-                </div>
-            </div>
-
-            <!-- LEVEL 1 -->
-            <section class="level-group border-glow-cyan">
-                <div class="level-header">
-                    <h3 class="level-title">Level 1: Foundation Phase</h3>
-                    <div class="level-meta">
-                        <span class="phase-tag phase-foundation">Foundation</span>
-                        <span class="progress-percent" id="percent-level1">0%</span>
+        <main class="battle-container">
+            
+            <!-- 📅 SECTION 1: EXAM OVERVIEW PANEL -->
+            <section class="overview-panel">
+                <div class="overview-card urgent border-glow-red">
+                    <div class="card-tag">HIGH PRIORITY</div>
+                    <div class="card-icon-big">🎯</div>
+                    <div class="card-info">
+                        <h3>NPTEL ML Honours</h3>
+                        <p class="exam-date">APRIL 17, 2026</p>
+                        <span class="exam-status">STATUS: URGENT 🚨</span>
                     </div>
                 </div>
-                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
-                    <div id="bar-level1" class="progress-bar-fill" style="width: 0%; height: 100%; background: var(--primary); border-radius: 10px; transition: 0.5s;"></div>
-                </div>
-                <div id="grid-level1" class="task-grid-exam"></div>
-            </section>
-
-            <!-- LEVEL 2 -->
-            <section class="level-group">
-                <div class="level-header">
-                    <h3 class="level-title">Level 2: Strengthening Phase</h3>
-                    <div class="level-meta">
-                        <span class="phase-tag phase-strengthen">Strengthening</span>
-                        <span class="progress-percent" id="percent-level2">0%</span>
+                <div class="overview-card border-glow-blue">
+                    <div class="card-tag">UNIVERSITY</div>
+                    <div class="card-icon-big">🎓</div>
+                    <div class="card-info">
+                        <h3>University Conquest</h3>
+                        <p class="exam-date">APRIL 24 – MAY 21</p>
+                        <span class="exam-status">6 SUBJECTS REMAINING</span>
                     </div>
                 </div>
-                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
-                    <div id="bar-level2" class="progress-bar-fill" style="width: 0%; height: 100%; background: var(--accent-gold); border-radius: 10px; transition: 0.5s;"></div>
+                <!-- DELETABLE TIMETABLE CARD -->
+                <div class="overview-card timetable-card" id="timetableCard">
+                    <button class="delete-card-btn" onclick="deleteTimetable()">&times;</button>
+                    <div class="card-tag">OFFICIAL DATES</div>
+                    <img src="timetable.png" alt="University Timetable" class="timetable-img">
                 </div>
-                <div id="grid-level2" class="task-grid-exam"></div>
             </section>
 
-            <!-- LEVEL 3 -->
-            <section class="level-group">
-                <div class="level-header">
-                    <h3 class="level-title">Level 3: Exam Mode</h3>
-                    <div class="level-meta">
-                        <span class="phase-tag phase-exam">Final Test</span>
-                        <span class="progress-percent" id="percent-level3">0%</span>
+            <!-- ⚔️ SECTION 2: DAILY SYSTEM RULE (FIXED TEMPLATE) -->
+            <section class="daily-system-panel border-glow-gold">
+                <div class="system-header">
+                    <h4>⚔️ DAILY NON-NEGOTIABLE ROUTINE</h4>
+                    <div class="youtube-reminder" id="ytReminder">
+                        <span class="yt-badge">📹 YT DAY</span>
                     </div>
                 </div>
-                <div class="progress-bar-container" style="margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 10px; height: 8px;">
-                    <div id="bar-level3" class="progress-bar-fill" style="width: 0%; height: 100%; background: #ff5757; border-radius: 10px; transition: 0.5s;"></div>
+                <div class="system-grid">
+                    <div class="system-item">🧠 ML (1.5h)</div>
+                    <div class="system-item">📘 Sub 1 (1 Mod)</div>
+                    <div class="system-item">📘 Sub 2 (1 Mod)</div>
+                    <div class="system-item">🧩 Aptitude</div>
+                    <div class="system-item">💻 Coding</div>
+                    <div class="system-item">🗣️ English</div>
+                    <div class="system-item">🎯 GATE</div>
                 </div>
-                <div id="grid-level3" class="task-grid-exam"></div>
             </section>
 
-            <!-- STUDY TIPS -->
-            <div class="study-tips-section" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem;">
-                <div class="tip-card" style="background: rgba(46, 189, 89, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(46, 189, 89, 0.2);">
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">🟢 HIGH SCORING</h4>
-                    <p style="font-size: 0.75rem; color: var(--text-muted);">DBMS Normalization & SQL queries are direct scoring areas. OS Paging and Deadlocks also give easy MCQs.</p>
+            <!-- 🗺️ SECTION 3: LEVEL-BASED ROADMAP (CORE) -->
+            <section class="roadmap-section">
+                <h3 class="section-title">🗺️ BATTLE ROADMAP (APR 10-21)</h3>
+                <div id="battleRoadmap" class="battle-roadmap">
+                    <!-- Levels will be injected here by exam.js -->
                 </div>
-                <div class="tip-card" style="background: rgba(255, 215, 0, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.2);">
-                    <h4 style="color: var(--accent-gold); margin-bottom: 0.5rem;">🟡 CONCEPT FOCUS</h4>
-                    <p style="font-size: 0.75rem; color: var(--text-muted);">In COA, master the instruction cycle and pipelining hazards. Skip deep circuit logic for now.</p>
+            </section>
+
+            <!-- 📚 SECTION 4: SYLLABUS EXECUTION HUB -->
+            <section class="syllabus-hub">
+                <h3 class="section-title">📚 SYLLABUS EXECUTION</h3>
+                <div class="syllabus-grid" id="syllabusGrid">
+                    <!-- Subject cards with 5-module trackers will be injected here -->
                 </div>
-                <div class="tip-card" style="background: rgba(255, 87, 87, 0.05); padding: 1.2rem; border-radius: 15px; border: 1px solid rgba(255, 87, 87, 0.2);">
-                    <h4 style="color: #ff5757; margin-bottom: 0.5rem;">🔴 QUICK FLAT</h4>
-                    <p style="font-size: 0.75rem; color: var(--text-muted);">Stick to DFA/NFA conversions and CFG basics. Proofs are rarely relevant for speed-based MCQs.</p>
-                </div>
-            </div>
+            </section>
+
         </main>
+    </div>
+
+    <!-- LEVEL DETAILS MODAL -->
+    <div id="levelModal" class="modal">
+        <div class="modal-content border-glow-cyan">
+            <span class="close-btn" onclick="closeLevelModal()">&times;</span>
+            <div id="levelContent">
+                <!-- Level details checklist and marking complete button -->
+            </div>
+        </div>
     </div>
 
     <script src="shared.js"></script>
