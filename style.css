@@ -133,6 +133,7 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
 }
 
 .card-btn.cyan { background: #00bcd4; color: black; }
+.card-btn.blue { background: var(--blue); color: white; }
 .card-btn.gold { background: var(--accent-gold); color: black; }
 .card-btn.purple { background: var(--purple); color: white; }
 .card-btn.grey { background: rgba(255,255,255,0.1); color: white; }

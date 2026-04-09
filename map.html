@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillUp 2027 | The Ascension Path</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-normal">
+    <div id="toast" class="toast"></div>
+
+    <div class="game-container">
+        <header class="game-hud status-bar">
+            <div class="player-stats">
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Hub</button>
+                <div id="playerRank" class="rank-title" style="margin-left: 1rem;">Ascension Path</div>
+            </div>
+            <div class="header-controls">
+                <div class="xp-container">
+                    <span class="xp-label">LV. <span id="playerLevel">1</span></span>
+                    <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="app">
+            <section id="view-home" class="view active">
+                <div class="map-header">
+                    <h2>🗺️ THE ASCENSION PATH</h2>
+                    <p>Conquer Level 1 to reveal the hidden forest.</p>
+                </div>
+                
+                <div id="levelPath" class="level-path-container"></div>
+
+                <!-- THE TREE OF RESILIENCE -->
+                <div class="tree-of-resilience" id="streakTree">
+                    <div class="tree-trunk"></div>
+                    <div id="treeLeaves" class="tree-leaves"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MISSION MODAL (From shared engine) -->
+    <div id="missionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="sharedElements.modal.classList.remove('active')">&times;</span>
+            <div id="modalDetails"></div>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>
