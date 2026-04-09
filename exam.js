@@ -2,40 +2,39 @@
 document.addEventListener('DOMContentLoaded', () => {
     const SYLLABUS_DATA = {
         level1: {
-            title: "Level 1: Foundation Phase",
+            title: "Phase 1: ML Awakening (NPTEL)",
             phase: "Foundation",
-            dates: "April 9–15",
+            dates: "April 10–16",
             days: [
-                { date: "April 9", tasks: ["DSA: Basics + Complexity", "OS: Intro + System Calls"] },
-                { date: "April 10", tasks: ["DSA: Arrays + Searching", "DBMS: ER Model"] },
-                { date: "April 11", tasks: ["DSA: Linked List", "OS: Processes + Scheduling"] },
-                { date: "April 12", tasks: ["DSA: Trees", "DBMS: Relational Model + SQL"] },
-                { date: "April 13", tasks: ["DSA: Graphs + Sorting", "OS: Synchronization + Deadlocks"] },
-                { date: "April 14", tasks: ["COA: Basics + Instruction Cycle", "DBMS: Normalization"] },
-                { date: "April 15", tasks: ["COA: ALU + Pipelining", "FLAT: DFA + NFA + RE"] }
+                { date: "April 10", tasks: ["ML: Probability & Decision Theory", "Aptitude: Ratios"] },
+                { date: "April 11", tasks: ["ML: Linear & Logistic Regression", "Coding: Strings"] },
+                { date: "April 12", tasks: ["ML: SVMs & Decision Trees", "GATE: Switching"] },
+                { date: "April 13", tasks: ["ML: Neural Networks Deep Dive", "Coding: Binary Search"] },
+                { date: "April 14", tasks: ["ML: Ensembles & Boosting", "GATE: Network Layer"] },
+                { date: "April 15", tasks: ["ML: Graphical Models & Clustering", "Aptitude: Time & Work"] },
+                { date: "April 16", tasks: ["ML: GMM/EM & Recap", "GATE: Routing"] }
             ]
         },
         level2: {
-            title: "Level 2: Strengthening Phase",
+            title: "Phase 2: The University Trials",
             phase: "Strengthen",
-            dates: "April 16–20",
+            dates: "April 24–May 12",
             days: [
-                { date: "April 16", tasks: ["DSA: Revision + MCQs"] },
-                { date: "April 17", tasks: ["OS: Revision + MCQs"] },
-                { date: "April 18", tasks: ["DBMS: Revision + MCQs"] },
-                { date: "April 19", tasks: ["COA + FLAT: MCQs"] },
-                { date: "April 20", tasks: ["Mixed MCQs (All subjects)"] }
+                { date: "April 24", tasks: ["⚔️ CST302: COMPILER DESIGN (EXAM)"] },
+                { date: "April 28", tasks: ["⚔️ CST304: CGIP (EXAM)"] },
+                { date: "May 02", tasks: ["⚔️ CST312: AAD (EXAM)"] },
+                { date: "May 05", tasks: ["⚔️ CSTXXX: ELECTIVE-1 (EXAM)"] },
+                { date: "May 08", tasks: ["⚔️ HUT300: IEFT (EXAM)"] },
+                { date: "May 12", tasks: ["⚔️ CST308: COMPREHENSIVE (EXAM)"] }
             ]
         },
         level3: {
-            title: "Level 3: Exam Mode",
+            title: "Phase 3: Final Conquest",
             phase: "Exam",
-            dates: "April 21–24",
+            dates: "May 13–20",
             days: [
-                { date: "April 21", tasks: ["Full Syllabus Revision (Short notes)"] },
-                { date: "April 22", tasks: ["Full Syllabus Revision (Short notes)"] },
-                { date: "April 23", tasks: ["2 Mock Tests"] },
-                { date: "April 24", tasks: ["Light Revision (No new topics)"] }
+                { date: "May 13", tasks: ["Post-Exam Reflection", "Career Roadmap Update"] },
+                { date: "May 14", tasks: ["Resume Polish", "Portfolio Refinement"] }
             ]
         }
     };

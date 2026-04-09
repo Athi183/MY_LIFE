@@ -67,6 +67,19 @@ const ROADMAP_CONTENT = {
             "📅 April 20 - Day 13 Mission: 2 Pointers (Basic idea): Using two pointers for sorted arrays.",
             "📅 April 21 - Final Day Mission: Mixed Practice Marathon: Combined Array and String challenges."
         ]
+    },
+    ml: {
+        title: "🧠 ML Awakening (NPTEL)", goal: "7-Day ML Mastery Sprint", structure: "W0-W12 Compressed Mastery", reward: "ML Conqueror Badge",
+        tasks: [
+            "📅 April 10: Math Mastery (Prob/LA) + Decision Theory Foundations.",
+            "📅 April 11: Linear & Logistic Regression + Discriminant Analysis.",
+            "📅 April 12: SVMs & Perceptrons + Decision Tree Pruning logic.",
+            "📅 April 13: Neural Network Descent: Backprop & Parameter Estimation.",
+            "📅 April 14: Ensemble Might: Boosting, Bagging & Random Forests.",
+            "📅 April 15: Graphical Spirits: HMMs & Density-based Clustering.",
+            "📅 April 16: Future Learning: GMM/EM + Intro to Reinforcement Learning.",
+            "📅 April 17: 🏆 FINAL CONQUEST - NPTEL HONOURS EXAM DAY."
+        ]
     }
 };
 
@@ -97,6 +110,7 @@ const defaultState = {
     trees: { english: 0, aptitude: 0, gate: 0, coding: 0 },
     lastAction: { english: null, aptitude: null, gate: null, coding: null },
     focusTimeToday: 0,
+    phoenixActive: false,
     dataAnalyst: {
         lv: 1,
         xp: 0,
@@ -118,8 +132,8 @@ const defaultState = {
         streak: 0
     },
     dailySchedule: {
-        aptitude: { time: "4:30 – 5:30", completed: false },
-        coding: { time: "5:45 – 6:45", completed: false },
+        aptitude: { time: "5:00 – 6:00", completed: false },
+        coding: { time: "6:15 – 7:15", completed: false },
         gate: { time: "10:30 – 11:30", completed: false },
         da: { time: "Afternoon (1 hr)", completed: false },
         english: { time: "Flexible (20m)", completed: false }
@@ -228,4 +242,16 @@ const playChime = () => {
     gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
     oscillator.start(); oscillator.stop(audioCtx.currentTime + 1);
+};
+
+window.phoenixReset = () => {
+    const confirmation = confirm("🔥 Are you ready for the PHOENIX RESET? This will clear all progress and restart your journey from April 10th. There is no turning back.");
+    if (confirmation) {
+        state = JSON.parse(JSON.stringify(defaultState));
+        state.phoenixActive = true;
+        state.player.rank = "Phoenix Reborn";
+        save();
+        showToast("🔥 THE PHOENIX ASCENDS. April 10th is Day Zero.");
+        setTimeout(() => window.location.href = 'index.html', 2000);
+    }
 };

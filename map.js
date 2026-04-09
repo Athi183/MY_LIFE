@@ -36,10 +36,34 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });
 
+    const renderTree = () => {
+        const leafContainer = document.getElementById('treeLeaves');
+        if (!leafContainer) return;
+        leafContainer.innerHTML = '';
+        
+        // One leaf for every day of the current streak
+        const streak = state.streaks.current || 0;
+        for (let i = 0; i < streak; i++) {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.animationDelay = `${i * 0.1}s`;
+            leafContainer.appendChild(leaf);
+        }
+    };
+
     window.updateUI = () => {
         if (sharedElements.playerLv) sharedElements.playerLv.textContent = state.player.lv;
         if (sharedElements.xpBar) sharedElements.xpBar.style.width = `${(state.player.xp / (state.player.lv * 100)) * 100}%`;
         
+        const rankEl = document.getElementById('playerRank');
+        if (rankEl) {
+            if (state.phoenixActive) {
+                rankEl.innerHTML = `<span class="phoenix-reborn-text">Phoenix Reborn 🔥</span>`;
+            } else {
+                rankEl.textContent = `${state.player.rank} 🌱`;
+            }
+        }
+
         // Update Floating Dashboard
         if (mapElements.statusHours) {
             const hours = (state.focusTimeToday / 3600).toFixed(1);
@@ -48,6 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateProductivityTag();
         renderPath();
+        renderTree();
+
+        // Update Tree Phase Indicator
+        const phaseLabel = document.querySelector('.daily-status-card .stat-item:last-child .stat-value');
+        if (phaseLabel) {
+            const streak = state.streaks.current || 0;
+            if (streak >= 7) phaseLabel.textContent = '🌳';
+            else if (streak >= 3) phaseLabel.textContent = '🌿';
+            else phaseLabel.textContent = '🌱';
+        }
     };
 
     // Initialize
