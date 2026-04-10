@@ -116,7 +116,9 @@
     letter-spacing: 1px;
 }
 .pomo-btn.main { background: #2ebd59; color: white; grid-column: span 2; box-shadow: 0 4px 15px rgba(46, 189, 89, 0.3); }
-.pomo-btn.reset { background: rgba(255,255,255,0.05); color: #888; grid-column: span 2; }
+.pomo-secondary-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; grid-column: span 2; }
+.pomo-btn.reset { background: rgba(255,255,255,0.05); color: #888; }
+.pomo-btn.popout { background: rgba(46, 189, 89, 0.1); color: #2ebd59; border: 1px solid rgba(46, 189, 89, 0.3); }
 .pomo-btn:hover { transform: translateY(-2px); filter: brightness(1.2); }
 
 .pomo-settings {

@@ -317,7 +317,10 @@ const injectPomodoroUI = () => {
             <div class="pomo-controls">
                 <button id="pomoStartBtn" class="pomo-btn main" onclick="pomoControl.start()">START</button>
                 <button id="pomoPauseBtn" class="pomo-btn" style="display:none" onclick="pomoControl.pause()">PAUSE</button>
-                <button class="pomo-btn reset" onclick="pomoControl.reset()">RESET</button>
+                <div class="pomo-secondary-controls">
+                    <button class="pomo-btn reset" onclick="pomoControl.reset()">RESET</button>
+                    <button class="pomo-btn popout" onclick="pomoControl.popout()">📺 POP-OUT</button>
+                </div>
             </div>
 
             <div class="pomo-settings">
@@ -362,6 +365,15 @@ const pomoControl = {
         pomo.timeLeft = pomo.focus * 60;
         savePomo();
         this.updateUI();
+    },
+
+    popout() {
+        const width = 260;
+        const height = 220;
+        const left = (window.screen.width / 2) - (width / 2);
+        const top = (window.screen.height / 2) - (height / 2);
+        window.open('pomo_popout.html', 'PomoTimer', 
+            `width=${width},height=${height},left=${left},top=${top},resizable=no,scrollbars=no,status=no,menubar=no,toolbar=no`);
     },
 
     updateSettings() {

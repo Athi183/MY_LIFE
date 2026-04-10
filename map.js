@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderPath = () => {
         if (!mapElements.levelPath) return;
         mapElements.levelPath.innerHTML = '';
-        mapElements.levelPath.className = 'battle-roadmap'; // Use the new layout
+        mapElements.levelPath.className = 'level-path-container'; // Updated to the Duolingo style
 
         levels.forEach((lvl, index) => {
             const isUnlocked = state.unlockedSteps.includes(lvl.id);
@@ -17,19 +17,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const isCompleted = isUnlocked && !isCurrent;
             
             const node = document.createElement('div');
-            node.className = `level-node ${isCompleted ? 'completed' : (isCurrent ? 'active' : (isUnlocked ? 'active' : 'locked'))}`;
+            // Zigzag side pattern
+            const sides = ['side-center', 'side-left', 'side-center', 'side-right'];
+            const sideClass = sides[index % 4];
+            
+            node.className = `level-node ${sideClass} ${isCompleted ? 'completed' : (isCurrent ? 'active' : (isUnlocked ? 'active' : 'locked'))}`;
             
             node.innerHTML = `
-                <div class="node-number">${lvl.id}</div>
-                <div class="node-icon">${lvl.icon}</div>
-                <div class="node-label">${lvl.name}</div>
-                <div class="node-date">${lvl.date}</div>
+                <div class="level-popover">${lvl.name}</div>
+                <div class="node-icon">${isUnlocked ? lvl.icon : '🔒'}</div>
+                <div class="node-label">Level ${lvl.id}: ${lvl.name}</div>
             `;
             
             if (isUnlocked) {
                 node.onclick = () => {
-                    if (lvl.id === 1 || lvl.id === 2) {
-                        window.location.href = `beginner_grove.html?level=${lvl.id}`;
+                    if (lvl.id === 1) {
+                        window.location.href = `beginner_grove.html`;
+                    } else if (lvl.id === 2) {
+                         window.location.href = `beginner_grove.html?level=2`;
+                    } else if (lvl.id <= 7) {
+                         window.location.href = `exam.html`;
                     } else {
                         showToast(`🏝️ Level ${lvl.id} is coming soon!`);
                     }
