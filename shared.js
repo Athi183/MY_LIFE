@@ -322,8 +322,11 @@ const updateProductivityTag = () => {
     // Sync Header Stats
     const streakEl = document.getElementById('hubStreak');
     const timeEl = document.getElementById('hubFocusTime');
+    const statusHoursEl = document.getElementById('statusFocusHours');
+    
     if (streakEl) streakEl.textContent = `${state.streaks.current} Day Streak`;
     if (timeEl) timeEl.textContent = timeStr;
+    if (statusHoursEl) statusHoursEl.textContent = `${(state.focusTimeToday / 3600).toFixed(1)}h`;
 
     let tag = "";
     if (hours >= 8) tag = "👸 WONDER GIRL";
@@ -589,6 +592,7 @@ const pomoControl = {
         this.pause();
         playChime();
         if (pomo.mode === 'focus') {
+            state.focusTimeToday += pomo.focus * 60; // Log focus time to shared state
             pomo.mode = 'break';
             pomo.timeLeft = pomo.break * 60;
             pomo.sessionsCompleted++;
