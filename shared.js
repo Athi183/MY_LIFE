@@ -104,6 +104,15 @@ const levels = [
 
 const treeStages = ['🌱 Seed', '🌿 Sapling', '🌳 Mature'];
 
+const getCurrentDayIndex = () => {
+    const START_DATE = new Date("2026-04-08");
+    const now = new Date();
+    const ONE_DAY = 24 * 60 * 60 * 1000;
+    const diff = now.getTime() - START_DATE.getTime();
+    const index = Math.floor(diff / ONE_DAY);
+    return Math.max(0, Math.min(13, index)); 
+};
+
 const defaultState = {
     player: { lv: 1, xp: 0, rank: "Explorer", productivityTag: "" },
     unlockedSteps: [1],

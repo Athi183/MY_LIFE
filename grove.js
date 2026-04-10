@@ -1,13 +1,6 @@
 // grove.js: Training Hub & Pomodoro Engine Logic
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Ghost Timer (PiP) Setup ---
-    const pipCanvas = document.createElement('canvas');
-    pipCanvas.width = 300; pipCanvas.height = 150;
-    const pipCtx = pipCanvas.getContext('2d');
-    const pipVideo = document.createElement('video');
-    pipVideo.muted = true; pipVideo.playsInline = true;
-    pipVideo.srcObject = pipCanvas.captureStream();
-
+document.addEventListener('DOMContentLoaded', () => {
     let activeMission = null;
     window.openMission = (track, day) => {
         activeMission = { track, day };
