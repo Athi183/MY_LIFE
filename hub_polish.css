@@ -13,6 +13,7 @@
     border: 2px solid var(--primary);
     box-shadow: 0 0 30px var(--primary-glow);
     z-index: 2;
+    
 }
 
 .active-level-label {
