@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!state) return;
         
         const streakEl = document.getElementById('examStreakLabel');
-        if (streakEl) streakEl.textContent = `🔥 ${state.battlePlan.streak || 0} DAY STREAK`;
+        if (streakEl) streakEl.textContent = `🔥 ${state.streaks.current || 0} DAY STREAK`;
 
         const xpEl = document.getElementById('playerXP');
         const nextXpEl = document.getElementById('xpToNext');

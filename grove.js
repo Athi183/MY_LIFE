@@ -1,5 +1,5 @@
 // grove.js: Training Hub & Pomodoro Engine Logic
-document.addEventListener('DOMContentLoaded', () => {
+
 document.addEventListener('DOMContentLoaded', () => {
     let activeMission = null;
     window.openMission = (track, day) => {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = ROADMAP_CONTENT[track];
         const dayTask = content.tasks[day];
         const colorClass = `theme-${track}`;
-        
+
         sharedElements.modalContent.innerHTML = `
             <div class="mission-modal-inner ${colorClass}">
                 <div class="mission-header">
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkbox = document.getElementById(`check-${track}`);
         if (!checkbox) return;
         state.dailyStatus[track] = checkbox.checked;
-        
+
         // SYNC: If checked, mark current roadmap day as done too
         if (checkbox.checked) {
             const dayIdx = getCurrentDayIndex();
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addXP(10);
             showToast(`Task & Roadmap synced! +10 XP`);
         }
-        
+
         updateDailyProgress();
         save(); updateUI();
     };
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderRoadmaps = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const currentLevel = parseInt(urlParams.get('level')) || 1;
-        
+
         const tracks = ['english', 'aptitude', 'gate', 'coding'];
         const dayIndex = getCurrentDayIndex();
 
@@ -122,17 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             grid.innerHTML = '';
             // Render only the relevant range for the chosen level
-            for(let i = startIdx; i <= endIdx; i++) {
+            for (let i = startIdx; i <= endIdx; i++) {
                 const done = state.roadmaps[track][i];
                 const isUnlocked = i === startIdx || state.roadmaps[track][i - 1];
                 const dot = document.createElement('div');
                 dot.className = `day-dot ${done ? 'completed' : (isUnlocked ? 'active' : 'locked')} ${track}-dot date-dot`;
-                
+
                 const dayNum = i + 1;
-                const dateLabel = `Apr ${7+dayNum}`;
+                const dateLabel = `Apr ${7 + dayNum}`;
                 dot.innerHTML = `<span class="dot-date">${dateLabel}</span><span class="dot-day">D${dayNum}</span>`;
                 dot.title = `Mission: ${ROADMAP_CONTENT[track].tasks[i].split(':')[0]}`;
-                
+
                 dot.onclick = (e) => { e.stopPropagation(); openMission(track, i); };
                 grid.appendChild(dot);
             }
@@ -143,8 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const currentEl = document.getElementById('currentStreak');
         const bestEl = document.getElementById('bestStreak');
-        if (currentEl) currentEl.textContent = `🔥 ${state.streaks.current}`;
-        if (bestEl) bestEl.textContent = `🏆 ${state.streaks.best}`;
+        const hudStreak = document.getElementById('currentStreakHUD');
+
+        if (currentEl) currentEl.textContent = state.streaks.current;
+        if (bestEl) bestEl.textContent = state.streaks.best;
+        if (hudStreak) hudStreak.textContent = `🔥 ${state.streaks.current} Day Streak`;
         document.querySelectorAll('.mode-pill').forEach(pill => {
             pill.classList.toggle('active', pill.dataset.mode === state.energyMode);
         });

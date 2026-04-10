@@ -127,6 +127,8 @@ const defaultState = {
     },
     trees: { english: 0, aptitude: 0, gate: 0, coding: 0 },
     lastAction: { english: null, aptitude: null, gate: null, coding: null },
+    lastActivityDate: null,
+    lastPerfectDayDate: null,
     focusTimeToday: 0,
     phoenixActive: false,
     dataAnalyst: {
@@ -163,7 +165,10 @@ const defaultState = {
     }
 };
 
-const save = () => localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
+const save = () => {
+    checkSustainability();
+    localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
+};
 let state = JSON.parse(localStorage.getItem('forest_ascension_v4')) || defaultState;
 
 if (!state.unlockedSteps || state.unlockedSteps.includes('beginner')) {
@@ -181,6 +186,8 @@ const patchState = () => {
     });
     if (!state.dailyStatus) state.dailyStatus = { aptitude: false, coding: false, gate: false, english: false };
     if (!state.streaks) state.streaks = { current: 0, best: 0 };
+    if (!state.lastActivityDate) state.lastActivityDate = null;
+    if (!state.lastPerfectDayDate) state.lastPerfectDayDate = null;
     if (!state.dataAnalyst) state.dataAnalyst = defaultState.dataAnalyst;
     if (!state.dailySchedule) state.dailySchedule = defaultState.dailySchedule;
     if (!state.battlePlan) state.battlePlan = defaultState.battlePlan;
@@ -225,6 +232,34 @@ const addXP = (amount) => {
 };
 
 const checkSustainability = () => {
+    // Current Global Streak Logic
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+    // 1. Reset Streak if yesterday was skipped
+    if (state.lastActivityDate && state.lastActivityDate !== today && state.lastActivityDate !== yesterday) {
+        if (state.streaks.current > 0) {
+            state.streaks.current = 0;
+            showToast("🏚️ Streak Lost! Consistency is key.");
+        }
+    }
+
+    // 2. Increment Streak if 4/4 Perfect Day reached (once per day)
+    const dailyCount = Object.values(state.dailyStatus).filter(v => v).length;
+    if (dailyCount >= 4 && state.lastPerfectDayDate !== today) {
+        state.streaks.current++;
+        state.lastPerfectDayDate = today;
+        if (state.streaks.current > state.streaks.best) state.streaks.best = state.streaks.current;
+        showToast(`🔥 STREAK UP: ${state.streaks.current} DAYS! +50 XP Bonus`);
+        addXP(50);
+    }
+
+    // 3. Mark Activity (1+ task handles safety)
+    if (dailyCount > 0) {
+        state.lastActivityDate = today;
+    }
+
+    // Existing Legacy Tree Sustainability
     const now = new Date().getTime();
     const twoDays = 48 * 60 * 60 * 1000;
     let penaltyHit = false;
@@ -618,13 +653,14 @@ const startGlobalFocus = (taskName) => {
     panel.classList.add('active');
 
     // Auto-start if not running
-    if (!pomo.isRunning) {
+    if (!pomo.running) {
         pomoControl.start();
     }
 };
 
 // Auto-init on all pages
 document.addEventListener('DOMContentLoaded', () => {
+    checkSustainability();
     injectPomodoroUI();
     if (pomo.running) pomoControl.runTimer();
 });
