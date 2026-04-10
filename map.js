@@ -1,15 +1,17 @@
 // map.js: World Map & Ascension Path Logic
 document.addEventListener('DOMContentLoaded', () => {
     const mapElements = {
-        levelPath: document.getElementById('levelPath'),
+        fullRoadmap: document.getElementById('fullRoadmap'),
+        hubLevel: document.getElementById('hubCurrentLevel'),
+        hubDesc: document.getElementById('hubLevelDesc'),
         energyBtns: document.querySelectorAll('.energy-btn'),
         statusHours: document.getElementById('statusFocusHours'),
     };
 
     const renderPath = () => {
-        if (!mapElements.levelPath) return;
-        mapElements.levelPath.innerHTML = '';
-        mapElements.levelPath.className = 'level-path-container'; // Updated to the Duolingo style
+        if (!mapElements.fullRoadmap) return;
+        mapElements.fullRoadmap.innerHTML = '';
+        mapElements.fullRoadmap.className = 'level-path-container';
 
         levels.forEach((lvl, index) => {
             const isUnlocked = state.unlockedSteps.includes(lvl.id);
@@ -17,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const isCompleted = isUnlocked && !isCurrent;
             
             const node = document.createElement('div');
-            // Zigzag side pattern
             const sides = ['side-center', 'side-left', 'side-center', 'side-right'];
             const sideClass = sides[index % 4];
             
@@ -42,9 +43,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 };
             }
-            
-            mapElements.levelPath.appendChild(node);
+            mapElements.fullRoadmap.appendChild(node);
         });
+    };
+
+    const renderHubPreview = () => {
+        if (!mapElements.hubLevel) return;
+        const currentLevelObj = levels.find(l => l.id === state.unlockedSteps[state.unlockedSteps.length - 1]) || levels[0];
+        mapElements.hubLevel.textContent = currentLevelObj.name;
+        
+        const descriptions = {
+            1: "Mastering the foundations of focus.",
+            2: "Expanding your resilience and discipline.",
+            3: "Navigating the complexities of logic.",
+            4: "Deep dive into core CS principles."
+        };
+        if (mapElements.hubDesc) {
+            mapElements.hubDesc.textContent = descriptions[currentLevelObj.id] || "Your journey continues...";
+        }
     };
 
     // Energy Mode Logic
@@ -92,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateProductivityTag();
         renderPath();
+        renderHubPreview();
         renderTree();
 
         // Update Tree Phase Indicator

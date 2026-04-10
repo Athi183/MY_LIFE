@@ -367,9 +367,92 @@ const pomoControl = {
         this.updateUI();
     },
 
-    popout() {
-        const width = 260;
-        const height = 220;
+    async popout() {
+        if ('documentPictureInPicture' in window) {
+            try {
+                // Request a PiP window
+                const pipWindow = await window.documentPictureInPicture.requestWindow({
+                    width: 300,
+                    height: 250,
+                });
+
+                // Copy styles to the PiP window
+                Array.from(document.styleSheets).forEach((styleSheet) => {
+                    try {
+                        const cssRules = Array.from(styleSheet.cssRules)
+                            .map((rule) => rule.cssText)
+                            .join('');
+                        const style = document.createElement('style');
+                        style.textContent = cssRules;
+                        pipWindow.document.head.appendChild(style);
+                    } catch (e) {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = styleSheet.href;
+                        pipWindow.document.head.appendChild(link);
+                    }
+                });
+
+                // Add glassmorphic body style
+                const baseStyle = pipWindow.document.createElement('style');
+                baseStyle.textContent = `
+                    body { 
+                        background: #040d08 !important; 
+                        margin: 0; padding: 20px; 
+                        display: flex; flex-direction: column; 
+                        justify-content: center; align-items: center;
+                        height: 100vh; overflow: hidden;
+                        font-family: 'Outfit', sans-serif;
+                    }
+                    .pomo-panel { 
+                        display: block !important; position: static !important; 
+                        width: 100% !important; background: transparent !important; border: none !important;
+                    }
+                    .pomo-settings, .pomo-popout { display: none !important; }
+                `;
+                pipWindow.document.head.appendChild(baseStyle);
+
+                // Clone the panel content
+                const originalPanel = document.getElementById('pomoPanel');
+                const content = originalPanel.cloneNode(true);
+                pipWindow.document.body.appendChild(content);
+
+                // Bind events in the new window
+                const updatePiPUI = () => {
+                    const mins = Math.floor(pomo.timeLeft / 60);
+                    const secs = pomo.timeLeft % 60;
+                    const timeStr = `${mins}:${secs.toString().padStart(2, '0')}`;
+                    pipWindow.document.getElementById('pomoTime').textContent = timeStr;
+                    pipWindow.document.getElementById('pomoModeLabel').textContent = pomo.mode.toUpperCase();
+                    
+                    const startBtn = pipWindow.document.getElementById('pomoStartBtn');
+                    const pauseBtn = pipWindow.document.getElementById('pomoPauseBtn');
+                    if (startBtn && pauseBtn) {
+                        startBtn.style.display = pomo.running ? 'none' : 'block';
+                        pauseBtn.style.display = pomo.running ? 'block' : 'none';
+                    }
+                };
+
+                pipWindow.document.getElementById('pomoStartBtn').onclick = () => { pomoControl.start(); updatePiPUI(); };
+                pipWindow.document.getElementById('pomoPauseBtn').onclick = () => { pomoControl.pause(); updatePiPUI(); };
+                pipWindow.document.querySelector('.pomo-btn.reset').onclick = () => { pomoControl.reset(); updatePiPUI(); };
+
+                // Keep synced
+                const syncInterval = setInterval(updatePiPUI, 1000);
+                pipWindow.addEventListener('pagehide', () => clearInterval(syncInterval));
+
+            } catch (err) {
+                console.error("PiP failed, using standard popout", err);
+                this.fallbackPopout();
+            }
+        } else {
+            this.fallbackPopout();
+        }
+    },
+
+    fallbackPopout() {
+        const width = 280;
+        const height = 240;
         const left = (window.screen.width / 2) - (width / 2);
         const top = (window.screen.height / 2) - (height / 2);
         window.open('pomo_popout.html', 'PomoTimer', 

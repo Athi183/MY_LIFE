@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillUp 2027 | Mission Control Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hub_polish.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-normal">
@@ -63,12 +64,19 @@
                         <p>Levels 1–20 World Map</p>
                     </div>
                 </div>
-                <div id="levelPath" class="path-preview-container"></div>
+                
+                <div class="card-mission-brief">
+                    <div class="mission-status-badge">CURRENT FOCUS</div>
+                    <h2 id="hubCurrentLevel">Beginner Group 1</h2>
+                    <p id="hubLevelDesc">Mastering the foundations of focus.</p>
+                </div>
+
                 <!-- THE TREE OF RESILIENCE -->
                 <div class="tree-of-resilience" id="streakTree">
                     <div class="tree-trunk"></div>
                     <div id="treeLeaves" class="tree-leaves"></div>
                 </div>
+
                 <div class="card-footer-btns">
                     <button class="card-btn blue" onclick="window.location.href='map.html'">🗺️ VIEW MISSION MAP</button>
                 </div>
