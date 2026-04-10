@@ -5,22 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Mastery Hub | The Battle Plan ⚔️</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="exam_roadmap.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-normal">
     <div id="toast" class="toast"></div>
 
     <div class="game-container">
-        <!-- 🛡️ TOP STATUS BAR -->
+        <!-- 🛡️ TOP STATUS BAR (SYNCED) -->
         <header class="game-hud status-bar hub-header">
             <div class="player-stats">
                 <button class="btn-back-main" onclick="window.location.href='index.html'">← Hub</button>
-                <div id="playerRank" class="rank-title" style="margin-left: 1rem;">Exam Mastery: Level 1</div>
+                <div class="player-identity">
+                    <div id="playerRank" class="rank-title">Battle Plan: Level 1</div>
+                    <div id="examStreakLabel" class="hud-stat-item">🔥 0 DAY STREAK</div>
+                </div>
             </div>
             <div class="header-controls">
                 <div class="xp-container">
-                    <span class="xp-label" id="examStreakLabel">🔥 0 DAY STREAK</span>
-                    <div class="xp-bar-bg"><div id="examProgressBar" class="xp-bar-fill" style="width: 10%; background: var(--blue);"></div></div>
+                    <span class="xp-label">XP: <span id="playerXP">0</span> / <span id="xpToNext">100</span></span>
+                    <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
                 </div>
             </div>
         </header>
@@ -55,30 +59,30 @@
                 </div>
             </section>
 
-            <!-- ⚔️ SECTION 2: DAILY SYSTEM RULE (FIXED TEMPLATE) -->
-            <section class="daily-system-panel border-glow-gold">
+            <!-- ⚔️ SECTION 2: DAILY SYSTEM RULE (BATTLE ROUTINE) -->
+            <section class="daily-system-panel-overhaul">
                 <div class="system-header">
                     <h4>⚔️ DAILY NON-NEGOTIABLE ROUTINE</h4>
-                    <div class="youtube-reminder" id="ytReminder">
-                        <span class="yt-badge">📹 YT DAY</span>
+                    <div class="youtube-reminder" id="ytReminder" style="display: none;">
+                        <span class="yt-badge">📹 YT VIDEO DAY</span>
                     </div>
                 </div>
-                <div class="system-grid">
-                    <div class="system-item">🧠 ML (1.5h)</div>
-                    <div class="system-item">📘 Sub 1 (1 Mod)</div>
-                    <div class="system-item">📘 Sub 2 (1 Mod)</div>
-                    <div class="system-item">🧩 Aptitude</div>
-                    <div class="system-item">💻 Coding</div>
-                    <div class="system-item">🗣️ English</div>
-                    <div class="system-item">🎯 GATE</div>
+                <div class="routine-badges">
+                    <span class="routine-badge mode-ml">🧠 ML (1.5h)</span>
+                    <span class="routine-badge mode-sub">📘 Sub 1 (1 Mod)</span>
+                    <span class="routine-badge mode-sub">📘 Sub 2 (1 Mod)</span>
+                    <span class="routine-badge mode-apt">🧩 Aptitude</span>
+                    <span class="routine-badge mode-code">💻 Coding</span>
+                    <span class="routine-badge mode-eng">🗣️ English</span>
+                    <span class="routine-badge mode-gate">🎯 GATE</span>
                 </div>
             </section>
 
-            <!-- 🗺️ SECTION 3: LEVEL-BASED ROADMAP (CORE) -->
+            <!-- 🗺️ SECTION 3: LEVEL-BASED ROADMAP (CAMPAIGN PATH) -->
             <section class="roadmap-section">
                 <h3 class="section-title">🗺️ BATTLE ROADMAP (APR 10-21)</h3>
-                <div id="battleRoadmap" class="battle-roadmap">
-                    <!-- Levels will be injected here by exam.js -->
+                <div id="battleRoadmap" class="battle-roadmap-container">
+                    <!-- Levels will be injected here by exam.js (Zigzag Style) -->
                 </div>
             </section>
 
@@ -86,7 +90,7 @@
             <section class="syllabus-hub">
                 <h3 class="section-title">📚 SYLLABUS EXECUTION</h3>
                 <div class="syllabus-grid" id="syllabusGrid">
-                    <!-- Subject cards with 5-module trackers will be injected here -->
+                    <!-- Subject cards with 5-module trackers injected here -->
                 </div>
             </section>
 

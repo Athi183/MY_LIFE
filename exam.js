@@ -1,5 +1,5 @@
 /**
- * EXAM MASTERY HUB: BATTLE PLAN ENGINE ⚔️
+ * EXAM MASTERY HUB: BATTLE PLAN CAMPAIGN ENGINE ⚔️
  * Handles the 11-level gamified progression for NPTEL ML & University Exams.
  */
 
@@ -8,21 +8,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. CONFIGURATION: SYLLABUS & LEVELS ---
     
     const UNIVERSITY_SUBJECTS = {
-        compiler: { name: "Compiler Design", modules: ["Lexical Analysis", "Syntax Analysis", "Type Checking", "Intermediate Code", "Code Generation"] },
-        cgip: { name: "CG & Image Processing", modules: ["Graphic Primitives", "2D/3D Transforms", "Image Basics", "Spatial Domain", "Freq Domain"] },
-        aad: { name: "Analysis & Design of Algo", modules: ["Complexity Basics", "Divide & Conquer", "Dynamic Programming", "Greedy Algos", "Backtracking/NP"] },
-        elective: { name: "Elective (NLP/Android/Cloud)", modules: ["Intro/Base", "Processing/Core", "Advanced/App", "Case Study", "Final Build"] },
-        ieft: { name: "IEFT (Light)", modules: ["Module 1", "Module 2", "Module 3", "Module 4", "Module 5"] }
+        compiler: { name: "Compiler Design", icon: "📘", modules: ["Lexical Analysis", "Syntax Analysis", "Type Checking", "Intermediate Code", "Code Generation"] },
+        cgip: { name: "CG & Image Processing", icon: "📘", modules: ["Graphic Primitives", "2D/3D Transforms", "Image Basics", "Spatial Domain", "Freq Domain"] },
+        aad: { name: "Analysis & Design of Algo", icon: "📘", modules: ["Complexity Basics", "Divide & Conquer", "Dynamic Programming", "Greedy Algos", "Backtracking/NP"] },
+        elective: { name: "Elective (NLP/Android)", icon: "📘", modules: ["Intro/Base", "Processing/Core", "Advanced/App", "Case Study", "Final Build"] },
+        ieft: { name: "IEFT (Light)", icon: "🕯️", modules: ["Module 1", "Module 2", "Module 3", "Module 4", "Module 5"], unlockLevel: 8 },
+        compro: { name: "Comprehensive", icon: "🧠", modules: ["Module 1", "Module 2", "Module 3", "Module 4", "Module 5"], unlockLevel: 8 }
     };
 
     const ML_SYLLABUS = [
-        "Week 0-1: Prob, LA & Regression Basics",
-        "Week 2: Linear & Multivariate Regression",
-        "Week 3: Logistic & Linear Classification",
-        "Week 4: Support Vector Machines (SVM)",
-        "Week 5: Neural Networks & Backprop",
-        "Week 6: Decision Trees & Pruning",
-        "Week 7-8: Ensemble (Bagging/Boosting/RF)"
+        "Week 0: Probability & Linear Algebra (Recap)",
+        "Week 1: Regression Basics + Bias-Variance",
+        "Linear & Multivariate Regression + Overfitting",
+        "Logistic Regression & Linear Classification + LDA",
+        "Support Vector Machines (SVM) & Margin Concept",
+        "Neural Networks (Perceptron & Backprop intuition)",
+        "Decision Trees & Pruning + Ensemble Intro",
+        "Ensemble Finals: Bagging, Boosting, Random Forest"
     ];
 
     const LEVELS = [
@@ -33,94 +35,100 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 5, date: "Apr 14", ml: 4, subjects: ["compiler", "cgip"], mods: [2, 2] },
         { id: 6, date: "Apr 15", ml: 5, subjects: ["aad", "elective"], mods: [2, 2] },
         { id: 7, date: "Apr 16", ml: 6, subjects: ["compiler", "cgip"], mods: [3, 3] },
-        { id: 8, date: "Apr 17", ml: null, subjects: ["aad", "elective"], mods: [3, 3], note: "ML Done! Focus on Uni." },
-        { id: 9, date: "Apr 18", ml: null, subjects: ["compiler", "ieft"], mods: [4, 0] },
+        { id: 8, date: "Apr 17", ml: null, subjects: ["aad", "ieft"], mods: [3, 0], note: "ML Done! Focus on Uni." },
+        { id: 9, date: "Apr 18", ml: null, subjects: ["compiler", "compro"], mods: [4, 0] },
         { id: 10, date: "Apr 19", ml: null, subjects: ["aad", "ieft"], mods: [4, 1] },
         { id: 11, date: "Apr 20", ml: null, subjects: ["cgip", "elective"], mods: [4, 4], note: "Full Revision Day." }
     ];
 
-    // --- 2. STATE MANAGEMENT ---
-
-    let state = JSON.parse(localStorage.getItem('forest_conqueror_v1')) || {
-        completedLevels: [],
-        completedModules: {}, // { subject: [modIndex...] }
-        timetableDeleted: false,
-        streak: 0,
-        lastDate: null
-    };
-
-    const saveState = () => {
-        localStorage.setItem('forest_conqueror_v1', JSON.stringify(state));
-        renderAll();
-    };
-
-    // --- 3. RENDERING ENGINE ---
+    // --- 2. CORE RENDERING ENGINE ---
 
     const renderAll = () => {
         renderRoadmap();
         renderSyllabus();
         updateHUD();
-        handleTimetableVisibility();
     };
 
     const updateHUD = () => {
-        const totalTasks = 11; // 11 levels
-        const done = state.completedLevels.length;
-        const percent = Math.round((done / totalTasks) * 100);
-        
-        const bar = document.getElementById('examProgressBar');
-        if (bar) bar.style.width = `${percent}%`;
+        if (!state) return;
         
         const streakEl = document.getElementById('examStreakLabel');
-        if (streakEl) streakEl.textContent = `🔥 ${state.streak} DAY STREAK`;
+        if (streakEl) streakEl.textContent = `🔥 ${state.battlePlan.streak || 0} DAY STREAK`;
+
+        const xpEl = document.getElementById('playerXP');
+        const nextXpEl = document.getElementById('xpToNext');
+        const xpFill = document.getElementById('xpFill');
+        if (xpEl) xpEl.textContent = state.player.xp;
+        if (nextXpEl) nextXpEl.textContent = state.player.lv * 100;
+        if (xpFill) {
+            const pct = (state.player.xp / (state.player.lv * 100)) * 100;
+            xpFill.style.width = `${pct}%`;
+        }
 
         const title = document.getElementById('playerRank');
-        if (title) title.textContent = `Battle Plan: Level ${state.completedLevels.length + 1}`;
+        if (title) title.textContent = `Battle Plan: Level ${state.battlePlan.completedLevels.length + 1}`;
 
-        // YouTube Reminder
+        // YouTube Reminder (Tue/Thu)
         const date = new Date();
-        const day = date.getDay(); // 0 is Sun, 2 is Tue, 4 is Thu
+        const day = date.getDay(); // 2=Tue, 4=Thu
         const yt = document.getElementById('ytReminder');
-        if (yt) yt.style.display = (day === 2 || day === 4) ? 'block' : 'none';
+        if (yt) yt.style.display = (day === 2 || day === 4) ? 'flex' : 'none';
     };
 
     const renderRoadmap = () => {
         const container = document.getElementById('battleRoadmap');
         if (!container) return;
 
-        container.innerHTML = LEVELS.map((lvl, index) => {
-            const isCompleted = state.completedLevels.includes(lvl.id);
-            const isUnlocked = index === 0 || state.completedLevels.includes(LEVELS[index-1].id);
-            let statusClass = isUnlocked ? (isCompleted ? 'completed' : 'active') : 'locked';
+        container.innerHTML = '';
+        const sides = ['side-center', 'side-left', 'side-center', 'side-right'];
+
+        LEVELS.forEach((lvl, index) => {
+            const isCompleted = state.battlePlan.completedLevels.includes(lvl.id);
+            const isUnlocked = index === 0 || state.battlePlan.completedLevels.includes(LEVELS[index-1].id);
+            const sideClass = sides[index % 4];
             
-            return `
-                <div class="level-node ${statusClass}" onclick="openLevel(${lvl.id}, ${isUnlocked})">
-                    <span class="node-number">${lvl.id}</span>
-                    <span class="node-date">${lvl.date}</span>
-                </div>
+            const node = document.createElement('div');
+            node.className = `level-node ${sideClass} ${isUnlocked ? (isCompleted ? 'completed' : 'active') : 'locked'}`;
+            
+            node.innerHTML = `
+                <div class="node-icon">${isCompleted ? '⚔️' : (isUnlocked ? '🎯' : '🔒')}</div>
+                <div class="node-date">${lvl.date}</div>
+                <div class="node-label">Level ${lvl.id}: ${lvl.ml !== null ? 'ML + Uni' : 'Uni Focus'}</div>
             `;
-        }).join('');
+            
+            if (isUnlocked) {
+                node.onclick = () => openLevel(lvl.id);
+            }
+            container.appendChild(node);
+        });
     };
 
     const renderSyllabus = () => {
         const container = document.getElementById('syllabusGrid');
         if (!container) return;
 
+        const currentLvlCount = state.battlePlan.completedLevels.length + 1;
+
         container.innerHTML = Object.entries(UNIVERSITY_SUBJECTS).map(([id, sub]) => {
-            const done = (state.completedModules[id] || []).length;
+            const isLocked = sub.unlockLevel && currentLvlCount < sub.unlockLevel;
+            const done = (state.battlePlan.completedModules[id] || []).length;
             const total = sub.modules.length;
             const pct = Math.round((done / total) * 100);
 
             return `
-                <div class="subject-card border-glow-blue">
-                    <h4>${sub.name}</h4>
+                <div class="subject-card ${isLocked ? 'locked-subject' : 'border-glow-blue'}">
+                    <div class="subject-header">
+                        <h4>${sub.icon} ${sub.name}</h4>
+                        ${isLocked ? `<span class="lock-tag">Unlocks at Lvl ${sub.unlockLevel}</span>` : ''}
+                    </div>
                     <span class="progress-info">${done}/${total} Modules Mastered (${pct}%)</span>
+                    <div class="mini-progress-bar"><div class="bar-fill" style="width: ${pct}%"></div></div>
                     <div class="module-tracker">
                         ${sub.modules.map((mod, idx) => {
-                            const isModDone = (state.completedModules[id] || []).includes(idx);
+                            const isModDone = (state.battlePlan.completedModules[id] || []).includes(idx);
                             return `
                                 <div class="module-item ${isModDone ? 'completed' : ''}" onclick="toggleModule('${id}', ${idx})">
-                                    <span>Module ${idx + 1}: ${mod}</span>
+                                    <span>Mod ${idx + 1}: ${mod}</span>
                                     <span>${isModDone ? '✅' : '○'}</span>
                                 </div>
                             `;
@@ -131,41 +139,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     };
 
-    const handleTimetableVisibility = () => {
-        const card = document.getElementById('timetableCard');
-        if (card && state.timetableDeleted) card.style.display = 'none';
-    };
+    // --- 3. INTERACTION HANDLERS ---
 
-    // --- 4. INTERACTION HANDLERS ---
-
-    window.openLevel = (levelId, unlocked) => {
-        if (!unlocked) {
-            showToast("🔒 Level Locked. Conquer previous levels first!");
-            return;
-        }
-
+    window.openLevel = (levelId) => {
         const level = LEVELS.find(l => l.id === levelId);
         const modal = document.getElementById('levelModal');
         const content = document.getElementById('levelContent');
 
-        const mlTask = level.ml !== null ? `<li>[ ] 🧠 <b>Machine Learning:</b> ${ML_SYLLABUS[level.ml]} (1.5h)</li>` : '';
+        const mlTask = level.ml !== null ? `<li>[ ] 🧠 <b>Machine Learning:</b> ${ML_SYLLABUS[level.ml]}</li>` : '';
         const sub1 = UNIVERSITY_SUBJECTS[level.subjects[0]];
         const sub2 = UNIVERSITY_SUBJECTS[level.subjects[1]];
 
         content.innerHTML = `
-            <h2>Level ${level.id}: ${level.date} Execution ⚔️</h2>
+            <h2>Level ${level.id}: ${level.date} Descent ⚔️</h2>
             <div class="mission-box">
-                <p>Estimated Time: ~3.5 - 4 hours</p>
+                <p class="mission-est">Estimated Duration: ~3.5 - 4 hours</p>
                 <ul class="level-checklist">
                     ${mlTask}
-                    <li>[ ] 📘 <b>${sub1.name}:</b> Module ${level.mods[0] + 1} (${sub1.modules[level.mods[0]]}) (1h)</li>
-                    <li>[ ] 📘 <b>${sub2.name}:</b> Module ${level.mods[1] + 1} (${sub2.modules[level.mods[1]]}) (1h)</li>
-                    <li>[ ] 🧩 <b>Skills:</b> Aptitude + Coding + GATE (1h)</li>
+                    <li>[ ] 📘 <b>${sub1.name}:</b> Module ${level.mods[0] + 1} (${sub1.modules[level.mods[0]]})</li>
+                    <li>[ ] 📘 <b>${sub2.name}:</b> Module ${level.mods[1] + 1} (${sub2.modules[level.mods[1]]})</li>
+                    <li>[ ] 🧩 <b>Systems:</b> Aptitude + Coding + GATE (1h)</li>
                 </ul>
                 ${level.note ? `<p class="level-note">⚠️ ${level.note}</p>` : ''}
             </div>
             <button class="btn-main" onclick="confirmLevelCompletion(${levelId})">
-                ${state.completedLevels.includes(levelId) ? 'Conquered! (Re-submit?)' : 'Mark Level Conquered ⚔️'}
+                ${state.battlePlan.completedLevels.includes(levelId) ? 'Conquered! (Refine?)' : 'Complete Campaign Level ⚔️'}
             </button>
         `;
 
@@ -173,37 +171,44 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.confirmLevelCompletion = (levelId) => {
-        if (!state.completedLevels.includes(levelId)) {
-            state.completedLevels.push(levelId);
-            state.streak++;
-            showToast("🎖️ Level Conquered! XP Gained.");
+        if (!state.battlePlan.completedLevels.includes(levelId)) {
+            state.battlePlan.completedLevels.push(levelId);
+            state.battlePlan.streak++;
+            if (typeof addXP === 'function') addXP(50);
+            showToast("🎖️ Level Conquered! +50 XP Gained.");
         }
         closeLevelModal();
-        saveState();
+        save();
+        renderAll();
     };
 
     window.toggleModule = (subjectId, modIdx) => {
-        if (!state.completedModules[subjectId]) state.completedModules[subjectId] = [];
-        const index = state.completedModules[subjectId].indexOf(modIdx);
+        const sub = UNIVERSITY_SUBJECTS[subjectId];
+        const currentLvl = state.battlePlan.completedLevels.length + 1;
+        if (sub.unlockLevel && currentLvl < sub.unlockLevel) {
+            showToast("🔒 This subject is locked until Level 8.");
+            return;
+        }
+
+        if (!state.battlePlan.completedModules[subjectId]) state.battlePlan.completedModules[subjectId] = [];
+        const index = state.battlePlan.completedModules[subjectId].indexOf(modIdx);
         
         if (index > -1) {
-            state.completedModules[subjectId].splice(index, 1);
+            state.battlePlan.completedModules[subjectId].splice(index, 1);
         } else {
-            state.completedModules[subjectId].push(modIdx);
-            showToast("✅ Module Mastered!");
+            state.battlePlan.completedModules[subjectId].push(modIdx);
+            if (typeof addXP === 'function') addXP(10);
+            showToast("✅ Module Mastered! +10 XP.");
         }
-        saveState();
-    };
-
-    window.deleteTimetable = () => {
-        state.timetableDeleted = true;
-        saveState();
+        save();
+        renderAll();
     };
 
     window.closeLevelModal = () => {
         document.getElementById('levelModal').classList.remove('active');
     };
 
-    // Startup
+    // Initialize
+    if (typeof patchState === 'function') patchState();
     renderAll();
 });

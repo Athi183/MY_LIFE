@@ -16,8 +16,14 @@
         <!-- 1. HEADER / STATUS BAR (TOP) -->
         <header class="game-hud status-bar">
             <div class="player-stats">
-                <div class="player-avatar">👸</div>
-                <div id="playerRank" class="rank-title">Phoenix Reborn 🔥</div>
+                <div class="player-avatar" id="hubAvatar">👸</div>
+                <div class="player-identity">
+                    <div id="playerRank" class="rank-title">Phoenix Reborn 🔥</div>
+                    <div class="player-stats-row">
+                        <span class="hub-stat-item">🔥 <span id="hubStreak">3 Day Streak</span></span>
+                        <span class="hub-stat-item">⏱️ <span id="hubFocusTime">2h 15m</span> Today</span>
+                    </div>
+                </div>
                 <div class="xp-container">
                     <span class="xp-label">LV. <span id="playerLevel">1</span></span>
                     <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
@@ -34,23 +40,33 @@
         </header>
 
         <!-- 2. TODAY'S PROGRESS STRIP (FOCUS AREA) -->
-        <div class="progress-strip">
-            <div class="strip-header">
-                <span>📅 TODAY'S STRATEGY</span>
-                <span class="status-date" id="currentDate">April 30, 2026</span>
+        <div class="progress-strip-overhaul">
+            <div class="strip-main-info">
+                <div class="mission-briefing">
+                    <span class="brief-label">🎯 CURRENT FOCUS</span>
+                    <h2 id="hubCurrentMission">Beginner Group 1 – Day 2</h2>
+                </div>
+                <div class="next-task-alert">
+                    <span class="brief-label">🧠 NEXT TASK</span>
+                    <h3 id="hubNextTask">ML – Regression Basics (1.5h)</h3>
+                </div>
+                <button class="start-task-btn" onclick="togglePomoPanel()">
+                    ▶️ START NEXT TASK
+                </button>
             </div>
-            <div class="strip-grid">
-                <div class="strip-item">
-                    <span class="strip-value" id="statusFocusHours">0.0h</span>
-                    <span class="strip-label">Deep Work</span>
+            
+            <div class="strip-stats-mini">
+                <div class="mini-stat">
+                    <span id="statusFocusHours">0.0h</span>
+                    <label>Deep Work</label>
                 </div>
-                <div class="strip-item">
-                    <span class="strip-value">2/4</span>
-                    <span class="strip-label">Tracks Active</span>
+                <div class="mini-stat">
+                    <span>2/4</span>
+                    <label>Tracks Active</label>
                 </div>
-                <div class="strip-item">
-                    <span class="strip-value" id="treePhaseEmoji">🌱</span>
-                    <span class="strip-label">Tree Phase</span>
+                <div class="mini-stat">
+                    <span id="treePhaseEmoji">🌱</span>
+                    <label>Tree Phase</label>
                 </div>
             </div>
         </div>
@@ -58,26 +74,27 @@
         <!-- 3. MAIN CONTENT GRID (2x3 NETFLIX HUB) -->
         <main class="hub-grid">
             
-            <!-- CARD 1: WORLD MAP (ASCENSION PATH) -->
-            <div class="hub-card world-map-card border-glow-cyan">
+            <!-- CARD 1: WORLD MAP (ASCENSION PATH) - PRIORITY HIGH -->
+            <div class="hub-card world-map-card border-glow-cyan priority-high">
                 <div class="card-header">
                     <span class="card-icon">🌍</span>
                     <div class="card-titles">
                         <h4>Ascension Path</h4>
-                        <p>Levels 1–20 World Map</p>
+                        <div class="active-level-label">🎯 ACTIVE LEVEL</div>
                     </div>
                 </div>
                 
                 <div class="card-mission-brief">
-                    <div class="mission-status-badge">CURRENT FOCUS</div>
                     <h2 id="hubCurrentLevel">Beginner Group 1</h2>
-                    <p id="hubLevelDesc">Mastering the foundations of focus.</p>
-                </div>
-
-                <!-- THE TREE OF RESILIENCE -->
-                <div class="tree-of-resilience" id="streakTree">
-                    <div class="tree-trunk"></div>
-                    <div id="treeLeaves" class="tree-leaves"></div>
+                    <p class="card-date-range">📅 Apr 10 – Apr 15</p>
+                    
+                    <div class="card-progress-container">
+                        <div class="progress-details">
+                            <span>Progress</span>
+                            <span id="hubLevelProgressText">2/6 days</span>
+                        </div>
+                        <div class="mini-progress-bar"><div id="hubLevelBar" class="bar-fill" style="width: 33%"></div></div>
+                    </div>
                 </div>
 
                 <div class="card-footer-btns">
@@ -85,23 +102,24 @@
                 </div>
             </div>
 
-            <!-- CARD 2: EXAM MASTERY HUB -->
-            <div class="hub-card exam-card border-glow-cyan">
+            <!-- CARD 2: EXAM MASTERY HUB - PRIORITY HIGH -->
+            <div class="hub-card exam-card border-glow-cyan priority-high">
                 <div class="card-header">
                     <span class="card-icon">🎮</span>
                     <div class="card-titles">
                         <h4>Exam Mastery</h4>
-                        <p>NPTEL & University Conquest</p>
+                        <div class="active-level-label">CURRENT MISSION</div>
                     </div>
                 </div>
                 <div class="card-body-preview">
-                    <p class="preview-text">Focus: ML Awakening Sprint (Apr 10-17)</p>
+                    <h3 id="hubExamMission">ML Sprint – Day 1/7</h3>
+                    <p class="preview-text-green">+ 2 Subjects Today</p>
                 </div>
                 <button class="card-btn cyan" onclick="window.location.href='exam.html'">Enter Hub</button>
             </div>
 
-            <!-- CARD 3: UPCOMING MISSIONS -->
-            <div class="hub-card missions-card border-glow-gold">
+            <!-- CARD 3: UPCOMING MISSIONS - PRIORITY HIGH -->
+            <div class="hub-card missions-card border-glow-gold priority-high">
                 <div class="card-header">
                     <span class="card-icon">🚀</span>
                     <div class="card-titles">
@@ -109,11 +127,17 @@
                         <p>Hackathons & Internships</p>
                     </div>
                 </div>
-                <div class="card-img-preview">
-                    <img src="hackathons.png" alt="Missions" class="hub-preview-img">
+                <div class="card-body-preview">
+                    <div class="mission-stat-box">
+                        <span id="hubMissionCount" class="stat-big">3</span>
+                        <span class="stat-label">Active Ops</span>
+                    </div>
+                    <p id="hubNextDeadline" class="deadline-text">Nearest: Apr 25</p>
                 </div>
                 <button class="card-btn gold" onclick="window.location.href='hackathons.html'">Open Missions</button>
             </div>
+
+            <!-- ROW 2: SUPPORT CARDS -->
 
             <!-- CARD 4: LIVE CALENDAR -->
             <div class="hub-card calendar-card border-glow-purple">
@@ -125,7 +149,10 @@
                     </div>
                 </div>
                 <div class="card-body-preview">
-                    <p class="preview-text">Stay synced with your long-term goals.</p>
+                    <div class="next-event-snippet">
+                        <span class="snippet-label">NEXT EVENT</span>
+                        <p id="hubNextEvent">ML Exam – Apr 17</p>
+                    </div>
                 </div>
                 <button class="card-btn purple" onclick="window.location.href='calendar.html'">View Calendar</button>
             </div>
@@ -140,7 +167,10 @@
                     </div>
                 </div>
                 <div class="card-body-preview">
-                    <p class="preview-text">Track your specialized analytics modules.</p>
+                    <div class="data-progress-box">
+                        <span class="progress-label">Modules Completed</span>
+                        <h3 id="hubDAProgress">0/12</h3>
+                    </div>
                 </div>
                 <button class="card-btn grey" onclick="window.location.href='data_analyst.html'">Open Dashboard</button>
             </div>
@@ -151,15 +181,15 @@
                     <span class="card-icon">🧘</span>
                     <div class="card-titles">
                         <h4>Daily Routine</h4>
-                        <p>5 AM Purpose & Meditation</p>
+                        <p>Purpose & Focus</p>
                     </div>
                 </div>
                 <div class="card-body-preview">
-                    <p class="preview-text">Wake 4:45 AM | Strike 5:00 AM</p>
+                    <div class="routine-status-badge" id="hubRoutineStatus">PENDING</div>
+                    <p class="wake-time">Wake: 5:00 AM</p>
                 </div>
-                <button class="card-btn green" onclick="showToast('🍃 Mindset is power.')">Check Routine</button>
+                <button class="card-btn green" onclick="window.location.href='routine.html'">Start Routine</button>
             </div>
-
         </main>
     </div>
 

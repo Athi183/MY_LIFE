@@ -95,10 +95,66 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    window.updateUI = () => {
-        if (sharedElements.playerLv) sharedElements.playerLv.textContent = state.player.lv;
-        if (sharedElements.xpBar) sharedElements.xpBar.style.width = `${(state.player.xp / (state.player.lv * 100)) * 100}%`;
+    const updateUI = () => {
+        if (!state) return;
         
+        // Sync Basic HUD (Shared)
+        if (typeof updateProductivityTag === 'function') updateProductivityTag();
+        if (sharedElements.playerLv) sharedElements.playerLv.textContent = state.player.lv;
+        if (sharedElements.xpBar) {
+            const nextXp = state.player.lv * 100;
+            sharedElements.xpBar.style.width = `${(state.player.xp / nextXp) * 100}%`;
+        }
+
+        // --- NEW: Mission Briefing & Strategy Bar ---
+        const currentLevelObj = levels.find(l => l.id === state.unlockedSteps[state.unlockedSteps.length - 1]) || levels[0];
+        const nextTask = getNextTask();
+        
+        const missionEl = document.getElementById('hubCurrentMission');
+        const nextTaskEl = document.getElementById('hubNextTask');
+        const dateEl = document.getElementById('currentDate');
+
+        if (missionEl) missionEl.textContent = `${currentLevelObj.name} – Day ${state.unlockedSteps.length}`;
+        if (nextTaskEl) nextTaskEl.textContent = nextTask.title;
+        if (dateEl) {
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            dateEl.textContent = new Date().toLocaleDateString('en-US', options);
+        }
+
+        // --- Card Specific Updates ---
+        
+        // 1. Ascension Path Progress
+        const progressCount = state.unlockedSteps.length;
+        const totalLevelSteps = 6; // Beginner module length
+        const progressPercent = Math.min((progressCount / totalLevelSteps) * 100, 100);
+        
+        const hubLevelProgressText = document.getElementById('hubLevelProgressText');
+        const hubLevelBar = document.getElementById('hubLevelBar');
+        if (hubLevelProgressText) hubLevelProgressText.textContent = `${progressCount}/6 days`;
+        if (hubLevelBar) hubLevelBar.style.width = `${progressPercent}%`;
+
+        // 2. Exam Mastery
+        const examMissionEl = document.getElementById('hubExamMission');
+        if (examMissionEl) {
+            const mlDay = Math.min(state.unlockedSteps.length, 7);
+            examMissionEl.textContent = `ML Sprint – Day ${mlDay}/7`;
+        }
+
+        // 3. DA Hub
+        const daProgressEl = document.getElementById('hubDAProgress');
+        if (daProgressEl) {
+            const completed = state.dataAnalyst.levels[0].modules.filter(m => m.completed).length;
+            daProgressEl.textContent = `${completed}/12`;
+        }
+
+        // 4. Daily Routine
+        const routineStatusEl = document.getElementById('hubRoutineStatus');
+        if (routineStatusEl) {
+            const isDone = Object.values(state.dailyStatus).every(v => v);
+            routineStatusEl.textContent = isDone ? "COMPLETED" : "PENDING";
+            routineStatusEl.className = `routine-status-badge ${isDone ? 'done' : ''}`;
+        }
+
         const rankEl = document.getElementById('playerRank');
         if (rankEl) {
             if (state.phoenixActive) {

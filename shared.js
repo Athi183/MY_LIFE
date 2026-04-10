@@ -146,6 +146,11 @@ const defaultState = {
         gate: { time: "10:30 – 11:30", completed: false },
         da: { time: "Afternoon (1 hr)", completed: false },
         english: { time: "Flexible (20m)", completed: false }
+    },
+    battlePlan: {
+        completedLevels: [], // Array of level IDs [1, 2, ...]
+        completedModules: {}, // { subjectId: [modIndex, ...] }
+        streak: 0
     }
 };
 
@@ -169,6 +174,7 @@ const patchState = () => {
     if (!state.streaks) state.streaks = { current: 0, best: 0 };
     if (!state.dataAnalyst) state.dataAnalyst = defaultState.dataAnalyst;
     if (!state.dailySchedule) state.dailySchedule = defaultState.dailySchedule;
+    if (!state.battlePlan) state.battlePlan = defaultState.battlePlan;
     
     // Ensure all 6 levels exist in state
     if (state.dataAnalyst.levels.length < 6) {
@@ -233,16 +239,45 @@ const checkSustainability = () => {
     }
 };
 
+const getNextTask = () => {
+    // 1. Check Level 1 Ascension Path Modules
+    const lv1 = state.dataAnalyst.levels[0]; // foundations
+    const nextModule = lv1.modules.find(m => !m.completed);
+    if (nextModule) return { title: nextModule.title, type: 'DA' };
+
+    // 2. Check Exam Mastery / Roadmaps
+    const tracks = ['english', 'aptitude', 'coding', 'gate'];
+    for (const track of tracks) {
+        const nextDayIndex = state.roadmaps[track].indexOf(false);
+        if (nextDayIndex !== -1) {
+            const days = ["April 8", "April 9", "April 10", "April 11", "April 12", "April 13", "April 14", "April 15", "April 16", "April 17", "April 18", "April 19", "April 20", "April 21"];
+            return { title: `${track.toUpperCase()} - Day ${nextDayIndex + 1}`, type: track };
+        }
+    }
+    return { title: "Daily Review", type: 'meta' };
+};
+
 const updateProductivityTag = () => {
     const hours = state.focusTimeToday / 3600;
+    const mins = Math.floor((state.focusTimeToday % 3600) / 60);
+    const timeStr = `${Math.floor(hours)}h ${mins}m`;
+    
+    // Sync Header Stats
+    const streakEl = document.getElementById('hubStreak');
+    const timeEl = document.getElementById('hubFocusTime');
+    if (streakEl) streakEl.textContent = `${state.streaks.current} Day Streak`;
+    if (timeEl) timeEl.textContent = timeStr;
+
     let tag = "";
     if (hours >= 8) tag = "👸 WONDER GIRL";
     else if (hours >= 6) tag = "💎 GREAT JOB";
     else if (hours >= 4) tag = "🟢 TROUBLE SOLVED";
 
     state.player.productivityTag = tag;
-    const el = document.getElementById('playerRank');
-    if (el && tag) el.textContent = `${state.player.rank} | ${tag}`;
+    const rankEl = document.getElementById('playerRank');
+    if (rankEl) {
+        rankEl.textContent = `${state.player.rank} | ${tag || "Exploring..."}`;
+    }
 };
 
 const playChime = () => {
@@ -310,6 +345,7 @@ const injectPomodoroUI = () => {
             </div>
             
             <div id="pomoDisplay" class="pomo-display mode-${pomo.mode}">
+                <div class="pomo-working-on" id="pomoWorkingOn">Working on: Level 1</div>
                 <div class="pomo-mode-label" id="pomoModeLabel">${pomo.mode.toUpperCase()}</div>
                 <div class="pomo-time" id="pomoTime">25:00</div>
             </div>
@@ -525,12 +561,18 @@ const pomoControl = {
         const display = document.getElementById('pomoTime');
         const mini = document.getElementById('pomoMiniTimer');
         const label = document.getElementById('pomoModeLabel');
+        const workingOn = document.getElementById('pomoWorkingOn');
         const startBtn = document.getElementById('pomoStartBtn');
         const pauseBtn = document.getElementById('pomoPauseBtn');
 
         if (display) display.textContent = timeStr;
         if (mini) mini.textContent = timeStr;
         if (label) label.textContent = pomo.mode.toUpperCase();
+        
+        if (workingOn) {
+            const next = getNextTask();
+            workingOn.textContent = `Working on: ${next.title}`;
+        }
         
         const displayContainer = document.getElementById('pomoDisplay');
         if (displayContainer) {

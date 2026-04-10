@@ -143,6 +143,16 @@
 }
 .pomo-setting-group input:focus { border-color: #2ebd59; background: rgba(255,255,255,0.08); }
 
+.pomo-working-on {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
 /* Tree Offset */
 @media (min-width: 1px) {
     .tree-of-resilience {

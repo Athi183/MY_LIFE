@@ -1,42 +1,149 @@
-/* --- Hub Card Mission Briefing 🎯 --- */
-.card-mission-brief {
-    flex-grow: 1;
+/* hub_polish.css: Mission Control UI Refinement 🛰️🚀🛡️ */
+
+/* --- Priority Grid Hierarchy --- */
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
     padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
-.mission-status-badge {
-    font-size: 0.6rem;
+.hub-card.priority-high {
+    transform: scale(1.01);
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 30px var(--primary-glow);
+    z-index: 2;
+}
+
+.active-level-label {
+    font-size: 0.65rem;
     font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+/* --- Today's Strategy Overhaul --- */
+.progress-strip-overhaul {
+    background: rgba(10, 25, 18, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.strip-main-info {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-grow: 1;
+}
+
+.brief-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-muted);
     letter-spacing: 2px;
-    background: rgba(46, 189, 89, 0.2);
-    color: #2ebd59;
-    padding: 4px 10px;
-    border-radius: 4px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.strip-main-info h2 { font-size: 1.4rem; color: white; }
+.strip-main-info h3 { font-size: 1.1rem; color: var(--primary); }
+
+.start-task-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px var(--primary-glow);
+    white-space: nowrap;
+}
+
+.start-task-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px var(--primary-glow);
+}
+
+.strip-stats-mini {
+    display: flex;
+    gap: 2rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 2rem;
+}
+
+.mini-stat { text-align: center; }
+.mini-stat span { display: block; font-size: 1.2rem; font-weight: 800; color: white; }
+.mini-stat label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* --- Mini Progress Bar --- */
+.card-progress-container { margin-top: 1rem; }
+.progress-details { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 5px; }
+
+.mini-progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary-glow);
+    transition: width 1s ease;
+}
+
+/* --- Card Body Previews --- */
+.card-body-preview { padding: 1rem 0; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+.card-body-preview h3 { font-size: 1.35rem; margin-bottom: 0.5rem; color: white; }
+.preview-text-green { color: var(--primary); font-weight: 800; font-size: 0.9rem; }
+
+.mission-stat-box { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+.stat-big { font-size: 2rem; font-weight: 800; color: #ffd700; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 800; }
+
+.next-event-snippet { background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; }
+.snippet-label { font-size: 0.6rem; color: var(--purple); font-weight: 800; letter-spacing: 1px; }
+
+.routine-status-badge {
+    background: rgba(46, 189, 89, 0.15);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 800;
     width: fit-content;
-    margin-bottom: 0.8rem;
+    margin-bottom: 8px;
     border: 1px solid rgba(46, 189, 89, 0.3);
 }
 
-.card-mission-brief h2 {
-    font-size: 1.8rem;
-    margin: 0 0 0.5rem 0;
-    color: white;
-    font-family: 'Outfit', sans-serif;
+.wake-time { font-size: 0.85rem; color: var(--text-muted); }
+
+/* --- Header Stats --- */
+.player-identity { margin-right: 2rem; }
+.player-stats-row { display: flex; gap: 1rem; margin-top: 4px; }
+.hub-stat-item { font-size: 0.75rem; font-weight: 800; color: var(--text-muted); }
+.hub-stat-item span { color: white; }
+
+/* --- Pomo Pulse --- */
+.pomo-fab.pomo-active {
+    animation: pomo-pulse 2s infinite;
 }
 
-.card-mission-brief p {
-    font-size: 0.95rem;
-    color: #94a39b;
-    font-style: italic;
-    line-height: 1.4;
-    margin: 0;
-}
-
-.world-map-card .card-footer-btns {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 1rem;
-    margin-top: auto;
+@keyframes pomo-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(46, 189, 89, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(46, 189, 89, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 189, 89, 0); }
 }
