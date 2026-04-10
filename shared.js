@@ -84,20 +84,29 @@ const ROADMAP_CONTENT = {
 };
 
 const levels = [
-    { id: 'beginner', name: 'Beginner Grove', icon: '🌱' },
-    { id: 'logic', name: 'Logic Woods (OS)', icon: '🌿' },
-    { id: 'core', name: 'Core Forest (DBMS)', icon: '🌳' },
-    { id: 'algorithm', name: 'Algorithm Valley (DSA)', icon: '🧠' },
-    { id: 'hardware', name: 'Hardware Highlands (COA)', icon: '🏛️' },
-    { id: 'automata', name: 'Automata Arena (TOC/Compilers)', icon: '🏭' },
-    { id: 'queen', name: 'Wonder Girl Arena (Revision)', icon: '👑' }
+    { id: 1, name: 'Beginner Group 1', date: 'Apr 10 - Apr 15', icon: '🌱', status: 'active', color: 'green' },
+    { id: 2, name: 'Beginner Group 2', date: 'Apr 16 - Apr 21', icon: '🌿', status: 'locked', color: 'blue' },
+    { id: 3, name: 'Logic Woods', date: 'Apr 22 - Apr 27', icon: '🌳', status: 'locked', color: 'purple' },
+    { id: 4, name: 'Core Forest', date: 'Apr 28 - May 03', icon: '🧠', status: 'locked', color: 'gold' },
+    { id: 5, name: 'Algorithm Valley', date: 'May 04 - May 09', icon: '⚔️', status: 'locked', color: 'red' },
+    { id: 6, name: 'Hardware Highlands', date: 'May 10 - May 15', icon: '🏛️', status: 'locked', color: 'cyan' },
+    { id: 7, name: 'Automata Arena', date: 'May 16 - May 21', icon: '🏭', status: 'locked', color: 'orange' },
+    // Placeholders 8-20
+    ...Array.from({length: 13}, (_, i) => ({
+        id: i + 8,
+        name: `Level ${i + 8}: Future Ops`,
+        date: 'TBD',
+        icon: '🔒',
+        status: 'locked',
+        color: 'gray'
+    }))
 ];
 
 const treeStages = ['🌱 Seed', '🌿 Sapling', '🌳 Mature'];
 
 const defaultState = {
     player: { lv: 1, xp: 0, rank: "Explorer", productivityTag: "" },
-    unlockedSteps: ['beginner'],
+    unlockedSteps: [1],
     energyMode: 'normal', 
     dailyStatus: { aptitude: false, coding: false, gate: false, english: false },
     streaks: { current: 0, best: 0 },
@@ -142,6 +151,10 @@ const defaultState = {
 
 const save = () => localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
 let state = JSON.parse(localStorage.getItem('forest_ascension_v4')) || defaultState;
+
+if (!state.unlockedSteps || state.unlockedSteps.includes('beginner')) {
+    state.unlockedSteps = [1];
+}
 
 // State Patcher: Ensure 14-day length for all roadmaps
 const patchState = () => {

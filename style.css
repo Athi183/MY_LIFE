@@ -559,38 +559,65 @@ h1, h2, h3 { font-family: 'Outfit', sans-serif; font-weight: 800; }
 }
 
 .level-node {
-    width: 100px;
-    height: 100px;
-    background: var(--card-bg);
-    border: 4px solid var(--text-muted);
+    width: 120px;
+    height: 120px;
+    background: rgba(20, 40, 30, 0.8);
+    backdrop-filter: blur(10px);
+    border: 4px solid rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     z-index: 2;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    padding: 10px;
 }
 
-.level-node.completed { border-color: var(--primary); background: rgba(46,189,89,0.1); }
+.level-node.completed { border-color: var(--primary); background: rgba(46, 189, 89, 0.15); box-shadow: 0 0 20px rgba(46, 189, 89, 0.2); }
 .level-node.active { 
-    border-color: var(--accent-cyan); 
-    background: rgba(0, 255, 255, 0.1); 
-    transform: scale(1.15); 
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    border-color: var(--accent-gold); 
+    background: rgba(255, 215, 0, 0.1); 
+    transform: scale(1.1) rotate(2deg); 
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
 }
-.level-node.locked { opacity: 0.4; filter: grayscale(1); cursor: not-allowed; }
+.level-node.locked { opacity: 0.3; filter: grayscale(1); cursor: not-allowed; border-color: rgba(255,255,255,0.05); }
 
-.node-number { font-size: 2rem; font-weight: 800; color: white; line-height: 1; }
-.node-date { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+.node-number { 
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    background: var(--primary);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    border: 2px solid #0a1912;
+}
+
+.node-icon { font-size: 2rem; margin-bottom: 2px; }
+.node-label { font-size: 0.75rem; font-weight: 800; color: white; line-height: 1.1; margin-bottom: 2px; max-width: 90px; }
+.node-date { font-size: 0.55rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* Zig-zag for Duolingo feel */
-.level-node:nth-child(2n) { transform: translateX(60px); }
-.level-node:nth-child(2n+1) { transform: translateX(-60px); }
-.level-node.active:nth-child(n) { transform: scale(1.2); }
+.level-node:nth-child(2n) { transform: translateX(70px); }
+.level-node:nth-child(2n+1) { transform: translateX(-70px); }
+
+.level-node.active { animation: activePulsing 2s infinite ease-in-out; }
+
+@keyframes activePulsing {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); transform: scale(1.1) rotate(2deg); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); transform: scale(1.15) rotate(-2deg); }
+}
 
 /* --- Syllabus Hub --- */
 .syllabus-grid {

@@ -9,21 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderPath = () => {
         if (!mapElements.levelPath) return;
         mapElements.levelPath.innerHTML = '';
-        levels.forEach((lvl) => {
+        mapElements.levelPath.className = 'battle-roadmap'; // Use the new layout
+
+        levels.forEach((lvl, index) => {
             const isUnlocked = state.unlockedSteps.includes(lvl.id);
             const isCurrent = state.unlockedSteps[state.unlockedSteps.length - 1] === lvl.id;
             const isCompleted = isUnlocked && !isCurrent;
-            const island = document.createElement('div');
-            island.className = `island-node ${isCompleted ? 'completed' : (isCurrent ? 'active' : 'locked')}`;
-            island.innerHTML = `<div class="island-icon">${lvl.icon}</div><div class="island-label">${lvl.name}</div><div class="island-connector"></div>`;
+            
+            const node = document.createElement('div');
+            node.className = `level-node ${isCompleted ? 'completed' : (isCurrent ? 'active' : (isUnlocked ? 'active' : 'locked'))}`;
+            
+            node.innerHTML = `
+                <div class="node-number">${lvl.id}</div>
+                <div class="node-icon">${lvl.icon}</div>
+                <div class="node-label">${lvl.name}</div>
+                <div class="node-date">${lvl.date}</div>
+            `;
             
             if (isUnlocked) {
-                island.onclick = () => {
-                    if (lvl.id === 'beginner') window.location.href = 'beginner_grove.html';
-                    else showToast("🏝️ This zone is under development!");
+                node.onclick = () => {
+                    if (lvl.id === 1 || lvl.id === 2) {
+                        window.location.href = `beginner_grove.html?level=${lvl.id}`;
+                    } else {
+                        showToast(`🏝️ Level ${lvl.id} is coming soon!`);
+                    }
                 };
             }
-            mapElements.levelPath.appendChild(island);
+            
+            mapElements.levelPath.appendChild(node);
         });
     };
 

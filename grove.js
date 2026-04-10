@@ -211,8 +211,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderRoadmaps = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentLevel = parseInt(urlParams.get('level')) || 1;
+        
         const tracks = ['english', 'aptitude', 'gate', 'coding'];
         const dayIndex = getCurrentDayIndex();
+
+        // Level-based range
+        const startIdx = currentLevel === 1 ? 2 : 8; // Day 3 vs Day 9
+        const endIdx = currentLevel === 1 ? 7 : 13;   // Day 8 vs Day 14
 
         const currentGateTask = ROADMAP_CONTENT.gate.tasks[dayIndex];
         const quickEl = document.getElementById('quickMission');
@@ -256,9 +263,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             grid.innerHTML = '';
-            for(let i=0; i<14; i++) {
+            // Render only the relevant range for the chosen level
+            for(let i = startIdx; i <= endIdx; i++) {
                 const done = state.roadmaps[track][i];
-                const isUnlocked = i === 0 || state.roadmaps[track][i - 1];
+                const isUnlocked = i === startIdx || state.roadmaps[track][i - 1];
                 const dot = document.createElement('div');
                 dot.className = `day-dot ${done ? 'completed' : (isUnlocked ? 'active' : 'locked')} ${track}-dot date-dot`;
                 
