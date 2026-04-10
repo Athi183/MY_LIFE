@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine | SkillUp 2027</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="hub_polish.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        .routine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 0;
+        }
+        .routine-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .routine-card.completed {
+            border-color: var(--primary);
+            background: rgba(46, 189, 89, 0.05);
+        }
+        .routine-info h3 { margin: 0; font-size: 1.1rem; color: white; }
+        .routine-info p { margin: 5px 0 0; font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
+        .check-circle {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .completed .check-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: black;
+            font-weight: 800;
+        }
+        .hero-routine {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .hero-routine h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="theme-normal">
+    <div id="toast" class="toast"></div>
+
+    <div class="game-container">
+        <header class="game-hud status-bar hub-header">
+            <button class="btn-back-main" onclick="window.location.href='index.html'">← Hub</button>
+            <div class="player-identity">
+                <div class="rank-title">Daily Routine 🧘</div>
+            </div>
+            <div class="xp-container">
+                <span class="xp-label">XP: <span id="playerXP">0</span></span>
+                <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero-routine">
+                <div class="identity-badge">☀️ Purpose & Focus</div>
+                <h1>Morning Sanctuary</h1>
+                <p class="phase-text">Your non-negotiable standard of excellence.</p>
+            </section>
+
+            <div id="routineContainer" class="routine-grid">
+                <!-- Injected via JS -->
+            </div>
+        </main>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('routineContainer');
+            
+            const renderRoutine = () => {
+                container.innerHTML = '';
+                Object.keys(state.dailySchedule).forEach(key => {
+                    const item = state.dailySchedule[key];
+                    const card = document.createElement('div');
+                    card.className = `routine-card ${item.completed ? 'completed' : ''}`;
+                    card.innerHTML = `
+                        <div class="routine-info">
+                            <h3>${key.toUpperCase()}</h3>
+                            <p>⏰ ${item.time}</p>
+                        </div>
+                        <div class="check-circle" onclick="toggleRoutine('${key}')">
+                            ${item.completed ? '✓' : ''}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            };
+
+            window.toggleRoutine = (key) => {
+                state.dailySchedule[key].completed = !state.dailySchedule[key].completed;
+                if (state.dailySchedule[key].completed) addXP(10);
+                save();
+                renderRoutine();
+            };
+
+            window.updateUI = () => {
+                if (sharedElements.xpBar) {
+                    const nextXp = state.player.lv * 100;
+                    sharedElements.xpBar.style.width = `${(state.player.xp / nextXp) * 100}%`;
+                }
+                const xpEl = document.getElementById('playerXP');
+                if (xpEl) xpEl.textContent = state.player.xp;
+            };
+
+            renderRoutine();
+            updateUI();
+        });
+    </script>
+</body>
+</html>

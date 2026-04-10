@@ -166,10 +166,23 @@ const defaultState = {
 };
 
 const save = () => {
-    checkSustainability();
-    localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
+    try {
+        checkSustainability();
+        localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
+    } catch (err) {
+        console.error("Save failed:", err);
+    }
 };
-let state = JSON.parse(localStorage.getItem('forest_ascension_v4')) || defaultState;
+
+let state;
+try {
+    const saved = localStorage.getItem('forest_ascension_v4');
+    state = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultState));
+} catch (err) {
+    console.error("State core corrupted. Self-healing initiated.");
+    state = JSON.parse(JSON.stringify(defaultState));
+    localStorage.setItem('forest_ascension_v4', JSON.stringify(state));
+}
 
 if (!state.unlockedSteps || state.unlockedSteps.includes('beginner')) {
     state.unlockedSteps = [1];
@@ -364,7 +377,7 @@ let pomo = JSON.parse(localStorage.getItem('forest_pomo')) || POMODORO_DEFAULTS;
 const savePomo = () => localStorage.setItem('forest_pomo', JSON.stringify(pomo));
 
 const injectPomodoroUI = () => {
-    // Inject CSS
+    // Inject CSS if missing
     if (!document.getElementById('pomoStyles')) {
         const link = document.createElement('link');
         link.id = 'pomoStyles';
@@ -373,7 +386,7 @@ const injectPomodoroUI = () => {
         document.head.appendChild(link);
     }
 
-    // Only inject if it doesn't exist
+    // Guard: Prevent duplicate injection
     if (document.getElementById('pomoContainer')) return;
 
     const html = `
