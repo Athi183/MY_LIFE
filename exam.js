@@ -7,6 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- 1. CONFIGURATION: SYLLABUS ---
     
+    const ML_MASTERY_SYLLABUS = [
+        "Week 0: Probability Theory, Linear Algebra, Convex Optimization - (Recap)",
+        "Week 1: Introduction: Statistical Decision Theory - Regression, Classification, Bias Variance",
+        "Week 2: Linear Regression, Multivariate Regression, Subset Selection, Shrinkage Methods, PCR, PLS",
+        "Week 3: Linear Classification, Logistic Regression, Linear Discriminant Analysis",
+        "Week 4: Perceptron, Support Vector Machines",
+        "Week 5: Neural Networks - Introduction, Backpropagation, Initialization, Estimation (MLE, MAP)",
+        "Week 6: Decision Trees, Regression Trees, Pruning, Loss functions, Instability Evaluation",
+        "Week 7: Bootstrapping & Cross Validation, ROC curve, Ensemble (Bagging, Stacking, Boosting)",
+        "Week 8: Gradient Boosting, Random Forests, Multi-class Classification, Naive Bayes, Bayesian Networks",
+        "Week 9: Undirected Graphical Models, HMM, Variable Elimination, Belief Propagation",
+        "Week 10: Partitional Clustering, Hierarchical Clustering, Birch Algorithm, CURE Algorithm, Density-based",
+        "Week 11: Gaussian Mixture Models, Expectation Maximization",
+        "Week 12: Learning Theory, Introduction to Reinforcement Learning (TD learning, Solution Methods)"
+    ];
+
     const UNIVERSITY_SUBJECTS = {
         dsa: { 
             name: "DSA", 
@@ -68,8 +84,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. CORE RENDERING ENGINE ---
 
     const renderAll = () => {
+        renderMLHub();
         renderSyllabus();
         updateHUD();
+    };
+
+    const renderMLHub = () => {
+        const container = document.getElementById('mlSyllabusGrid');
+        if (!container) return;
+
+        if (!state.battlePlan.mlMastery) state.battlePlan.mlMastery = [];
+
+        container.innerHTML = ML_MASTERY_SYLLABUS.map((title, idx) => {
+            const isDone = state.battlePlan.mlMastery.includes(idx);
+            return `
+                <div class="ml-week-item ${isDone ? 'completed' : ''}" onclick="toggleMLWeek(${idx})">
+                    <div class="week-check">${isDone ? '✓' : ''}</div>
+                    <div class="week-info">
+                        <span class="week-label">WEEK ${idx}</span>
+                        <p class="week-title">${title}</p>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Progress bar for ML Hub
+        const done = state.battlePlan.mlMastery.length;
+        const total = ML_MASTERY_SYLLABUS.length;
+        const pct = Math.round((done / total) * 100);
+        const barFill = document.getElementById('mlProgressFill');
+        const text = document.getElementById('mlProgressText');
+        if (barFill) barFill.style.width = `${pct}%`;
+        if (text) text.textContent = `${done}/${total} Weeks Completed (${pct}%)`;
+    };
+
+    window.toggleMLWeek = (weekIdx) => {
+        if (!state.battlePlan.mlMastery) state.battlePlan.mlMastery = [];
+        const index = state.battlePlan.mlMastery.indexOf(weekIdx);
+        
+        if (index > -1) {
+            state.battlePlan.mlMastery.splice(index, 1);
+        } else {
+            state.battlePlan.mlMastery.push(weekIdx);
+            if (typeof addXP === 'function') addXP(20);
+            showToast("🎖️ ML Week Conquered! +20 XP.");
+        }
+        save();
+        renderAll();
     };
 
     const updateHUD = () => {
