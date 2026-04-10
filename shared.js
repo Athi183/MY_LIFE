@@ -318,7 +318,7 @@ const injectPomodoroUI = () => {
                 <button id="pomoStartBtn" class="pomo-btn main" onclick="pomoControl.start()">START</button>
                 <button id="pomoPauseBtn" class="pomo-btn" style="display:none" onclick="pomoControl.pause()">PAUSE</button>
                 <div class="pomo-secondary-controls">
-                    <button class="pomo-btn reset" onclick="pomoControl.reset()">RESET</button>
+                    <button class="pomo-btn reset" onclick="pomoControl.reset()">CANCEL</button>
                     <button class="pomo-btn popout" onclick="pomoControl.popout()">📺 POP-OUT</button>
                 </div>
             </div>
@@ -435,7 +435,17 @@ const pomoControl = {
 
                 pipWindow.document.getElementById('pomoStartBtn').onclick = () => { pomoControl.start(); updatePiPUI(); };
                 pipWindow.document.getElementById('pomoPauseBtn').onclick = () => { pomoControl.pause(); updatePiPUI(); };
-                pipWindow.document.querySelector('.pomo-btn.reset').onclick = () => { pomoControl.reset(); updatePiPUI(); };
+                
+                // User Request: Cancel Button (Reset)
+                const resetBtn = pipWindow.document.querySelector('.pomo-btn.reset');
+                if (resetBtn) {
+                    resetBtn.innerHTML = '🔁 RESET'; // or ❌ CANCEL
+                    resetBtn.onclick = () => { pomoControl.reset(); updatePiPUI(); };
+                }
+
+                // Use Icons for Play/Pause in PiP
+                pipWindow.document.getElementById('pomoStartBtn').innerHTML = '▶️ RESUME';
+                pipWindow.document.getElementById('pomoPauseBtn').innerHTML = '⏸️ PAUSE';
 
                 // Keep synced
                 const syncInterval = setInterval(updatePiPUI, 1000);
@@ -502,6 +512,9 @@ const pomoControl = {
         }
         savePomo();
         this.updateUI();
+        
+        // --- NEW: AUTOMATIC SHIFT (Instant) ---
+        setTimeout(() => this.start(), 1000); 
     },
 
     updateUI() {

@@ -66,9 +66,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Energy Mode Logic
     mapElements.energyBtns.forEach(btn => {
         btn.onclick = () => {
+            const mode = btn.dataset.mode;
             mapElements.energyBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            showToast(`🔋 Mode set to ${btn.textContent}!`);
+            
+            // Toggle body classes for theme engine
+            document.body.classList.remove('theme-normal', 'theme-focus', 'theme-turbo');
+            document.body.classList.add(`theme-${mode}`);
+            
+            state.energyMode = mode;
+            save();
+            showToast(`🔋 Mode set to ${mode.toUpperCase()}!`);
         };
     });
 

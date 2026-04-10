@@ -1,0 +1,57 @@
+/* theme_engine.css: Dynamic Energy Themes 🔋🛡️🚀 */
+
+/* --- Focus Mode (Deep Blue) --- */
+body.theme-focus {
+    --primary: #2196f3;
+    --primary-glow: rgba(33, 150, 243, 0.4);
+    --card-border: rgba(33, 150, 243, 0.2);
+}
+
+body.theme-focus .status-bar {
+    border-bottom: 2px solid #2196f3;
+}
+
+/* --- Turbo Mode (Neon Orange/Red) --- */
+body.theme-turbo {
+    --primary: #ff4b2b;
+    --primary-glow: rgba(255, 75, 43, 0.4);
+    --card-border: rgba(255, 75, 43, 0.2);
+    --bg-dark: #0d0404;
+}
+
+body.theme-turbo .status-bar {
+    border-bottom: 2px solid #ff4b2b;
+}
+
+/* Energy Selector Styling */
+.energy-modes {
+    display: flex;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.energy-btn {
+    background: transparent;
+    border: none;
+    color: #94a39b;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.energy-btn.active {
+    background: var(--primary);
+    color: white !important;
+    box-shadow: 0 4px 10px var(--primary-glow);
+}
+
+.energy-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
