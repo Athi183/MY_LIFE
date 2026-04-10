@@ -1,598 +1,238 @@
-/* grove.css: Training Hub Specific Styles 🌳 */
+/* grove.css: Beginner Grove Premium UI 🌳🛡️🚀 */
 
-/* --- Roadmap Grid (2x2) --- */
+/* --- Hero Header Overhaul --- */
+.grove-header-hero {
+    text-align: center;
+    padding: 3rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.identity-badge {
+    background: rgba(46, 189, 89, 0.1);
+    color: var(--primary);
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    display: inline-block;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(46, 189, 89, 0.2);
+    box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.grove-header-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.phase-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* --- Hero Stats Bar --- */
+.hero-stats-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 2.5rem 0;
+}
+
+.hero-stat-card {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+}
+
+.hero-stat-card label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+/* --- Energy Selector Premium --- */
+.energy-selector-premium {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.energy-selector-premium label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.mode-pills {
+    display: flex;
+    gap: 10px;
+}
+
+.mode-btn {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 8px 15px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mode-btn.active.norm { border-color: #2ebd59; color: #2ebd59; background: rgba(46, 189, 89, 0.1); }
+.mode-btn.active.low { border-color: #f9d423; color: #f9d423; background: rgba(249, 212, 35, 0.1); }
+.mode-btn.active.surv { border-color: #ff4b2b; color: #ff4b2b; background: rgba(255, 75, 43, 0.1); }
+
+/* --- Daily Mission Hero --- */
+.daily-mission-hero {
+    background: rgba(10, 25, 18, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 25px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.mission-progress-circle {
+    width: 80px;
+    height: 80px;
+    border: 4px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.mission-text-content label {
+    font-size: 0.7rem;
+    color: var(--primary);
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.mission-text-content h2 {
+    font-size: 1.2rem;
+    color: white;
+    margin: 5px 0;
+}
+
+.mission-text-content p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* --- Roadmap Grid --- */
 .roadmap-grid-2x2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
-    gap: 3rem;
-    padding: 3rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.roadmap-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.roadmap-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 1rem;
 }
 
-.card-timing {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--accent-gold);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-}
+.skill-title { font-size: 0.9rem; font-weight: 800; }
+.card-timing { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; }
 
-.skill-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: white;
-}
-
-.tree-visual {
-    font-size: 0.9rem;
-    opacity: 0.7;
-    margin-bottom: 1rem;
-}
-
-.roadmap-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
-    box-shadow: 0 10px 30px var(--primary-glow);
-}
-
-.grove-header {
-    text-align: center;
-    padding: 3rem 0;
-    background: radial-gradient(circle, rgba(46, 189, 89, 0.1), transparent);
-}
-
-.grove-header h1 { 
-    font-size: 3rem; 
-    font-family: 'Outfit'; 
-    color: var(--primary); 
-    margin: 0; 
-    letter-spacing: 2px; 
-}
-
-.btn-back-main {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    padding: 0.8rem 1.8rem;
-    border-radius: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-back-main:hover {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 0 20px var(--primary-glow);
-    transform: translateX(-5px);
-}
-
-/* --- Focus Timer UI --- */
-.timer-controls {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    border: 1px solid var(--card-border);
-}
-
-.timer-display {
-    font-size: 2.5rem;
-    font-family: 'Outfit';
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 1rem;
-    letter-spacing: 2px;
-}
-
-.timer-btns {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-}
-
-.btn-timer-start {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-timer-pop {
-    background: rgba(46, 189, 89, 0.1);
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-timer-start:hover { transform: scale(1.05); filter: brightness(1.1); }
-.btn-timer-pop:hover { background: var(--primary); color: white; }
-
-.timer-input {
-    width: 60px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    padding: 0.4rem;
-    color: var(--primary);
-    font-family: 'Outfit';
-    font-weight: 800;
-    text-align: center;
-    outline: none;
-    transition: var(--transition);
-}
-
-.timer-input:focus {
-    border-color: var(--primary);
-    background: rgba(46, 189, 89, 0.1);
-    box-shadow: 0 0 10px var(--primary-glow);
-}
-
-.reward-preview {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid var(--accent-gold);
-    border-radius: 10px;
-    color: var(--accent-gold);
-    font-weight: 700;
-    text-align: center;
-}
-
-/* --- Roadmap Dots --- */
+/* --- Day Dots --- */
 .day-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.8rem;
-    margin-top: 1.5rem;
-}
-
-/* --- Date Dots for 14-Day Mission --- */
-.date-dot {
-    width: 65px;
-    height: 65px;
-    flex-direction: column;
-    padding: 8px 5px;
-    font-weight: 700;
-    line-height: 1.2;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-}
-
-.dot-date {
-    font-size: 0.6rem;
-    opacity: 0.8;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.dot-day {
-    font-size: 1rem;
-    color: white;
-}
-
-.day-dot.completed.gate-dot {
-    background: var(--primary);
-    box-shadow: 0 0 15px rgba(46, 189, 89, 0.4);
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 1rem;
 }
 
 .day-dot {
     width: 45px;
     height: 45px;
-    border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
-}
-
-.day-dot.completed {
-    color: white;
-    box-shadow: 0 0 15px currentColor;
-    border-color: transparent;
-}
-
-.day-dot.active {
-    border-color: var(--primary);
-    box-shadow: 0 0 10px var(--primary-glow);
-    background: rgba(46, 189, 89, 0.1);
-}
-
-.day-dot.locked {
-    opacity: 0.2;
-    cursor: not-allowed;
-}
-
-.english-dot.completed { background: var(--purple); color: white; }
-.aptitude-dot.completed { background: var(--primary); color: white; }
-.gate-dot.completed { background: var(--blue); color: white; }
-.coding-dot.completed { background: var(--orange); color: white; }
-
-.goal-dot {
-    border: 2px solid var(--accent-gold) !important;
-    color: var(--accent-gold);
-}
-
-/* --- Quest-Style Mission Modal --- */
-.mission-modal-inner {
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-}
-
-.mission-header {
-    text-align: center;
-    border-bottom: 2px solid rgba(255,255,255,0.05);
-    padding-bottom: 1.5rem;
-}
-
-.mission-badge {
-    display: inline-block;
-    padding: 0.3rem 1rem;
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    margin-bottom: 0.8rem;
-}
-
-.mission-title {
-    font-size: 1.8rem;
-    margin-bottom: 0.4rem;
-}
-
-.mission-goal {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
-/* --- Discipline Game Header --- */
-.grove-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.identity-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--primary), #1a4d2e);
-    color: white;
-    padding: 0.6rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 15px rgba(46, 189, 89, 0.3);
-}
-
-.phase-text {
-    color: var(--accent-orange);
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
-/* --- HUD & Energy --- */
-.HUD-container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin: 1.5rem 0;
-    flex-wrap: wrap;
-}
-
-.streak-card {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 1rem 1.5rem;
-    border-radius: 16px;
-    text-align: center;
-    min-width: 140px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.streak-val {
-    font-size: 1.8rem;
-    font-weight: 800;
-    font-family: 'Outfit', sans-serif;
-}
-
-.streak-label {
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    opacity: 0.7;
-    margin-top: 0.3rem;
-}
-
-.energy-selector {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 0.8rem 1.2rem;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.selector-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    opacity: 0.8;
-}
-
-.mode-pills {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.mode-pill {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-.mode-pill[data-mode="normal"].active { background: #2ebd59; box-shadow: 0 0 15px rgba(46, 189, 89, 0.4); }
-.mode-pill[data-mode="low"].active { background: #fbc02d; color: #000; box-shadow: 0 0 15px rgba(251, 192, 45, 0.4); }
-.mode-pill[data-mode="survival"].active { background: #f44336; box-shadow: 0 0 15px rgba(244, 67, 54, 0.4); }
-
-/* --- Daily Progress --- */
-.daily-progress-hub {
-    margin-top: 1.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    text-align: left;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.progress-info {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem 1.5rem;
-    border-radius: 15px;
-}
-
-.mission-guide {
-    background: rgba(46, 189, 89, 0.1);
-    padding: 1rem 1.5rem;
-    border-radius: 15px;
-    border-left: 4px solid var(--primary);
-}
-
-#quickMission {
-    display: block;
-    margin-top: 0.4rem;
-    font-size: 0.95rem;
-    color: var(--text-dim);
-}
-
-/* Status Colors */
-.status-perfect { color: #2ebd59; font-weight: bold; text-shadow: 0 0 10px rgba(46, 189, 89, 0.3); }
-.status-good { color: #fbc02d; font-weight: bold; }
-.status-fail { color: #f44336; font-weight: bold; }
-
-/* --- Daily Checkbox in Cards --- */
-.daily-check-label {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    margin-left: auto;
-}
-
-.daily-check-label input { display: none; }
-
-.check-box {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    position: relative;
     transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.daily-check-label input:checked + .check-box {
-    background: var(--primary);
-    border-color: var(--primary);
-}
+.dot-date { font-size: 0.5rem; font-weight: 800; color: var(--text-muted); }
+.dot-day { font-size: 0.75rem; font-weight: 800; color: white; }
 
-.daily-check-label input:checked + .check-box::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
-}
+.day-dot.completed { background: var(--primary); border-color: #2ebd59; }
+.day-dot.completed .dot-date { color: rgba(255, 255, 255, 0.8); }
 
-.quest-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 1.5rem;
-}
+.day-dot.active { border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
-.quest-section {
+/* --- Mission Actions --- */
+.mission-actions {
     display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
+    gap: 10px;
+    margin: 1rem 0;
 }
 
-.quest-icon {
-    font-size: 1.8rem;
-    background: rgba(255,255,255,0.05);
-    padding: 0.5rem;
+.btn-focus-start {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px 20px;
     border-radius: 12px;
-}
-
-.quest-info strong {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-    margin-bottom: 0.3rem;
-}
-
-.quest-info p {
-    font-size: 1rem;
-    color: var(--text-main);
-}
-
-.quest-divider {
-    height: 1px;
-    background: rgba(255,255,255,0.05);
-    margin: 1.2rem 0;
-}
-
-.active-task {
-    border-left: 3px solid var(--primary);
-    padding-left: 1rem;
-    background: linear-gradient(90deg, rgba(46, 189, 89, 0.05), transparent);
-}
-
-.mission-text {
-    font-size: 1.3rem !important;
     font-weight: 800;
-    color: white !important;
-}
-
-.reward-unlock-box {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
-    border: 1px solid var(--accent-gold);
-    padding: 1.2rem;
-    border-radius: 15px;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.sparkle { font-size: 1.5rem; animation: rotateSparkle 3s infinite linear; }
-@keyframes rotateSparkle { to { transform: rotate(360deg); } }
-
-.mission-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.designer-check {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    background: rgba(255,255,255,0.02);
-    padding: 1.2rem;
-    border-radius: 12px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-.designer-check input {
-    display: none;
-}
-
-.designer-check .checkmark {
-    width: 28px;
-    height: 28px;
-    border: 2px solid var(--primary);
-    border-radius: 8px;
-    position: relative;
-    transition: var(--transition);
-}
-
-.designer-check input:checked + .checkmark {
+.btn-focus-start:hover {
     background: var(--primary);
+    border-color: #2ebd59;
+    box-shadow: 0 0 15px var(--primary-glow);
 }
-
-.designer-check input:checked + .checkmark::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-weight: 900;
-}
-
-.check-label { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
-
-.pulse-glow {
-    animation: pulseGlow 2s infinite;
-}
-
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 0 0 rgba(46, 189, 89, 0.4); }
-    70% { box-shadow: 0 0 0 15px rgba(46, 189, 89, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(46, 189, 89, 0); }
-}
-
-.btn-text-only {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.btn-text-only:hover { color: white; text-decoration: underline; }
-
-/* Thematic Color Themes for Modal */
-.mission-modal-inner.theme-english .mission-title { color: var(--purple); }
-.mission-modal-inner.theme-aptitude .mission-title { color: var(--primary); }
-.mission-modal-inner.theme-gate .mission-title { color: var(--blue); }
-.mission-modal-inner.theme-coding .mission-title { color: var(--orange); }

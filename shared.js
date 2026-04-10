@@ -591,9 +591,27 @@ const pomoControl = {
     }
 };
 
-window.togglePomoPanel = () => {
+const togglePomoPanel = () => {
+    const el = document.getElementById('pomoPanel');
+    if (!el) return;
+    el.classList.toggle('active');
+};
+
+const startGlobalFocus = (taskName) => {
     const panel = document.getElementById('pomoPanel');
-    if (panel) panel.classList.toggle('active');
+    if (!panel) return;
+
+    // Set task label
+    const workingOn = document.getElementById('pomoWorkingOn');
+    if (workingOn) workingOn.textContent = `Working on: ${taskName}`;
+
+    // Open panel
+    panel.classList.add('active');
+
+    // Auto-start if not running
+    if (!pomo.isRunning) {
+        pomoControl.start();
+    }
 };
 
 // Auto-init on all pages

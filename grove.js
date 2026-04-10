@@ -8,128 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     pipVideo.muted = true; pipVideo.playsInline = true;
     pipVideo.srcObject = pipCanvas.captureStream();
 
-    let activeTimers = {};
-    const formatTime = (sec) => {
-        const m = Math.floor(sec / 60);
-        const s = sec % 60;
-        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    };
-
-    const START_DATE = new Date("2026-04-08");
-    const ONE_DAY = 24 * 60 * 60 * 1000;
-
-    const getCurrentDayIndex = () => {
-        const now = new Date();
-        const diff = now.getTime() - START_DATE.getTime();
-        const index = Math.floor(diff / ONE_DAY);
-        return Math.max(0, Math.min(13, index)); 
-    };
-
-    window.toggleTimer = (track) => {
-        const timer = activeTimers[track];
-        if (timer) {
-            if (timer.isRunning) {
-                clearInterval(timer.interval);
-                timer.isRunning = false;
-                showToast(`⏸️ ${track.toUpperCase()} Paused`);
-            } else {
-                startInterval(track);
-                showToast(`▶️ ${track.toUpperCase()} Resumed`);
-            }
-            updateUI();
-            return;
-        }
-
-        const inputEl = document.getElementById(`input-${track}`);
-        const totalMinutes = parseInt(inputEl.value) || 60;
-        let totalBudget = totalMinutes * 60;
-        
-        let initialFocus = Math.min(25 * 60, totalBudget);
-        totalBudget -= initialFocus;
-
-        activeTimers[track] = { 
-            timeLeft: initialFocus, 
-            totalBudget: totalBudget,
-            sessionType: 'FOCUS', 
-            isRunning: true 
-        };
-        startInterval(track);
-        updateUI();
-    };
-
-    const startInterval = (track) => {
-        const timer = activeTimers[track];
-        timer.isRunning = true;
-        timer.interval = setInterval(() => {
-            timer.timeLeft--;
-            if (timer.sessionType === 'FOCUS') {
-                state.focusTimeToday++;
-                if (timer.timeLeft % 60 === 0) save();
-            }
-            updateTimerUI(track, timer.timeLeft, timer.sessionType);
-            updatePiP(track, timer.timeLeft, timer.sessionType);
-            if (timer.timeLeft <= 0) {
-                clearInterval(timer.interval);
-                if (timer.sessionType === 'FOCUS') {
-                    addXP(20);
-                    if (timer.totalBudget > 0) {
-                        const breakTime = Math.min(10 * 60, timer.totalBudget);
-                        timer.totalBudget -= breakTime;
-                        timer.sessionType = 'BREAK';
-                        timer.timeLeft = breakTime;
-                        showToast(`🎉 Focus Done! +20 XP. Starting ${Math.ceil(breakTime/60)}m Break... ☕`);
-                        playChime();
-                        startInterval(track);
-                    } else {
-                        delete activeTimers[track];
-                        showToast(`🏆 Mission Complete! Total session finished.`);
-                        playChime();
-                        updateUI();
-                    }
-                } else {
-                    if (timer.totalBudget > 0) {
-                        const nextFocus = Math.min(25 * 60, timer.totalBudget);
-                        timer.totalBudget -= nextFocus;
-                        timer.sessionType = 'FOCUS';
-                        timer.timeLeft = nextFocus;
-                        showToast(`☕ Break over. Time to Focus for ${Math.ceil(nextFocus/60)}m! 🚀`);
-                        playChime();
-                        startInterval(track);
-                    } else {
-                        delete activeTimers[track];
-                        showToast(`✅ Break finished! Ready for next quest?`);
-                        playChime();
-                        updateUI();
-                    }
-                }
-            }
-        }, 1000);
-    };
-
-    const updateTimerUI = (track, sec, type) => {
-        const el = document.getElementById(`timer-${track}`);
-        if (el) {
-            el.textContent = formatTime(sec);
-            el.style.color = type === 'BREAK' ? 'var(--blue)' : 'var(--primary)';
-        }
-        updateProductivityTag();
-    };
-
-    const updatePiP = (track, sec, type) => {
-        pipCtx.fillStyle = '#040d08'; pipCtx.fillRect(0, 0, pipCanvas.width, pipCanvas.height);
-        pipCtx.fillStyle = type === 'BREAK' ? '#2196f3' : '#2ebd59'; 
-        pipCtx.font = 'bold 60px Outfit';
-        pipCtx.textAlign = 'center'; pipCtx.fillText(formatTime(sec), 150, 70);
-        pipCtx.font = '20px Outfit'; pipCtx.fillText(`${track.toUpperCase()} ${type}`, 150, 110);
-    };
-
-    window.popOutTimer = async () => {
-        try {
-            if (document.pictureInPictureElement) await document.exitPictureInPicture();
-            else { await pipVideo.play(); await pipVideo.requestPictureInPicture(); }
-        } catch (e) { console.error(e); }
-    };
-
     let activeMission = null;
     window.openMission = (track, day) => {
         activeMission = { track, day };
@@ -158,8 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <div class="mission-footer">
-                    <label class="check-container designer-check"><input type="checkbox" id="missionCheck"><span class="checkmark"></span><span class="check-label">Mission Completed. I am disciplined.</span></label>
-                    <button class="btn-main pulse-glow" onclick="completeMission()">Complete +20 XP</button>
+                    <label class="check-container designer-check">
+                        <input type="checkbox" id="missionCheck">
+                        <span class="checkmark"></span>
+                        <span class="check-label">Mission Completed. I am disciplined.</span>
+                    </label>
+                    <div class="mission-actions">
+                        <button class="btn-main pulse-glow" onclick="completeMission()">Complete +20 XP</button>
+                        <button class="btn-focus-start" onclick="startGlobalFocus('${dayTask.split(':')[0]}')">🎯 Focus Session</button>
+                    </div>
                     <button class="btn-text-only" onclick="closeModal()">Maybe Later</button>
                 </div>
             </div>
@@ -192,6 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkbox = document.getElementById(`check-${track}`);
         if (!checkbox) return;
         state.dailyStatus[track] = checkbox.checked;
+        
+        // SYNC: If checked, mark current roadmap day as done too
+        if (checkbox.checked) {
+            const dayIdx = getCurrentDayIndex();
+            state.roadmaps[track][dayIdx] = true;
+            addXP(10);
+            showToast(`Task & Roadmap synced! +10 XP`);
+        }
+        
         updateDailyProgress();
         save(); updateUI();
     };
@@ -232,35 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!card || !grid) return;
 
             if (check) check.checked = state.dailyStatus[track];
-
-            if (!card.querySelector('.timer-controls')) {
-                const timerUI = document.createElement('div');
-                timerUI.className = 'timer-controls';
-                timerUI.innerHTML = `
-                    <div class="timer-display" id="timer-${track}">POMODORO</div>
-                    <div class="timer-btns">
-                        <input type="number" id="input-${track}" class="timer-input" value="60" min="1" step="5">
-                        <button class="btn-timer-start" id="btn-toggle-${track}" onclick="toggleTimer('${track}')">Focus</button>
-                        <button class="btn-timer-pop" onclick="popOutTimer()">Pop Out</button>
-                    </div>`;
-                card.insertBefore(timerUI, grid);
-            }
-
-            const toggleBtn = document.getElementById(`btn-toggle-${track}`);
-            const timer = activeTimers[track];
-            if (toggleBtn) {
-                if (!timer) {
-                    toggleBtn.textContent = 'Focus';
-                    toggleBtn.style.background = 'var(--primary)';
-                    document.getElementById(`timer-${track}`).textContent = 'WORK';
-                } else if (timer.isRunning) {
-                    toggleBtn.textContent = 'Pause';
-                    toggleBtn.style.background = 'var(--accent-orange)';
-                } else {
-                    toggleBtn.textContent = 'Resume';
-                    toggleBtn.style.background = 'var(--primary)';
-                }
-            }
 
             grid.innerHTML = '';
             // Render only the relevant range for the chosen level

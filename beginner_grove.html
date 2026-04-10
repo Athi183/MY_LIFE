@@ -21,61 +21,60 @@
     </div>
 
     <div class="game-container">
-        <!-- MINIMIZED HUD -->
-        <header class="game-hud hud-minimized">
+        <!-- 🛡️ TOP STATUS BAR (SYNCED) -->
+        <header class="game-hud status-bar hub-header">
             <div class="player-stats">
-                <div class="player-avatar mini">👸</div>
-                <div class="player-info mini">
-                    <div id="playerRank" class="rank-title mini">Explorer 🌱</div>
-                    <div class="xp-container mini">
-                        <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
-                    </div>
+                <button class="btn-back-main" onclick="window.location.href='index.html'">← Hub</button>
+                <div class="player-identity">
+                    <div id="playerRank" class="rank-title">Beginner Grove 🌱</div>
+                    <div id="currentStreakHUD" class="hud-stat-item">🔥 0 Day Streak</div>
                 </div>
             </div>
             <div class="header-controls">
-                <button class="btn-back-main" onclick="window.location.href='index.html'">← Home</button>
+                <div class="xp-container">
+                    <span class="xp-label">XP: <span id="playerXP">0</span> / <span id="xpToNext">100</span></span>
+                    <div class="xp-bar-bg"><div id="xpFill" class="xp-bar-fill"></div></div>
+                </div>
             </div>
         </header>
 
         <main id="app">
             <section id="view-beginner" class="view active">
-                <header class="grove-header">
-        <div class="header-main">
-            <div class="identity-badge">🧠 I am becoming a disciplined computer scientist. I show up daily.</div>
-            <h1>Level 1: Beginner Grove</h1>
-            <p class="phase-text">📅 Active Phase: April 8 – April 21</p>
-        </div>
-        
-        <div class="HUD-container">
-            <div class="streak-card">
-                <div class="streak-val" id="currentStreak">🔥 0</div>
-                <div class="streak-label">CURRENT STREAK</div>
-            </div>
-            <div class="energy-selector">
-                <span class="selector-label">ENERGY MODE:</span>
-                <div class="mode-pills">
-                    <button class="mode-pill active" onclick="setEnergy('normal')" data-mode="normal">🟢 NORMAL (3+ Tasks)</button>
-                    <button class="mode-pill" onclick="setEnergy('low')" data-mode="low">🟡 LOW (2 Tasks)</button>
-                    <button class="mode-pill" onclick="setEnergy('survival')" data-mode="survival">🔴 SURVIVAL (1 Task)</button>
-                </div>
-            </div>
-            <div class="streak-card best">
-                <div class="streak-val" id="bestStreak">🏆 0</div>
-                <div class="streak-label">BEST STREAK</div>
-            </div>
-        </div>
+                <header class="grove-header-hero">
+                    <div class="identity-badge">🧠 I am becoming a disciplined computer scientist. I show up daily.</div>
+                    <h1>Level 1: Beginner Grove</h1>
+                    <p class="phase-text">📅 Active Phase: April 8 – April 21</p>
 
-        <div class="daily-progress-hub">
-            <div class="progress-info">
-                <h3>Today's Progress: <span id="dailyCount">0</span> / 4 </h3>
-                <p id="dailyStatusMsg">Let's get started!</p>
-            </div>
-            <div class="mission-guide">
-                <strong>📌 TODAY'S MISSION:</strong>
-                <span id="quickMission">Select a task below to begin.</span>
-            </div>
-        </div>
-    </header>
+                    <div class="hero-stats-bar">
+                        <div class="hero-stat-card">
+                            <span class="stat-value" id="currentStreak">0</span>
+                            <label>STREAK</label>
+                        </div>
+                        <div class="energy-selector-premium">
+                            <label>ENERGY MODE</label>
+                            <div class="mode-pills">
+                                <button class="mode-btn norm active" onclick="setEnergy('normal')" data-mode="normal">🟢 NORMAL</button>
+                                <button class="mode-btn low" onclick="setEnergy('low')" data-mode="low">🟡 LOW</button>
+                                <button class="mode-btn surv" onclick="setEnergy('survival')" data-mode="survival">🔴 SURVIVAL</button>
+                            </div>
+                        </div>
+                        <div class="hero-stat-card">
+                            <span class="stat-value" id="bestStreak">0</span>
+                            <label>BEST</label>
+                        </div>
+                    </div>
+
+                    <div class="daily-mission-hero">
+                        <div class="mission-progress-circle">
+                            <span id="dailyCount">0</span>/4
+                        </div>
+                        <div class="mission-text-content">
+                            <label>📌 TODAY'S MISSION</label>
+                            <h2 id="quickMission">TCP/IP Model vs OSI Architecture...</h2>
+                            <p id="dailyStatusMsg">Maintaining steady momentum.</p>
+                        </div>
+                    </div>
+                </header>
 
                 <div class="roadmap-grid-2x2">
                     <div class="roadmap-card english-card" id="card-english">
